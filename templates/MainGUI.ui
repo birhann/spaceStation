@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainGUI</class>
+ <widget class="QMainWindow" name="MainGUI">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>929</width>
+    <height>740</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>TM MARM-99 YER ISTASYONU</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <layout class="QGridLayout" name="main_layout">
+      <item row="0" column="0">
+       <layout class="QHBoxLayout" name="top_layout">
+        <item>
+         <layout class="QVBoxLayout" name="port"/>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="data"/>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="data_transfer"/>
+        </item>
+       </layout>
+      </item>
+      <item row="1" column="0">
+       <layout class="QHBoxLayout" name="mid_layout"/>
+      </item>
+      <item row="2" column="0">
+       <layout class="QHBoxLayout" name="bottom_layout"/>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>929</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="nativeMenuBar">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="sizeGripEnabled">
+    <bool>true</bool>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
