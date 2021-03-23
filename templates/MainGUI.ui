@@ -6,17 +6,34 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>788</width>
-    <height>680</height>
+    <width>1145</width>
+    <height>819</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>TM MARM-99 YER ISTASYONU</string>
   </property>
+  <property name="windowIcon">
+   <iconset theme="tm-marm99">
+    <normaloff>:/tm-marm99/tm-marm-99-logo.png</normaloff>:/tm-marm99/tm-marm-99-logo.png</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow{
+background-image: url(:/tm_marm99/space.jpg);
+}
+
+
+QStatusBar{
+background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0.288557 rgba(0, 0, 0, 224), stop:1 rgba(235, 235, 235, 0));
+}
+</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
     <string notr="true">margin:0px;
 padding:0px;
+background:rgba(0,0,0,0.7);
+border-width:3px;
 </string>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -75,6 +92,70 @@ background:rgba(0,0,0,0.40);
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="maximumSize">
+            <size>
+             <width>35</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel{
+background:#3b3937;
+color:#fff;
+border-radius:none;
+padding-top:-2px;
+padding-left:7px;
+}
+</string>
+           </property>
+           <property name="text">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/tm_marm99/tm-marm-99-logo-bw.png&quot; width=&quot;20&quot; height=&quot;20&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="title_label">
+           <property name="font">
+            <font>
+             <pointsize>-1</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel{
+background:#3b3937;
+color:rgb(227, 227, 227);
+border-radius:none;
+padding-top:-1px;
+padding-left:4px;
+
+font-size:15px;
+}
+</string>
+           </property>
+           <property name="text">
+            <string>TM MARM-99 YER ISTASYONU</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
       <item>
@@ -149,7 +230,7 @@ background:rgba(0,0,0,0.40);
            </property>
            <property name="styleSheet">
             <string notr="true">QPushButton{
-background:rgba(0, 0, 0,0.15);
+background:#3b3937;
 color:#fff;
 
 border-radius:none;
@@ -159,7 +240,7 @@ padding-top:-7px
 
 
 QPushButton:hover{
-background:#e81123;
+background:rgb(79, 76, 74);
 color:white
 }</string>
            </property>
@@ -189,7 +270,7 @@ color:white
            </property>
            <property name="styleSheet">
             <string notr="true">QPushButton{
-background:rgba(0, 0, 0,0.15);
+background:#3b3937;
 color:#fff;
 
 border-radius:none;
@@ -198,7 +279,7 @@ padding-top:-3px
 
 
 QPushButton:hover{
-background:#e81123;
+background:#4f4c4a;
 color:white
 }</string>
            </property>
@@ -231,7 +312,7 @@ color:white
            </property>
            <property name="styleSheet">
             <string notr="true">QPushButton{
-background:rgba(0, 0, 0,0.15);
+background:#3b3937;
 color:#fff;
 
 border-radius:none;
@@ -287,11 +368,19 @@ color:white
    </layout>
   </widget>
   <widget class="QStatusBar" name="statusbar">
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>35</height>
+    </size>
+   </property>
    <property name="sizeGripEnabled">
     <bool>true</bool>
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../images/tm_marm99.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -1,0 +1,8 @@
+<RCC>
+  <qresource prefix="tm_marm99">
+    <file>space.jpg</file>
+    <file>tm-marm-99-logo.jpg</file>
+    <file>tm-marm-99-logo.png</file>
+    <file>tm-marm-99-logo-bw.png</file>
+  </qresource>
+</RCC>
