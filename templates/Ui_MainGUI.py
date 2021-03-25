@@ -15,7 +15,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainGUI(object):
     def setupUi(self, MainGUI):
         MainGUI.setObjectName("MainGUI")
-        MainGUI.resize(974, 708)
+        MainGUI.resize(1153, 826)
         icon = QtGui.QIcon.fromTheme("tm-marm99")
         MainGUI.setWindowIcon(icon)
         MainGUI.setStyleSheet("QMainWindow{\n"
@@ -36,7 +36,7 @@ class Ui_MainGUI(object):
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_2.setSpacing(7)
+        self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.title_bar_layout = QtWidgets.QHBoxLayout()
         self.title_bar_layout.setSpacing(0)
@@ -179,30 +179,382 @@ class Ui_MainGUI(object):
             self.button_close, 0, QtCore.Qt.AlignLeft)
         self.title_bar_layout.addWidget(self.right_bar)
         self.verticalLayout_2.addLayout(self.title_bar_layout)
-        self.main_layout = QtWidgets.QGridLayout()
-        self.main_layout.setObjectName("main_layout")
-        self.top_layout = QtWidgets.QHBoxLayout()
+        self.frame = QtWidgets.QFrame(self.centralwidget)
+        self.frame.setMinimumSize(QtCore.QSize(0, 0))
+        self.frame.setStyleSheet("background:rgba(255, 255, 255,0.1);;\n"
+                                 "margin:10px;\n"
+                                 "border-width:0px;\n"
+                                 "")
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.frame)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout.setSpacing(0)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.topFrame = QtWidgets.QFrame(self.frame)
+        self.topFrame.setMinimumSize(QtCore.QSize(0, 0))
+        self.topFrame.setMaximumSize(QtCore.QSize(16777215, 280))
+        self.topFrame.setStyleSheet("QPushButton{\n"
+                                    "background:rgb(79, 117, 255);\n"
+                                    "border-radius:5px;\n"
+                                    "color:#fff;\n"
+                                    "padding:4px;\n"
+                                    "cursor:pointer;\n"
+                                    "min-height:25px;\n"
+                                    "}\n"
+                                    "\n"
+                                    "QPushButton:hover{\n"
+                                    "background:#3559cf;\n"
+                                    "border:none;\n"
+                                    "color:white;\n"
+                                    "}\n"
+                                    "\n"
+                                    "QFrame{\n"
+                                    "background-color: rgba(255, 255, 255,0.1);\n"
+                                    "}\n"
+                                    "\n"
+                                    "QFrame:hover{\n"
+                                    "background-color: rgba(231, 231, 231,0.1);\n"
+                                    "}\n"
+                                    "\n"
+                                    "QLineEdit{\n"
+                                    "color:white;\n"
+                                    "background:transparent;\n"
+                                    "border:none;\n"
+                                    "border-bottom:0.04em solid #8f8f8f;\n"
+                                    "}\n"
+                                    "QLineEdit:hover{\n"
+                                    "background:rgba(0,0,0,0.06);\n"
+                                    "border-radius:6px;\n"
+                                    "border-bottom:none;\n"
+                                    "}\n"
+                                    "\n"
+                                    "QYedek{\n"
+                                    "border-bottom:0.04em solid #b0b0b0\n"
+                                    "}\n"
+                                    "")
+        self.topFrame.setObjectName("topFrame")
+        self.top_layout = QtWidgets.QHBoxLayout(self.topFrame)
+        self.top_layout.setContentsMargins(0, 0, 0, 0)
+        self.top_layout.setSpacing(0)
         self.top_layout.setObjectName("top_layout")
-        self.port = QtWidgets.QVBoxLayout()
-        self.port.setObjectName("port")
-        self.top_layout.addLayout(self.port)
-        self.data = QtWidgets.QVBoxLayout()
-        self.data.setObjectName("data")
-        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
+        self.connectFrame = QtWidgets.QFrame(self.topFrame)
+        self.connectFrame.setMinimumSize(QtCore.QSize(261, 261))
+        self.connectFrame.setMaximumSize(QtCore.QSize(261, 16777215))
+        self.connectFrame.setStyleSheet("")
+        self.connectFrame.setObjectName("connectFrame")
+        self.label_2 = QtWidgets.QLabel(self.connectFrame)
+        self.label_2.setGeometry(QtCore.QRect(11, 11, 241, 145))
+        font = QtGui.QFont()
+        font.setPointSize(5)
+        self.label_2.setFont(font)
+        self.label_2.setStyleSheet("margin:0px;\n"
+                                   "background:transparent;\n"
+                                   "padding:0px;\n"
+                                   "padding-bottom:-15px;\n"
+                                   "margin-left:2px;")
+        self.label_2.setObjectName("label_2")
+        self.lineEdit = QtWidgets.QLineEdit(self.connectFrame)
+        self.lineEdit.setGeometry(QtCore.QRect(123, 154, 121, 50))
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(
+            self.lineEdit.sizePolicy().hasHeightForWidth())
+        self.lineEdit.setSizePolicy(sizePolicy)
+        self.lineEdit.setMinimumSize(QtCore.QSize(50, 50))
+        self.lineEdit.setMaximumSize(QtCore.QSize(180, 16777215))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.lineEdit.setFont(font)
+        self.lineEdit.setAutoFillBackground(False)
+        self.lineEdit.setStyleSheet("")
+        self.lineEdit.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit.setObjectName("lineEdit")
+        self.label_3 = QtWidgets.QLabel(self.connectFrame)
+        self.label_3.setGeometry(QtCore.QRect(11, 157, 128, 50))
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(
+            self.label_3.sizePolicy().hasHeightForWidth())
+        self.label_3.setSizePolicy(sizePolicy)
+        self.label_3.setMinimumSize(QtCore.QSize(0, 0))
+        self.label_3.setMaximumSize(QtCore.QSize(128, 16777215))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setUnderline(False)
+        font.setWeight(50)
+        font.setStrikeOut(False)
+        font.setKerning(True)
+        self.label_3.setFont(font)
+        self.label_3.setStyleSheet("background:none;\n"
+                                   "color:rgb(206, 206, 206);")
+        self.label_3.setObjectName("label_3")
+        self.pushButton_2 = QtWidgets.QPushButton(self.connectFrame)
+        self.pushButton_2.setGeometry(QtCore.QRect(12, 197, 121, 53))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.pushButton_2.setFont(font)
+        self.pushButton_2.setCursor(
+            QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton_2.setStyleSheet("")
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.pushButton = QtWidgets.QPushButton(self.connectFrame)
+        self.pushButton.setGeometry(QtCore.QRect(127, 198, 121, 53))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.pushButton.setFont(font)
+        self.pushButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton.setStyleSheet("QPushButton{\n"
+                                      "background:rgb(255, 66, 69);\n"
+                                      "color:#fff;\n"
+                                      "}\n"
+                                      "QPushButton:hover{\n"
+                                      "border:none;\n"
+                                      "background:#f32d31;\n"
+                                      "}")
         self.pushButton.setObjectName("pushButton")
-        self.data.addWidget(self.pushButton)
-        self.top_layout.addLayout(self.data)
-        self.data_transfer = QtWidgets.QVBoxLayout()
-        self.data_transfer.setObjectName("data_transfer")
-        self.top_layout.addLayout(self.data_transfer)
-        self.main_layout.addLayout(self.top_layout, 0, 0, 1, 1)
-        self.mid_layout = QtWidgets.QHBoxLayout()
+        self.pushButton.raise_()
+        self.top_layout.addWidget(self.connectFrame)
+        self.dataFrame = QtWidgets.QFrame(self.topFrame)
+        self.dataFrame.setMinimumSize(QtCore.QSize(550, 261))
+        self.dataFrame.setMaximumSize(QtCore.QSize(650, 16777215))
+        font = QtGui.QFont()
+        font.setFamily("Yu Gothic UI")
+        self.dataFrame.setFont(font)
+        self.dataFrame.setStyleSheet("QLabel{\n"
+                                     "background:none;\n"
+                                     "color:rgb(206, 206, 206);\n"
+                                     "font-size:17px;\n"
+                                     "margin:1px;\n"
+                                     "padding:7px;\n"
+                                     "padding-left:27px;\n"
+                                     "}\n"
+                                     "\n"
+                                     "QLineEdit{\n"
+                                     "font-size:20px;\n"
+                                     "font-family:Yu Gothic UI;\n"
+                                     "border-bottom:none;\n"
+                                     "margin:0px;\n"
+                                     "padding:0px;\n"
+                                     "}\n"
+                                     "QLineEdit:hover{\n"
+                                     "background:transparent;;\n"
+                                     "border-radius:0px;\n"
+                                     "border:none;\n"
+                                     "}\n"
+                                     "QFrame{\n"
+                                     "padding:7px;\n"
+                                     "padding-left:9px;\n"
+                                     "padding-right:9px;\n"
+                                     "}")
+        self.dataFrame.setObjectName("dataFrame")
+        self.gridLayout_4 = QtWidgets.QGridLayout(self.dataFrame)
+        self.gridLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout_4.setSpacing(0)
+        self.gridLayout_4.setObjectName("gridLayout_4")
+        self.label_4 = QtWidgets.QLabel(self.dataFrame)
+        self.label_4.setObjectName("label_4")
+        self.gridLayout_4.addWidget(
+            self.label_4, 0, 0, 1, 1, QtCore.Qt.AlignRight)
+        self.lineEdit_3 = QtWidgets.QLineEdit(self.dataFrame)
+        font = QtGui.QFont()
+        font.setFamily("Yu Gothic UI")
+        font.setPointSize(-1)
+        self.lineEdit_3.setFont(font)
+        self.lineEdit_3.setStyleSheet("")
+        self.lineEdit_3.setObjectName("lineEdit_3")
+        self.gridLayout_4.addWidget(self.lineEdit_3, 1, 2, 1, 1)
+        self.label_5 = QtWidgets.QLabel(self.dataFrame)
+        self.label_5.setObjectName("label_5")
+        self.gridLayout_4.addWidget(
+            self.label_5, 1, 0, 1, 1, QtCore.Qt.AlignRight)
+        self.label_6 = QtWidgets.QLabel(self.dataFrame)
+        self.label_6.setObjectName("label_6")
+        self.gridLayout_4.addWidget(
+            self.label_6, 2, 0, 1, 1, QtCore.Qt.AlignRight)
+        self.label_7 = QtWidgets.QLabel(self.dataFrame)
+        self.label_7.setObjectName("label_7")
+        self.gridLayout_4.addWidget(
+            self.label_7, 3, 0, 1, 1, QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
+        self.lineEdit_2 = QtWidgets.QLineEdit(self.dataFrame)
+        self.lineEdit_2.setEnabled(True)
+        font = QtGui.QFont()
+        font.setFamily("Yu Gothic UI")
+        font.setPointSize(-1)
+        font.setBold(False)
+        font.setWeight(50)
+        self.lineEdit_2.setFont(font)
+        self.lineEdit_2.setInputMethodHints(QtCore.Qt.ImhNone)
+        self.lineEdit_2.setReadOnly(True)
+        self.lineEdit_2.setObjectName("lineEdit_2")
+        self.gridLayout_4.addWidget(self.lineEdit_2, 0, 2, 1, 1)
+        self.lineEdit_4 = QtWidgets.QLineEdit(self.dataFrame)
+        font = QtGui.QFont()
+        font.setFamily("Yu Gothic UI")
+        font.setPointSize(-1)
+        self.lineEdit_4.setFont(font)
+        self.lineEdit_4.setObjectName("lineEdit_4")
+        self.gridLayout_4.addWidget(self.lineEdit_4, 2, 2, 1, 1)
+        self.label_9 = QtWidgets.QLabel(self.dataFrame)
+        self.label_9.setObjectName("label_9")
+        self.gridLayout_4.addWidget(
+            self.label_9, 0, 3, 1, 1, QtCore.Qt.AlignRight)
+        self.lineEdit_7 = QtWidgets.QLineEdit(self.dataFrame)
+        self.lineEdit_7.setObjectName("lineEdit_7")
+        self.gridLayout_4.addWidget(self.lineEdit_7, 0, 4, 1, 1)
+        self.lineEdit_5 = QtWidgets.QLineEdit(self.dataFrame)
+        self.lineEdit_5.setObjectName("lineEdit_5")
+        self.gridLayout_4.addWidget(self.lineEdit_5, 3, 2, 1, 1)
+        self.label_14 = QtWidgets.QLabel(self.dataFrame)
+        self.label_14.setObjectName("label_14")
+        self.gridLayout_4.addWidget(
+            self.label_14, 1, 3, 1, 1, QtCore.Qt.AlignRight)
+        self.lineEdit_12 = QtWidgets.QLineEdit(self.dataFrame)
+        self.lineEdit_12.setMinimumSize(QtCore.QSize(0, 0))
+        self.lineEdit_12.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        self.lineEdit_12.setStyleSheet("")
+        self.lineEdit_12.setObjectName("lineEdit_12")
+        self.gridLayout_4.addWidget(self.lineEdit_12, 1, 4, 1, 1)
+        self.lineEdit_16 = QtWidgets.QLineEdit(self.dataFrame)
+        self.lineEdit_16.setObjectName("lineEdit_16")
+        self.gridLayout_4.addWidget(self.lineEdit_16, 2, 4, 1, 1)
+        self.lineEdit_6 = QtWidgets.QLineEdit(self.dataFrame)
+        self.lineEdit_6.setMinimumSize(QtCore.QSize(154, 28))
+        self.lineEdit_6.setMaximumSize(QtCore.QSize(154, 16777215))
+        self.lineEdit_6.setStyleSheet("font-size:17px;\n"
+                                      "color:rgb(255, 255, 255);\n"
+                                      "background-color:rgb(17, 199, 14);\n"
+                                      "border-radius:10px;\n"
+                                      "padding-left:7px;\n"
+                                      "")
+        self.lineEdit_6.setObjectName("lineEdit_6")
+        self.gridLayout_4.addWidget(
+            self.lineEdit_6, 6, 2, 1, 1, QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
+        self.label_8 = QtWidgets.QLabel(self.dataFrame)
+        self.label_8.setObjectName("label_8")
+        self.gridLayout_4.addWidget(self.label_8, 6, 0, 1, 1)
+        self.label_19 = QtWidgets.QLabel(self.dataFrame)
+        self.label_19.setObjectName("label_19")
+        self.gridLayout_4.addWidget(
+            self.label_19, 2, 3, 1, 1, QtCore.Qt.AlignRight)
+        self.lineEdit_17 = QtWidgets.QLineEdit(self.dataFrame)
+        self.lineEdit_17.setObjectName("lineEdit_17")
+        self.gridLayout_4.addWidget(self.lineEdit_17, 7, 2, 1, 1)
+        self.label_13 = QtWidgets.QLabel(self.dataFrame)
+        self.label_13.setObjectName("label_13")
+        self.gridLayout_4.addWidget(
+            self.label_13, 3, 3, 1, 1, QtCore.Qt.AlignRight)
+        self.lineEdit_11 = QtWidgets.QLineEdit(self.dataFrame)
+        self.lineEdit_11.setObjectName("lineEdit_11")
+        self.gridLayout_4.addWidget(self.lineEdit_11, 3, 4, 1, 1)
+        self.label_21 = QtWidgets.QLabel(self.dataFrame)
+        self.label_21.setObjectName("label_21")
+        self.gridLayout_4.addWidget(
+            self.label_21, 6, 3, 1, 1, QtCore.Qt.AlignRight)
+        self.lineEdit_18 = QtWidgets.QLineEdit(self.dataFrame)
+        self.lineEdit_18.setObjectName("lineEdit_18")
+        self.gridLayout_4.addWidget(self.lineEdit_18, 6, 4, 1, 1)
+        self.label_22 = QtWidgets.QLabel(self.dataFrame)
+        self.label_22.setObjectName("label_22")
+        self.gridLayout_4.addWidget(
+            self.label_22, 7, 3, 1, 1, QtCore.Qt.AlignRight)
+        self.lineEdit_19 = QtWidgets.QLineEdit(self.dataFrame)
+        self.lineEdit_19.setObjectName("lineEdit_19")
+        self.gridLayout_4.addWidget(self.lineEdit_19, 7, 4, 1, 1)
+        self.label_20 = QtWidgets.QLabel(self.dataFrame)
+        self.label_20.setObjectName("label_20")
+        self.gridLayout_4.addWidget(
+            self.label_20, 7, 0, 1, 1, QtCore.Qt.AlignRight)
+        self.top_layout.addWidget(self.dataFrame)
+        self.gridFrame_2 = QtWidgets.QFrame(self.topFrame)
+        self.gridFrame_2.setMinimumSize(QtCore.QSize(300, 0))
+        self.gridFrame_2.setMaximumSize(QtCore.QSize(10000, 16777215))
+        self.gridFrame_2.setObjectName("gridFrame_2")
+        self.gridLayout = QtWidgets.QGridLayout(self.gridFrame_2)
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout.setObjectName("gridLayout")
+        self.label_18 = QtWidgets.QLabel(self.gridFrame_2)
+        self.label_18.setObjectName("label_18")
+        self.gridLayout.addWidget(self.label_18, 0, 0, 1, 1)
+        self.pushButton_3 = QtWidgets.QPushButton(self.gridFrame_2)
+        self.pushButton_3.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        self.pushButton_3.setObjectName("pushButton_3")
+        self.gridLayout.addWidget(self.pushButton_3, 2, 0, 1, 1)
+        self.label_23 = QtWidgets.QLabel(self.gridFrame_2)
+        self.label_23.setMinimumSize(QtCore.QSize(0, 40))
+        self.label_23.setMaximumSize(QtCore.QSize(16777215, 40))
+        self.label_23.setStyleSheet("font-size:16px;\n"
+                                    "color:rgb(255, 255, 255);\n"
+                                    "background-color:#f32d31;\n"
+                                    "border-radius:3px;\n"
+                                    "padding-left:7px;\n"
+                                    "padding-right:7px;")
+        self.label_23.setObjectName("label_23")
+        self.gridLayout.addWidget(self.label_23, 1, 0, 1, 1)
+        self.top_layout.addWidget(self.gridFrame_2)
+        self.verticalLayout.addWidget(self.topFrame)
+        self.midFrame = QtWidgets.QFrame(self.frame)
+        self.midFrame.setStyleSheet("")
+        self.midFrame.setObjectName("midFrame")
+        self.mid_layout = QtWidgets.QHBoxLayout(self.midFrame)
         self.mid_layout.setObjectName("mid_layout")
-        self.main_layout.addLayout(self.mid_layout, 1, 0, 1, 1)
-        self.bottom_layout = QtWidgets.QHBoxLayout()
-        self.bottom_layout.setObjectName("bottom_layout")
-        self.main_layout.addLayout(self.bottom_layout, 2, 0, 1, 1)
-        self.verticalLayout_2.addLayout(self.main_layout)
+        self.gridFrame = QtWidgets.QFrame(self.midFrame)
+        self.gridFrame.setMinimumSize(QtCore.QSize(200, 200))
+        self.gridFrame.setMaximumSize(QtCore.QSize(300, 300))
+        self.gridFrame.setObjectName("gridFrame")
+        self.gridLayout_2 = QtWidgets.QGridLayout(self.gridFrame)
+        self.gridLayout_2.setObjectName("gridLayout_2")
+        self.mid_layout.addWidget(self.gridFrame)
+        self.gridFrame_21 = QtWidgets.QFrame(self.midFrame)
+        self.gridFrame_21.setMinimumSize(QtCore.QSize(200, 200))
+        self.gridFrame_21.setMaximumSize(QtCore.QSize(300, 300))
+        self.gridFrame_21.setObjectName("gridFrame_21")
+        self.gridLayout_6 = QtWidgets.QGridLayout(self.gridFrame_21)
+        self.gridLayout_6.setObjectName("gridLayout_6")
+        self.mid_layout.addWidget(self.gridFrame_21)
+        self.gridFrame1 = QtWidgets.QFrame(self.midFrame)
+        self.gridFrame1.setMinimumSize(QtCore.QSize(200, 200))
+        self.gridFrame1.setMaximumSize(QtCore.QSize(300, 300))
+        self.gridFrame1.setObjectName("gridFrame1")
+        self.gridLayout_5 = QtWidgets.QGridLayout(self.gridFrame1)
+        self.gridLayout_5.setObjectName("gridLayout_5")
+        self.mid_layout.addWidget(self.gridFrame1)
+        self.verticalLayout.addWidget(self.midFrame)
+        self.bottomFrame = QtWidgets.QFrame(self.frame)
+        self.bottomFrame.setStyleSheet("")
+        self.bottomFrame.setObjectName("bottomFrame")
+        self.bottom_lay = QtWidgets.QHBoxLayout(self.bottomFrame)
+        self.bottom_lay.setObjectName("bottom_lay")
+        self.gridFrame2 = QtWidgets.QFrame(self.bottomFrame)
+        self.gridFrame2.setMinimumSize(QtCore.QSize(200, 200))
+        self.gridFrame2.setMaximumSize(QtCore.QSize(300, 300))
+        self.gridFrame2.setObjectName("gridFrame2")
+        self.gridLayout_7 = QtWidgets.QGridLayout(self.gridFrame2)
+        self.gridLayout_7.setObjectName("gridLayout_7")
+        self.bottom_lay.addWidget(self.gridFrame2)
+        self.gridFrame_22 = QtWidgets.QFrame(self.bottomFrame)
+        self.gridFrame_22.setMinimumSize(QtCore.QSize(200, 200))
+        self.gridFrame_22.setMaximumSize(QtCore.QSize(300, 300))
+        self.gridFrame_22.setObjectName("gridFrame_22")
+        self.gridLayout_9 = QtWidgets.QGridLayout(self.gridFrame_22)
+        self.gridLayout_9.setObjectName("gridLayout_9")
+        self.bottom_lay.addWidget(self.gridFrame_22)
+        self.gridFrame3 = QtWidgets.QFrame(self.bottomFrame)
+        self.gridFrame3.setMinimumSize(QtCore.QSize(200, 200))
+        self.gridFrame3.setMaximumSize(QtCore.QSize(300, 300))
+        self.gridFrame3.setObjectName("gridFrame3")
+        self.gridLayout_8 = QtWidgets.QGridLayout(self.gridFrame3)
+        self.gridLayout_8.setObjectName("gridLayout_8")
+        self.bottom_lay.addWidget(self.gridFrame3)
+        self.verticalLayout.addWidget(self.bottomFrame)
+        self.verticalLayout_2.addWidget(self.frame)
         MainGUI.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainGUI)
         self.statusbar.setMinimumSize(QtCore.QSize(0, 35))
@@ -224,4 +576,36 @@ class Ui_MainGUI(object):
         self.button_minimize.setText(_translate("MainGUI", "_"))
         self.button_max_min.setText(_translate("MainGUI", "🗖"))
         self.button_close.setText(_translate("MainGUI", "✕"))
-        self.pushButton.setText(_translate("MainGUI", "PushButton"))
+        self.label_2.setText(_translate(
+            "MainGUI", "<html><head/><body><p><img src=\":/tm_marm99/tmMarmLogo.png\" height=\"160\" width=\"235\"/></p></body></html>"))
+        self.lineEdit.setText(_translate("MainGUI", "2391"))
+        self.label_3.setText(_translate("MainGUI", "ENTER PORT:"))
+        self.pushButton_2.setText(_translate("MainGUI", "Connect"))
+        self.pushButton.setText(_translate("MainGUI", "Disconnect"))
+        self.label_4.setText(_translate("MainGUI", "Team Number:"))
+        self.lineEdit_3.setText(_translate("MainGUI", "1440"))
+        self.label_5.setText(_translate("MainGUI", "Package No:"))
+        self.label_6.setText(_translate("MainGUI", "Date:"))
+        self.label_7.setText(_translate("MainGUI", "Hour(h:m:s):"))
+        self.lineEdit_2.setText(_translate("MainGUI", "54103"))
+        self.lineEdit_4.setText(_translate("MainGUI", "20.08.2021"))
+        self.label_9.setText(_translate("MainGUI", "Sıcaklık:"))
+        self.lineEdit_7.setText(_translate("MainGUI", "34.93"))
+        self.lineEdit_5.setText(_translate("MainGUI", "09:10:11"))
+        self.label_14.setText(_translate("MainGUI", "Yükseklik:"))
+        self.lineEdit_12.setText(_translate("MainGUI", "-11.75"))
+        self.lineEdit_16.setText(_translate("MainGUI", "1014.66"))
+        self.lineEdit_6.setText(_translate("MainGUI", "Descending.."))
+        self.label_8.setText(_translate("MainGUI", "Satellite Status:"))
+        self.label_19.setText(_translate("MainGUI", "Basınç:"))
+        self.lineEdit_17.setText(_translate("MainGUI", "8.24"))
+        self.label_13.setText(_translate("MainGUI", "Gerilim:"))
+        self.lineEdit_11.setText(_translate("MainGUI", "3.62"))
+        self.label_21.setText(_translate("MainGUI", "Kanat Açısı:"))
+        self.lineEdit_18.setText(_translate("MainGUI", "3.72"))
+        self.label_22.setText(_translate("MainGUI", "Dönüş Sayısı:"))
+        self.lineEdit_19.setText(_translate("MainGUI", "12"))
+        self.label_20.setText(_translate("MainGUI", "İniş Hızı:"))
+        self.label_18.setText(_translate("MainGUI", "Video Status:"))
+        self.pushButton_3.setText(_translate("MainGUI", "CSV Dosyası"))
+        self.label_23.setText(_translate("MainGUI", "Not Transferring.."))
