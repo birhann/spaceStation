@@ -15,7 +15,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainGUI(object):
     def setupUi(self, MainGUI):
         MainGUI.setObjectName("MainGUI")
-        MainGUI.resize(1749, 875)
+        MainGUI.resize(1731, 877)
         icon = QtGui.QIcon.fromTheme("tm-marm99")
         MainGUI.setWindowIcon(icon)
         MainGUI.setStyleSheet("QMainWindow{\n"
@@ -188,10 +188,10 @@ class Ui_MainGUI(object):
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.frame)
-        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout.setSpacing(0)
-        self.verticalLayout.setObjectName("verticalLayout")
+        self.gridLayout_3 = QtWidgets.QGridLayout(self.frame)
+        self.gridLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout_3.setSpacing(0)
+        self.gridLayout_3.setObjectName("gridLayout_3")
         self.topFrame = QtWidgets.QFrame(self.frame)
         self.topFrame.setMinimumSize(QtCore.QSize(0, 0))
         self.topFrame.setMaximumSize(QtCore.QSize(16777215, 280))
@@ -622,8 +622,6 @@ class Ui_MainGUI(object):
         self.label_18 = QtWidgets.QLabel(self.operationsFrame)
         font = QtGui.QFont()
         font.setPointSize(-1)
-        font.setBold(True)
-        font.setWeight(75)
         self.label_18.setFont(font)
         self.label_18.setStyleSheet("")
         self.label_18.setObjectName("label_18")
@@ -653,8 +651,6 @@ class Ui_MainGUI(object):
         self.label_24 = QtWidgets.QLabel(self.operationsFrame)
         font = QtGui.QFont()
         font.setPointSize(-1)
-        font.setBold(True)
-        font.setWeight(75)
         self.label_24.setFont(font)
         self.label_24.setStyleSheet("")
         self.label_24.setObjectName("label_24")
@@ -760,8 +756,6 @@ class Ui_MainGUI(object):
         self.label_29 = QtWidgets.QLabel(self.operationsFrame)
         font = QtGui.QFont()
         font.setPointSize(-1)
-        font.setBold(True)
-        font.setWeight(75)
         self.label_29.setFont(font)
         self.label_29.setStyleSheet("")
         self.label_29.setObjectName("label_29")
@@ -788,61 +782,112 @@ class Ui_MainGUI(object):
         self.gridLayout.addWidget(
             self.pushButton_9, 6, 3, 1, 2, QtCore.Qt.AlignHCenter)
         self.top_layout.addWidget(self.operationsFrame)
-        self.verticalLayout.addWidget(self.topFrame)
-        self.midFrame = QtWidgets.QFrame(self.frame)
-        self.midFrame.setStyleSheet("")
-        self.midFrame.setObjectName("midFrame")
-        self.mid_layout = QtWidgets.QHBoxLayout(self.midFrame)
-        self.mid_layout.setObjectName("mid_layout")
-        self.gridFrame = QtWidgets.QFrame(self.midFrame)
-        self.gridFrame.setMinimumSize(QtCore.QSize(200, 200))
-        self.gridFrame.setMaximumSize(QtCore.QSize(300, 300))
-        self.gridFrame.setObjectName("gridFrame")
-        self.gridLayout_2 = QtWidgets.QGridLayout(self.gridFrame)
+        self.gridLayout_3.addWidget(self.topFrame, 0, 0, 1, 2)
+        self.graphicsFrame = QtWidgets.QFrame(self.frame)
+        self.graphicsFrame.setMinimumSize(QtCore.QSize(200, 500))
+        self.graphicsFrame.setMaximumSize(QtCore.QSize(580, 16777215))
+        self.graphicsFrame.setObjectName("graphicsFrame")
+        self.gridLayout_2 = QtWidgets.QGridLayout(self.graphicsFrame)
+        self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout_2.setSpacing(0)
         self.gridLayout_2.setObjectName("gridLayout_2")
-        self.mid_layout.addWidget(self.gridFrame)
-        self.gridFrame_2 = QtWidgets.QFrame(self.midFrame)
-        self.gridFrame_2.setMinimumSize(QtCore.QSize(200, 200))
-        self.gridFrame_2.setMaximumSize(QtCore.QSize(300, 300))
-        self.gridFrame_2.setObjectName("gridFrame_2")
-        self.gridLayout_6 = QtWidgets.QGridLayout(self.gridFrame_2)
-        self.gridLayout_6.setObjectName("gridLayout_6")
-        self.mid_layout.addWidget(self.gridFrame_2)
-        self.gridFrame1 = QtWidgets.QFrame(self.midFrame)
-        self.gridFrame1.setMinimumSize(QtCore.QSize(200, 200))
-        self.gridFrame1.setMaximumSize(QtCore.QSize(300, 300))
-        self.gridFrame1.setObjectName("gridFrame1")
-        self.gridLayout_5 = QtWidgets.QGridLayout(self.gridFrame1)
-        self.gridLayout_5.setObjectName("gridLayout_5")
-        self.mid_layout.addWidget(self.gridFrame1)
-        self.verticalLayout.addWidget(self.midFrame)
-        self.bottomFrame = QtWidgets.QFrame(self.frame)
-        self.bottomFrame.setStyleSheet("")
-        self.bottomFrame.setObjectName("bottomFrame")
-        self.bottom_lay = QtWidgets.QHBoxLayout(self.bottomFrame)
-        self.bottom_lay.setObjectName("bottom_lay")
-        self.gridFrame2 = QtWidgets.QFrame(self.bottomFrame)
-        self.gridFrame2.setMinimumSize(QtCore.QSize(200, 200))
-        self.gridFrame2.setMaximumSize(QtCore.QSize(300, 300))
-        self.gridFrame2.setObjectName("gridFrame2")
-        self.gridLayout_7 = QtWidgets.QGridLayout(self.gridFrame2)
-        self.gridLayout_7.setObjectName("gridLayout_7")
-        self.bottom_lay.addWidget(self.gridFrame2)
-        self.gridFrame_21 = QtWidgets.QFrame(self.bottomFrame)
-        self.gridFrame_21.setMinimumSize(QtCore.QSize(200, 200))
-        self.gridFrame_21.setMaximumSize(QtCore.QSize(300, 300))
-        self.gridFrame_21.setObjectName("gridFrame_21")
-        self.gridLayout_9 = QtWidgets.QGridLayout(self.gridFrame_21)
-        self.gridLayout_9.setObjectName("gridLayout_9")
-        self.bottom_lay.addWidget(self.gridFrame_21)
-        self.gridFrame3 = QtWidgets.QFrame(self.bottomFrame)
-        self.gridFrame3.setMinimumSize(QtCore.QSize(200, 200))
-        self.gridFrame3.setMaximumSize(QtCore.QSize(300, 300))
-        self.gridFrame3.setObjectName("gridFrame3")
-        self.gridLayout_8 = QtWidgets.QGridLayout(self.gridFrame3)
-        self.gridLayout_8.setObjectName("gridLayout_8")
-        self.bottom_lay.addWidget(self.gridFrame3)
-        self.verticalLayout.addWidget(self.bottomFrame)
+        self.graphicsView_5 = QtWidgets.QGraphicsView(self.graphicsFrame)
+        self.graphicsView_5.setObjectName("graphicsView_5")
+        self.gridLayout_2.addWidget(self.graphicsView_5, 0, 0, 1, 1)
+        self.graphicsView_6 = QtWidgets.QGraphicsView(self.graphicsFrame)
+        self.graphicsView_6.setObjectName("graphicsView_6")
+        self.gridLayout_2.addWidget(self.graphicsView_6, 0, 1, 1, 1)
+        self.graphicsView_12 = QtWidgets.QGraphicsView(self.graphicsFrame)
+        self.graphicsView_12.setObjectName("graphicsView_12")
+        self.gridLayout_2.addWidget(self.graphicsView_12, 1, 1, 1, 2)
+        self.graphicsView_4 = QtWidgets.QGraphicsView(self.graphicsFrame)
+        self.graphicsView_4.setObjectName("graphicsView_4")
+        self.gridLayout_2.addWidget(self.graphicsView_4, 1, 0, 1, 1)
+        self.graphicsView_8 = QtWidgets.QGraphicsView(self.graphicsFrame)
+        self.graphicsView_8.setObjectName("graphicsView_8")
+        self.gridLayout_2.addWidget(self.graphicsView_8, 2, 0, 1, 1)
+        self.graphicsView_7 = QtWidgets.QGraphicsView(self.graphicsFrame)
+        self.graphicsView_7.setObjectName("graphicsView_7")
+        self.gridLayout_2.addWidget(self.graphicsView_7, 2, 1, 1, 1)
+        self.gridLayout_3.addWidget(self.graphicsFrame, 1, 1, 2, 1)
+        self.viewsFrame = QtWidgets.QFrame(self.frame)
+        self.viewsFrame.setStyleSheet("QLabel{\n"
+                                      "background:none;\n"
+                                      "color:rgb(206, 206, 206);\n"
+                                      "font-size:17px;\n"
+                                      "margin:1px;\n"
+                                      "padding:7px;\n"
+                                      "padding-left:27px;\n"
+                                      "}\n"
+                                      "\n"
+                                      "QLineEdit{\n"
+                                      "font-size:20px;\n"
+                                      "font-family:Yu Gothic UI;\n"
+                                      "border-bottom:none;\n"
+                                      "margin:0px;\n"
+                                      "padding:0px;\n"
+                                      "}\n"
+                                      "QLineEdit:hover{\n"
+                                      "background:transparent;;\n"
+                                      "border-radius:0px;\n"
+                                      "border:none;\n"
+                                      "}\n"
+                                      "QFrame{\n"
+                                      "padding:0px;\n"
+                                      "padding-left:0px;\n"
+                                      "padding-right:0px;\n"
+                                      "margin:9px;\n"
+                                      "margin-left:12px;\n"
+                                      "margin-right:12px;\n"
+                                      "}")
+        self.viewsFrame.setObjectName("viewsFrame")
+        self.gridLayout_4 = QtWidgets.QGridLayout(self.viewsFrame)
+        self.gridLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout_4.setObjectName("gridLayout_4")
+        self.map = QtWidgets.QFrame(self.viewsFrame)
+        self.map.setMinimumSize(QtCore.QSize(200, 200))
+        self.map.setMaximumSize(QtCore.QSize(800, 500))
+        self.map.setStyleSheet("QFrame{\n"
+                               "margin:9px;\n"
+                               "margin-left:12px;\n"
+                               "margin-right:0px;\n"
+                               "margin-bottom:6px;\n"
+                               "}")
+        self.map.setObjectName("map")
+        self.gridLayout_10 = QtWidgets.QGridLayout(self.map)
+        self.gridLayout_10.setObjectName("gridLayout_10")
+        self.startCameraButton = QtWidgets.QPushButton(self.map)
+        self.startCameraButton.setObjectName("startCameraButton")
+        self.gridLayout_10.addWidget(self.startCameraButton, 0, 0, 1, 1)
+        self.gridLayout_4.addWidget(self.map, 0, 0, 1, 1)
+        self.threeD = QtWidgets.QFrame(self.viewsFrame)
+        self.threeD.setMinimumSize(QtCore.QSize(200, 200))
+        self.threeD.setMaximumSize(QtCore.QSize(800, 500))
+        self.threeD.setStyleSheet("QFrame{\n"
+                                  "margin:9px;\n"
+                                  "margin-left:12px;\n"
+                                  "margin-right:0px;\n"
+                                  "margin-top:0px\n"
+                                  "}")
+        self.threeD.setObjectName("threeD")
+        self.gridLayout_12 = QtWidgets.QGridLayout(self.threeD)
+        self.gridLayout_12.setObjectName("gridLayout_12")
+        self.gridLayout_4.addWidget(self.threeD, 1, 0, 1, 1)
+        self.cameraFrame = QtWidgets.QFrame(self.viewsFrame)
+        self.cameraFrame.setMinimumSize(QtCore.QSize(750, 200))
+        self.cameraFrame.setMaximumSize(QtCore.QSize(800, 16777215))
+        self.cameraFrame.setStyleSheet("QFrame{\n"
+                                       "margin-left:6px;\n"
+                                       "}")
+        self.cameraFrame.setObjectName("cameraFrame")
+        self.gridLayout_11 = QtWidgets.QGridLayout(self.cameraFrame)
+        self.gridLayout_11.setObjectName("gridLayout_11")
+        self.cameraViewerLabel = QtWidgets.QLabel(self.cameraFrame)
+        self.cameraViewerLabel.setObjectName("cameraViewerLabel")
+        self.gridLayout_11.addWidget(
+            self.cameraViewerLabel, 0, 0, 1, 1, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+        self.gridLayout_4.addWidget(self.cameraFrame, 0, 1, 2, 1)
+        self.gridLayout_3.addWidget(self.viewsFrame, 1, 0, 2, 1)
         self.verticalLayout_2.addWidget(self.frame)
         MainGUI.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainGUI)
@@ -910,7 +955,8 @@ class Ui_MainGUI(object):
         self.label_28.setText(_translate("MainGUI", "Altitude:"))
         self.label_16.setText(_translate("MainGUI", "Pitch:"))
         self.label_18.setText(_translate("MainGUI", "Data Transfer:"))
-        self.lineEdit_14.setText(_translate("MainGUI", "deneme.xml"))
+        self.lineEdit_14.setText(_translate(
+            "MainGUI", "deneme.xml as fas asfasfdasdf asdf"))
         self.label_24.setText(_translate("MainGUI", "Video Transfer:"))
         self.pushButton_3.setText(_translate("MainGUI", "CSV File"))
         self.label_23.setText(_translate("MainGUI", "Not Transferring"))
@@ -926,3 +972,5 @@ class Ui_MainGUI(object):
                                                    "Bağlantı:Port bağlantısı kesildi."))
         self.label_29.setText(_translate("MainGUI", "Manual Leave Command "))
         self.pushButton_9.setText(_translate("MainGUI", "Leave Payload"))
+        self.startCameraButton.setText(_translate("MainGUI", "bas"))
+        self.cameraViewerLabel.setText(_translate("MainGUI", "Camera"))
