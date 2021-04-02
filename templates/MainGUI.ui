@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1731</width>
+    <width>1689</width>
     <height>877</height>
    </rect>
   </property>
@@ -403,10 +403,10 @@ color:white;
 QFrame{
 background-color: rgba(255, 255, 255,0.1);
 }
-
 QFrame:hover{
-background-color: rgba(231, 231, 231,0.1);
+background-color: rgba(231, 231, 231,0.13);
 }
+
 
 QLineEdit{
 color:white;
@@ -456,15 +456,17 @@ border-bottom:0.04em solid #b0b0b0
              </size>
             </property>
             <property name="styleSheet">
-             <string notr="true"/>
+             <string notr="true">QFrame:hover{
+background-color: rgba(231, 231, 231,0.08);
+}</string>
             </property>
             <widget class="QLabel" name="label_2">
              <property name="geometry">
               <rect>
-               <x>11</x>
-               <y>11</y>
+               <x>10</x>
+               <y>-10</y>
                <width>241</width>
-               <height>145</height>
+               <height>190</height>
               </rect>
              </property>
              <property name="font">
@@ -476,11 +478,10 @@ border-bottom:0.04em solid #b0b0b0
               <string notr="true">margin:0px;
 background:transparent;
 padding:0px;
-padding-bottom:-15px;
-margin-left:2px;</string>
+margin-left:1px</string>
              </property>
              <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/tm_marm99/tmMarmLogo.png&quot; height=&quot;160&quot; width=&quot;235&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/tm_marm99/ground-station-logo.png&quot; width=&quot;235&quot;  /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
             <widget class="QLineEdit" name="lineEdit">
@@ -689,6 +690,9 @@ QFrame{
 padding:7px;
 padding-left:9px;
 padding-right:9px;
+}
+QFrame:hover{
+background-color: rgba(231, 231, 231,0.08);
 }</string>
             </property>
             <widget class="QLabel" name="label_4">
@@ -1406,7 +1410,7 @@ background-color:#15bf0c;
               <rect>
                <x>601</x>
                <y>93</y>
-               <width>101</width>
+               <width>91</width>
                <height>37</height>
               </rect>
              </property>
@@ -1474,6 +1478,10 @@ QFrame{
 padding:6px;
 padding-bottom:2px;
 }
+QFrame:hover{
+background-color: rgba(231, 231, 231,0.08);
+}
+
 </string>
             </property>
             <layout class="QGridLayout" name="gridLayout">
@@ -1491,13 +1499,28 @@ padding-bottom:2px;
              </property>
              <item row="1" column="0" alignment="Qt::AlignRight">
               <widget class="QLabel" name="label_18">
+               <property name="maximumSize">
+                <size>
+                 <width>150</width>
+                 <height>16777215</height>
+                </size>
+               </property>
                <property name="font">
                 <font>
                  <pointsize>-1</pointsize>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true"/>
+                <string notr="true">QLabel{
+font-size:18px;
+padding:0px;
+padding-right:1px;
+padding-left:6px;
+}
+
+QLabel:hover{
+background-color:none;
+}</string>
                </property>
                <property name="text">
                 <string>Data Transfer:</string>
@@ -1524,39 +1547,111 @@ font-size:18px;
 font-family:Yu Gothic UI;
 border-bottom:none;
 margin:0px;
-padding-left:3px;
-margin-right:7px;
+padding-left:2px;
+padding-right:2px;
 background-color: rgba(220, 220, 220,0.1);
-border-radius:2px;
+border-radius:3px;
 }
 QLineEdit:hover{
 background:transparent;;
 border-radius:0px;
 border:none;
-background-color: rgba(220, 220, 220,0.2);
+background-color: rgba(220, 220, 220,0.16);
 }</string>
                </property>
                <property name="text">
-                <string>deneme.xml as fas asfasfdasdf asdf</string>
+                <string>some_cool_data.xml</string>
                </property>
               </widget>
              </item>
-             <item row="3" column="0" alignment="Qt::AlignRight">
-              <widget class="QLabel" name="label_24">
-               <property name="font">
-                <font>
-                 <pointsize>-1</pointsize>
-                </font>
+             <item row="1" column="3">
+              <widget class="QPushButton" name="pushButton_6">
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>25</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>29</height>
+                </size>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
                </property>
                <property name="styleSheet">
-                <string notr="true"/>
+                <string notr="true">QPushButton{
+border-radius:3px;
+font-size:18px;
+padding:0px;
+border-radius:1px;
+background-color: rgba(220, 220, 220,0.1);
+margin:0px;
+margin-left:0px
+}
+
+QPushButton:hover{
+
+background-color: rgba(220, 220, 220,0.16);
+}</string>
                </property>
                <property name="text">
-                <string>Video Transfer:</string>
+                <string>..</string>
                </property>
               </widget>
              </item>
-             <item row="3" column="2">
+             <item row="1" column="4">
+              <widget class="QPushButton" name="pushButton_5">
+               <property name="minimumSize">
+                <size>
+                 <width>114</width>
+                 <height>25</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>1000</width>
+                 <height>35</height>
+                </size>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton{
+border-radius:3px;
+font-size:18px;
+border-radius:4px;
+padding:0px;
+
+}
+
+
+QPushButton:hover{
+background-color: #4363d8;
+}</string>
+               </property>
+               <property name="text">
+                <string>Sent</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0" colspan="5">
+              <spacer name="horizontalSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>8</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="3" column="3" colspan="2">
               <widget class="QPushButton" name="pushButton_3">
                <property name="minimumSize">
                 <size>
@@ -1575,16 +1670,10 @@ background-color: rgba(220, 220, 220,0.2);
                </property>
                <property name="styleSheet">
                 <string notr="true">QPushButton{
-border-radius:3px;
 font-size:14px;
-border-radius:10px;
+border-radius:3px;
 background-color:#737373;
 padding:0px;
-margin-right:8px;
-
-padding-left:6px;
-padding-right:6px;
-
 }
 
 QPushButton:hover{
@@ -1592,120 +1681,11 @@ background-color: #646464;
 }</string>
                </property>
                <property name="text">
-                <string>CSV File</string>
+                <string>Upload CSV File</string>
                </property>
               </widget>
              </item>
-             <item row="3" column="1">
-              <widget class="QLabel" name="label_23">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>250</width>
-                 <height>35</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color:rgb(255, 255, 255);
-background-color:rgba(243, 45, 49,0.4);
-border-radius:3px;
-font-size:14px;
-border-radius:3px;
-padding:0px;
-padding-bottom:2px;
-
-padding-left:6px;
-padding-right:6px;
-</string>
-               </property>
-               <property name="text">
-                <string>Not Transferring</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="4">
-              <widget class="QPushButton" name="pushButton_5">
-               <property name="minimumSize">
-                <size>
-                 <width>114</width>
-                 <height>25</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>114</width>
-                 <height>35</height>
-                </size>
-               </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton{
-border-radius:3px;
-font-size:18px;
-border-radius:10px;
-padding:0px;
-
-}
-
-
-QPushButton:hover{
-background-color: #4363d8;
-}</string>
-               </property>
-               <property name="text">
-                <string>Sent</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="3">
-              <widget class="QPushButton" name="pushButton_6">
-               <property name="minimumSize">
-                <size>
-                 <width>114</width>
-                 <height>25</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>114</width>
-                 <height>35</height>
-                </size>
-               </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton{
-border-radius:3px;
-font-size:18px;
-border-radius:10px;
-padding:0px;
-
-background-color:#737373;
-
-}
-
-QPushButton:hover{
-
-background-color: #646464;
-}</string>
-               </property>
-               <property name="text">
-                <string>File</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="0" colspan="3">
+             <item row="4" column="0" colspan="5">
               <spacer name="horizontalSpacer_2">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
@@ -1713,7 +1693,7 @@ background-color: #646464;
                <property name="sizeHint" stdset="0">
                 <size>
                  <width>40</width>
-                 <height>5</height>
+                 <height>8</height>
                 </size>
                </property>
               </spacer>
@@ -1722,7 +1702,7 @@ background-color: #646464;
               <widget class="QPlainTextEdit" name="plainTextEdit">
                <property name="minimumSize">
                 <size>
-                 <width>0</width>
+                 <width>314</width>
                  <height>120</height>
                 </size>
                </property>
@@ -1734,61 +1714,47 @@ border:none;
 border-radius:5px;
 margin-top:0px;</string>
                </property>
+               <property name="lineWidth">
+                <number>1</number>
+               </property>
+               <property name="verticalScrollBarPolicy">
+                <enum>Qt::ScrollBarAsNeeded</enum>
+               </property>
+               <property name="horizontalScrollBarPolicy">
+                <enum>Qt::ScrollBarAsNeeded</enum>
+               </property>
+               <property name="sizeAdjustPolicy">
+                <enum>QAbstractScrollArea::AdjustIgnored</enum>
+               </property>
+               <property name="lineWrapMode">
+                <enum>QPlainTextEdit::WidgetWidth</enum>
+               </property>
                <property name="readOnly">
                 <bool>true</bool>
                </property>
                <property name="plainText">
                 <string>Telemetri: GPS verileri güncellenemedi.
-Telemetri: GPS verileri güncellenemedi.
-Telemetri: GPS verileri güncellenemedi.
-Telemetri: GPS verileri güncellenemedi.
-Telemetri: GPS verileri güncellenemedi.
-Bağlantı:Port bağlantısı kesildi.
-Bağlantı:Port bağlantısı kesildi.
-Bağlantı:Port bağlantısı kesildi.</string>
+Telemetri: Gerçek zamanlı video yüklenemedi.
+Telemetri: Uydu pervanesine martı çarptı.
+Telemetri: Uydu gözden kayboluyor.
+Telemetri: Bir şeyler çok fena ters gitti.
+Telemetri: Uydu Allah`a emanet.
+Bağlantı: Port bağlantısı kesildi.</string>
                </property>
               </widget>
              </item>
-             <item row="2" column="0" colspan="5">
-              <spacer name="horizontalSpacer">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>5</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="5" column="3" colspan="2" alignment="Qt::AlignHCenter">
-              <widget class="QLabel" name="label_29">
-               <property name="font">
-                <font>
-                 <pointsize>-1</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true"/>
-               </property>
-               <property name="text">
-                <string>Manual Leave Command </string>
-               </property>
-              </widget>
-             </item>
-             <item row="6" column="3" colspan="2" alignment="Qt::AlignHCenter">
+             <item row="5" column="3" rowspan="3" colspan="2">
               <widget class="QPushButton" name="pushButton_9">
                <property name="minimumSize">
                 <size>
-                 <width>114</width>
-                 <height>65</height>
+                 <width>195</width>
+                 <height>55</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
                  <width>10000</width>
-                 <height>35</height>
+                 <height>350</height>
                 </size>
                </property>
                <property name="cursor">
@@ -1797,19 +1763,87 @@ Bağlantı:Port bağlantısı kesildi.</string>
                <property name="styleSheet">
                 <string notr="true">QPushButton{
 color:rgb(255, 255, 255);
-background-color:#f32d31;
+background-color:rgba(243, 45, 49,0.62);
 border-radius:3px;
-font-size:20px;
+font-size:21px;
 border-radius:10px;
-padding:20px;
-
+padding:10px;
+margin-bottom:10px;
 }
 QPushButton:hover{
 background-color:#c81215;
 }</string>
                </property>
                <property name="text">
-                <string>Leave Payload</string>
+                <string>Manual
+LEAVE PAYLOAD
+Command</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1" colspan="2">
+              <widget class="QLabel" name="label_23">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>35</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:rgb(255, 255, 255);
+background-color:rgba(243, 45, 49,0.4);
+border-radius:3px;
+font-size:14px;
+border-radius:3px;
+padding:0px;
+padding-bottom:2px;
+margin:0px;
+padding-left:6px;
+
+</string>
+               </property>
+               <property name="text">
+                <string>Not Transferring</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0" alignment="Qt::AlignRight">
+              <widget class="QLabel" name="label_24">
+               <property name="maximumSize">
+                <size>
+                 <width>155</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>-1</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QLabel{
+font-size:18px;
+padding:0px;
+padding-right:1px;
+padding-left:6px;
+
+}
+
+QLabel:hover{
+background-color:none;
+}</string>
+               </property>
+               <property name="text">
+                <string>Video Transfer:</string>
                </property>
               </widget>
              </item>
@@ -1833,6 +1867,12 @@ background-color:#c81215;
            <height>16777215</height>
           </size>
          </property>
+         <property name="styleSheet">
+          <string notr="true">QFrame:hover{
+background-color: rgba(231, 231, 231,0.13);
+}
+</string>
+         </property>
          <layout class="QGridLayout" name="gridLayout_2">
           <property name="leftMargin">
            <number>0</number>
@@ -1850,13 +1890,17 @@ background-color:#c81215;
            <number>0</number>
           </property>
           <item row="0" column="0">
-           <widget class="QGraphicsView" name="graphicsView_5"/>
-          </item>
-          <item row="0" column="1">
-           <widget class="QGraphicsView" name="graphicsView_6"/>
+           <widget class="QGraphicsView" name="graphicsView_5">
+            <property name="accessibleDescription">
+             <string/>
+            </property>
+           </widget>
           </item>
           <item row="1" column="1" colspan="2">
            <widget class="QGraphicsView" name="graphicsView_12"/>
+          </item>
+          <item row="0" column="1">
+           <widget class="QGraphicsView" name="graphicsView_6"/>
           </item>
           <item row="1" column="0">
            <widget class="QGraphicsView" name="graphicsView_4"/>
@@ -1901,7 +1945,11 @@ padding-right:0px;
 margin:9px;
 margin-left:12px;
 margin-right:12px;
-}</string>
+}
+QFrame:hover{
+background-color: rgba(231, 231, 231,0.13);
+}
+</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_4">
           <property name="leftMargin">
@@ -1939,10 +1987,20 @@ margin-bottom:6px;
 }</string>
             </property>
             <layout class="QGridLayout" name="gridLayout_10">
-             <item row="0" column="0">
-              <widget class="QPushButton" name="startCameraButton">
+             <item row="0" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+              <widget class="QLabel" name="mapLabel">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border-radius:5px;
+border:2px solid qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(63, 91, 255, 255), stop:0.55 rgba(235, 148, 61, 255), stop:0.98 rgba(0, 0, 0, 255), stop:1 rgba(0, 0, 0, 0))</string>
+               </property>
                <property name="text">
-                <string>bas</string>
+                <string>Map</string>
                </property>
               </widget>
              </item>
@@ -1971,7 +2029,25 @@ margin-right:0px;
 margin-top:0px
 }</string>
             </property>
-            <layout class="QGridLayout" name="gridLayout_12"/>
+            <layout class="QGridLayout" name="gridLayout_12">
+             <item row="0" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+              <widget class="QLabel" name="threeDLabel">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border-radius:5px;
+border:2px solid qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(63, 91, 255, 255), stop:0.55 rgba(235, 148, 61, 255), stop:0.98 rgba(0, 0, 0, 255), stop:1 rgba(0, 0, 0, 0))</string>
+               </property>
+               <property name="text">
+                <string>3D</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
           <item row="0" column="1" rowspan="2">
@@ -2010,6 +2086,16 @@ padding:3px;
              <property name="spacing">
               <number>0</number>
              </property>
+             <item row="1" column="0">
+              <widget class="QPushButton" name="startCameraButton">
+               <property name="styleSheet">
+                <string notr="true">background:transparent;</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
              <item row="0" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
               <widget class="QLabel" name="cameraViewerLabel">
                <property name="minimumSize">

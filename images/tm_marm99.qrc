@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="tm_marm99">
+    <file>ground-station-logo.png</file>
     <file>space.jpg</file>
     <file>tm-marm-99-logo.jpg</file>
     <file>tm-marm-99-logo.jpg</file>

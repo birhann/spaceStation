@@ -22,7 +22,7 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
         self.startCameraButton.clicked.connect(self.startCamera)
 
         # commonperations
-        self.cameraViewerLabel.hide()
+        # self.cameraViewerLabel.hide()
 
         # objects
         self.CameraObject = Camera(self)

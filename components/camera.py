@@ -51,7 +51,7 @@ class Camera():
     def finishVideo(self):
         self.interface.cameraViewerLabel.clear()
         self.interface.cameraViewerLabel.setText("Camera")
-        self.interface.cameraViewerLabel.hide()
+        self.interface.cameraViewerLabel.show()
 
     # @pyqtSlot(QImage)
     def setImage(self, image):
