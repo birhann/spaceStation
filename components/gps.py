@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout
 from PyQt5.QtWebEngineWidgets import QWebEngineView  # pip install PyQtWebEngine
 
 """
-Folium in PyQt5
+change examples
 """
 
 
@@ -24,17 +24,14 @@ class MyApp(QWidget):
         layout = QVBoxLayout()
         self.setLayout(layout)
 
-        
         anlik_x = Koordinat().x
         anlik_y = Koordinat().y
-
-
 
         m = folium.Map(
             tiles='Stamen Terrain',
             zoom_start=14,
-            location=(anlik_x,anlik_y),
-            )
+            location=(anlik_x, anlik_y),
+        )
 
         # save map data to data object
         data = io.BytesIO()
@@ -55,7 +52,6 @@ if __name__ == '__main__':
 
     myApp = MyApp()
     myApp.show()
-
 
     try:
         sys.exit(app.exec_())
