@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1689</width>
+    <width>1778</width>
     <height>877</height>
    </rect>
   </property>
@@ -1733,13 +1733,12 @@ margin-top:0px;</string>
                 <bool>true</bool>
                </property>
                <property name="plainText">
-                <string>Telemetri: GPS verileri güncellenemedi.
-Telemetri: Gerçek zamanlı video yüklenemedi.
-Telemetri: Uydu pervanesine martı çarptı.
-Telemetri: Uydu gözden kayboluyor.
-Telemetri: Bir şeyler çok fena ters gitti.
-Telemetri: Uydu Allah`a emanet.
-Bağlantı: Port bağlantısı kesildi.</string>
+                <string>Connection: The port has been connected.
+Telemetry: Sensor initial configurations began.
+Telemetry: GPS data could not be updated. 
+Telemetry: Real-time video could not be transferred.
+Telemetry: GPS data could not be updated. 
+Connection: The port has been disconnected.</string>
                </property>
               </widget>
              </item>
@@ -2001,6 +2000,13 @@ border:2px solid qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba
                </property>
                <property name="text">
                 <string>Map</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QPushButton" name="runMapButton">
+               <property name="text">
+                <string>map aç</string>
                </property>
               </widget>
              </item>

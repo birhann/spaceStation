@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainGUI(object):
     def setupUi(self, MainGUI):
         MainGUI.setObjectName("MainGUI")
-        MainGUI.resize(1689, 877)
+        MainGUI.resize(1778, 877)
         icon = QtGui.QIcon.fromTheme("tm-marm99")
         MainGUI.setWindowIcon(icon)
         MainGUI.setStyleSheet("QMainWindow{\n"
@@ -873,6 +873,9 @@ class Ui_MainGUI(object):
 "border:2px solid qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(63, 91, 255, 255), stop:0.55 rgba(235, 148, 61, 255), stop:0.98 rgba(0, 0, 0, 255), stop:1 rgba(0, 0, 0, 0))")
         self.mapLabel.setObjectName("mapLabel")
         self.gridLayout_10.addWidget(self.mapLabel, 0, 0, 1, 1, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
+        self.runMapButton = QtWidgets.QPushButton(self.map)
+        self.runMapButton.setObjectName("runMapButton")
+        self.gridLayout_10.addWidget(self.runMapButton, 1, 0, 1, 1)
         self.gridLayout_4.addWidget(self.map, 0, 0, 1, 1)
         self.threeD = QtWidgets.QFrame(self.viewsFrame)
         self.threeD.setMinimumSize(QtCore.QSize(200, 200))
@@ -985,19 +988,19 @@ class Ui_MainGUI(object):
         self.pushButton_6.setText(_translate("MainGUI", ".."))
         self.pushButton_5.setText(_translate("MainGUI", "Sent"))
         self.pushButton_3.setText(_translate("MainGUI", "Upload CSV File"))
-        self.plainTextEdit.setPlainText(_translate("MainGUI", "Telemetri: GPS verileri güncellenemedi.\n"
-"Telemetri: Gerçek zamanlı video yüklenemedi.\n"
-"Telemetri: Uydu pervanesine martı çarptı.\n"
-"Telemetri: Uydu gözden kayboluyor.\n"
-"Telemetri: Bir şeyler çok fena ters gitti.\n"
-"Telemetri: Uydu Allah`a emanet.\n"
-"Bağlantı: Port bağlantısı kesildi."))
+        self.plainTextEdit.setPlainText(_translate("MainGUI", "Connection: The port has been connected.\n"
+"Telemetry: Sensor initial configurations began.\n"
+"Telemetry: GPS data could not be updated. \n"
+"Telemetry: Real-time video could not be transferred.\n"
+"Telemetry: GPS data could not be updated. \n"
+"Connection: The port has been disconnected."))
         self.pushButton_9.setText(_translate("MainGUI", "Manual\n"
 "LEAVE PAYLOAD\n"
 "Command"))
         self.label_23.setText(_translate("MainGUI", "Not Transferring"))
         self.label_24.setText(_translate("MainGUI", "Video Transfer:"))
         self.mapLabel.setText(_translate("MainGUI", "Map"))
+        self.runMapButton.setText(_translate("MainGUI", "map aç"))
         self.threeDLabel.setText(_translate("MainGUI", "3D"))
         self.cameraViewerLabel.setText(_translate("MainGUI", "Camera"))
 from images import tm_marm99_rc
