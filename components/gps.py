@@ -1,19 +1,12 @@
 import sys
 import io
+import random
+import time
 import folium  # pip install folium
 from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout
 from PyQt5.QtWebEngineWidgets import QWebEngineView  # pip install PyQtWebEngine
 
-"""
-change examples
-"""
-
-
-class Koordinat():
-    x = 40.75990185278211
-    y = 29.90550476805874
-
-
+    
 class MyApp(QWidget):
     def __init__(self):
         super().__init__()
@@ -24,22 +17,28 @@ class MyApp(QWidget):
         layout = QVBoxLayout()
         self.setLayout(layout)
 
-        anlik_x = Koordinat().x
-        anlik_y = Koordinat().y
+        for i in range(5):
+            x = random.uniform(40.6, 40.8)
+            y= random.uniform(29.8, 30.0)
+            time.sleep(10)
+            print(x,y)
 
-        m = folium.Map(
-            tiles='Stamen Terrain',
-            zoom_start=14,
-            location=(anlik_x, anlik_y),
-        )
-
-        # save map data to data object
-        data = io.BytesIO()
-        m.save(data, close_file=False)
+            m = folium.Map(
+                tiles='cartodbpositron',
+                zoom_start=14,
+                location=(x,y),
+                
+            )
+            folium.Marker(location=(x,y),popup='Uydu').add_to(m)
+            # save map data to data object
+            data = io.BytesIO()
+            m.save(data, close_file=False)
 
         webView = QWebEngineView()
         webView.setHtml(data.getvalue().decode())
         layout.addWidget(webView)
+    
+            
 
 
 if __name__ == '__main__':
@@ -49,6 +48,7 @@ if __name__ == '__main__':
             font-size: 35px;
         }
     ''')
+    
 
     myApp = MyApp()
     myApp.show()
