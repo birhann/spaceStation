@@ -117,7 +117,7 @@ class LiveMap(QWidget):
         # self.layout = QVBoxLayout()
         # self.setLayout(self.layout)
         mapObject = folium.Map(
-            tiles='cartodbdark_matter',
+            tiles='Stamen Toner',
             zoom_start=14,
             max_bounds=True,
             # zoom_control=False,
