@@ -4,6 +4,7 @@ from PyQt5 import QtCore
 
 from templates.Ui_MainGUI import Ui_MainGUI
 from components.camera import Camera
+from components.gps import LiveMap
 
 
 class TurksatMuy(QMainWindow, Ui_MainGUI):
@@ -21,11 +22,12 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
         self.button_minimize.clicked.connect(self.showMinimized)
         self.startCameraButton.clicked.connect(self.startCamera)
 
-        # commonperations
-        # self.cameraViewerLabel.hide()
+        # common operations
+        self.cameraViewerLabel.hide()
 
         # objects
         self.CameraObject = Camera(self)
+        self.GpsObject = LiveMap(self)
 
     def maximized_minimized(self):
         if self.isMaximized():
