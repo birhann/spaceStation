@@ -2,11 +2,10 @@ import sys
 import io
 from PyQt5 import sip
 from PyQt5.QtGui import qRgba
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout
+from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtCore import QThread, pyqtSignal
 import folium
-from folium.map import Icon
 import time
 import random
 
@@ -26,7 +25,7 @@ class Worker(QThread):
         return x, y
 
     def run(self):
-        while self.counter < 8:
+        while self.counter < 55:
             if self.workerStatus:
                 x, y = self.getCoordinates()
                 print(x, y)
@@ -38,21 +37,14 @@ class Worker(QThread):
 
 
 class LiveMap(QWidget):
-    def __init__(self):
+    def __init__(self, GUI):
         super().__init__()
+        self.interface = GUI
         self.mapStatus = False
         self.counter = 0
         self.defaultCoordinates = 40.76358185278211, 29.90650776805874
-        self.createWindow()
         self.createMap(self.defaultCoordinates)
         self.startLiveMap()
-
-    def createWindow(self):
-        self.setWindowTitle('Live Map Demo')
-        self.window_width, self.window_height = 516, 384
-        self.setMinimumSize(self.window_width, self.window_height)
-        self.layout = QVBoxLayout()
-        self.setLayout(self.layout)
 
     def createMap(self, coordinates):
         mapObject = folium.Map(
@@ -61,14 +53,12 @@ class LiveMap(QWidget):
             max_bounds=True,
             location=(coordinates[0], coordinates[1]),
         )
-
         data = io.BytesIO()
-
         mapObject.save(data, close_file=False)
 
         self.webView = QWebEngineView()
         self.webView.setHtml(data.getvalue().decode())
-        self.layout.addWidget(self.webView)
+        self.interface.gpsLayout.addWidget(self.webView)
 
     def startLiveMap(self):
         if not self.mapStatus:
@@ -80,7 +70,7 @@ class LiveMap(QWidget):
                 self.thread.finished.connect(self.setLastInfos)
                 self.thread.start()
             except:
-                print("VIDEO STREAMING ERRORS:", Exception)
+                print("LIVE MAP ERROR:", Exception)
         else:
             self.mapStatus = False
             self.thread.workerStatus = False
@@ -117,7 +107,7 @@ class LiveMap(QWidget):
         # self.layout = QVBoxLayout()
         # self.setLayout(self.layout)
         mapObject = folium.Map(
-            tiles='Stamen Toner',
+            tiles='cartodbdark_matter',
             zoom_start=14,
             max_bounds=True,
             # zoom_control=False,
@@ -138,6 +128,8 @@ class LiveMap(QWidget):
             fill_color='#428bca'
         ).add_to(mapObject)
 
+        self.interface.longitudeLabel.setText(str(x))
+        self.interface.latitudeLabel.setText(str(y))
         folium.Marker(
             [x, y], popup="<i>Satellite</i>", icon=folium.Icon(icon='wifi', prefix='fa')).add_to(mapObject)
 
