@@ -31,7 +31,7 @@ class Worker(QThread):
                 print(x, y)
                 self.updateMap.emit(x, y)
                 self.counter += 1
-                time.sleep(1)
+                time.sleep(0.5)
             else:
                 break
 

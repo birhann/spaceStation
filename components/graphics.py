@@ -3,36 +3,113 @@ from typing import Text
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import QThread, pyqtSignal
-from random import randint
+from random import randint, uniform
 
 import pyqtgraph as pg
 import numpy as np
 import time
 
-from config import appConfig, graphAxisRanges
+from pyqtgraph.Qt import PYQT4
+
+from config import appConfig, graphAxisRanges, simulationConf
 from pyqtgraph.metaarray.MetaArray import axis
 pg.setConfigOption('background', None)
 
 
 class SimulationWorker(QThread):
     updateTemperatureGraph = pyqtSignal(list, list, object)
+    updateHeightGraph = pyqtSignal(list, list, object)
+    updateVoltageGraph = pyqtSignal(list, list, object)
+    updatePressureGraph = pyqtSignal(list, list, object)
+    updateDescentRateGraph = pyqtSignal(list, list, object)
+    updateRollingCountGraph = pyqtSignal(list, list, object)
     simulationWorkerStatus = True
     counter = 0
-    temperatureGraphX = None
-    temperatureGraphY = None
 
     def run(self):
-        while self.counter < 10:
+        self.createAxises()
+        while self.counter < simulationConf["PROC_TIME"]:
             self.counter += 1
-            # self.x = self.x[1:]  # Remove the first y element.
-            self.temperatureGraphlastX = self.temperatureGraphX[-1] + 1
-            self.temperatureGraphX.append(self.temperatureGraphlastX)
-            # self.x = self.x[1:]  # Remove the first
-            self.temperatureGraphY.append(
-                randint(0, graphAxisRanges["TEMPERATURE"]["MAX"]))
-            self.updateTemperatureGraph.emit(
-                self.temperatureGraphX, self.temperatureGraphY, self.temperatureGraphlastX)
-            time.sleep(1)
+
+            self.temperatureGraph()
+            self.heightGraph()
+            self.voltageGraph()
+            self.pressureGraph()
+            self.descentRateGraph()
+            self.rollingCountGraph()
+
+            time.sleep(simulationConf["INTERVAL"])
+
+    def createAxises(self):
+        temperatureGraphX = None
+        temperatureGraphY = None
+
+        heightGraphX = None
+        heightGraphY = None
+
+        voltageGraphX = None
+        voltageGraphY = None
+
+        pressureGraphX = None
+        pressureGraphY = None
+
+        descentRateGraphX = None
+        descentRateGraphY = None
+
+        rollingCountGraphX = None
+        rollingCountGraphY = None
+
+    def temperatureGraph(self):
+        self.temperatureGraphlastX = self.temperatureGraphX[-1] + 1
+        self.temperatureGraphX.append(self.temperatureGraphlastX)
+        self.temperatureGraphY.append(
+            randint(graphAxisRanges["TEMPERATURE"]["MIN"], graphAxisRanges["TEMPERATURE"]["MAX"]))
+        self.updateTemperatureGraph.emit(
+            self.temperatureGraphX, self.temperatureGraphY, self.temperatureGraphlastX)
+
+    def heightGraph(self):
+        self.heightGraphlastX = self.heightGraphX[-1] + 1
+        self.heightGraphX.append(self.heightGraphlastX)
+        self.heightGraphY.append(
+            randint(graphAxisRanges["HEIGHT"]["MIN"], graphAxisRanges["HEIGHT"]["MAX"]))
+        self.updateHeightGraph.emit(
+            self.heightGraphX, self.heightGraphY, self.heightGraphlastX)
+
+    def voltageGraph(self):
+        self.voltageGraphlastX = self.voltageGraphX[-1] + 1
+        self.voltageGraphX.append(self.voltageGraphlastX)
+        self.voltageGraphY.append(round(uniform(
+            graphAxisRanges["VOLTAGE"]["MIN"],
+            graphAxisRanges["VOLTAGE"]["MAX"]), 5))
+        self.updateVoltageGraph.emit(
+            self.voltageGraphX, self.voltageGraphY, self.voltageGraphlastX)
+
+    def pressureGraph(self):
+        self.pressureGraphlastX = self.pressureGraphX[-1] + 1
+        self.pressureGraphX.append(self.pressureGraphlastX)
+        self.pressureGraphY.append(round(uniform(
+            graphAxisRanges["PRESSURE"]["MIN"],
+            graphAxisRanges["PRESSURE"]["MAX"]), 2))
+        self.updatePressureGraph.emit(
+            self.pressureGraphX, self.pressureGraphY, self.pressureGraphlastX)
+
+    def descentRateGraph(self):
+        self.descentRateGraphlastX = self.descentRateGraphX[-1] + 1
+        self.descentRateGraphX.append(self.descentRateGraphlastX)
+        self.descentRateGraphY.append(round(uniform(
+            graphAxisRanges["DESCENT_RATE"]["MIN"],
+            graphAxisRanges["DESCENT_RATE"]["MAX"]), 2))
+        self.updateDescentRateGraph.emit(
+            self.descentRateGraphX, self.descentRateGraphY, self.descentRateGraphlastX)
+
+    def rollingCountGraph(self):
+        self.rollingCountGraphlastX = self.rollingCountGraphX[-1] + 1
+        self.rollingCountGraphX.append(self.rollingCountGraphlastX)
+        self.rollingCountGraphY.append(round(uniform(
+            graphAxisRanges["ROLLING_COUNT"]["MIN"],
+            graphAxisRanges["ROLLING_COUNT"]["MAX"]), 2))
+        self.updateRollingCountGraph.emit(
+            self.rollingCountGraphX, self.rollingCountGraphY, self.rollingCountGraphlastX)
 
 
 class Graph():
@@ -85,26 +162,100 @@ class Graph():
         self.temperatureGW = self.interface.temperatureGraph
         self.temperatureX = list(range(2))
         self.temperatureY = [
-            randint(0, graphAxisRanges["TEMPERATURE"]["MAX"]) for _ in range(2)]
+            randint(graphAxisRanges["TEMPERATURE"]["MIN"],
+                    graphAxisRanges["TEMPERATURE"]["MAX"]) for _ in range(2)]
         self.temperatureDataLine = self.temperatureGW.plot(
             self.temperatureX, self.temperatureY, pen=self.pen)
         self.temperatureGW.setXRange(0, self.SEC_AXIS_RANGE)
 
+        # HEIGHT
+        self.heightGW = self.interface.heightGraph
+        self.heightX = list(range(2))
+        self.heightY = [
+            randint(graphAxisRanges["HEIGHT"]["MIN"],
+                    graphAxisRanges["HEIGHT"]["MAX"]) for _ in range(2)]
+        self.heightDataLine = self.heightGW.plot(
+            self.heightX, self.heightY, pen=self.pen)
+        self.heightGW.setXRange(0, self.SEC_AXIS_RANGE)
+
+        # VOLTAGE
+        self.voltageGW = self.interface.voltageGraph
+        self.voltageX = list(range(2))
+        self.voltageY = [round(uniform(
+            graphAxisRanges["VOLTAGE"]["MIN"],
+            graphAxisRanges["VOLTAGE"]["MAX"]), 5) for _ in range(2)]
+        self.voltageDataLine = self.voltageGW.plot(
+            self.voltageX, self.voltageY, pen=self.pen)
+        self.voltageGW.setXRange(0, self.SEC_AXIS_RANGE)
+
+        # PRESSURE
+        self.pressureGW = self.interface.pressureGraph
+        self.pressureX = list(range(2))
+        self.pressureY = [round(uniform(
+            graphAxisRanges["PRESSURE"]["MIN"],
+            graphAxisRanges["PRESSURE"]["MAX"]), 2) for _ in range(2)]
+        self.pressureDataLine = self.pressureGW.plot(
+            self.pressureX, self.pressureY, pen=self.pen)
+        self.pressureGW.setXRange(0, self.SEC_AXIS_RANGE)
+
+        # DESCENT_RATE
+        self.descentRateGW = self.interface.descentRateGraph
+        self.descentRateX = list(range(2))
+        self.descentRateY = [round(uniform(
+            graphAxisRanges["DESCENT_RATE"]["MIN"],
+            graphAxisRanges["DESCENT_RATE"]["MAX"]), 2) for _ in range(2)]
+        self.descentRateDataLine = self.descentRateGW.plot(
+            self.descentRateX, self.descentRateY, pen=self.pen)
+        self.descentRateGW.setXRange(0, self.SEC_AXIS_RANGE)
+
+        # ROLLING_COUNT
+        self.rollingCountGW = self.interface.rollingCountGraph
+        self.rollingCountX = list(range(2))
+        self.rollingCountY = [round(uniform(
+            graphAxisRanges["ROLLING_COUNT"]["MIN"],
+            graphAxisRanges["ROLLING_COUNT"]["MAX"]), 2) for _ in range(2)]
+        self.rollingCountDataLine = self.rollingCountGW.plot(
+            self.rollingCountX, self.rollingCountY, pen=self.pen)
+        self.rollingCountGW.setXRange(0, self.SEC_AXIS_RANGE)
+
     def startGraphicWithThreads(self):
         if appConfig["GRAPHIC_SIMULATION"]:
-            print("hel")
             self.mapStatus = True
-            try:
-                self.thread = SimulationWorker()
-                self.thread.daemon = True
 
-                self.thread.temperatureGraphX, self.thread.temperatureGraphY = self.temperatureX, self.temperatureY
-                self.thread.updateTemperatureGraph.connect(
-                    self.updateTemperature)
+            self.thread = SimulationWorker()
+            self.thread.daemon = True
 
-                self.thread.start()
-            except:
-                print("GRAPH ERRORS:", Exception)
+            # temperature
+            self.thread.temperatureGraphX, self.thread.temperatureGraphY = self.temperatureX, self.temperatureY
+            self.thread.updateTemperatureGraph.connect(
+                self.updateTemperature)
+
+            # height
+            self.thread.heightGraphX, self.thread.heightGraphY = self.heightX, self.heightY
+            self.thread.updateHeightGraph.connect(
+                self.updateHeight)
+
+            # voltage
+            self.thread.voltageGraphX, self.thread.voltageGraphY = self.voltageX, self.voltageY
+            self.thread.updateVoltageGraph.connect(
+                self.updateVoltage)
+
+            # pressure
+            self.thread.pressureGraphX, self.thread.pressureGraphY = self.pressureX, self.pressureY
+            self.thread.updatePressureGraph.connect(
+                self.updatePressure)
+
+            # descent_rate
+            self.thread.descentRateGraphX, self.thread.descentRateGraphY = self.descentRateX, self.descentRateY
+            self.thread.updateDescentRateGraph.connect(
+                self.updateDescentRate)
+
+            # rolling_count
+            self.thread.rollingCountGraphX, self.thread.rollingCountGraphY = self.rollingCountX, self.rollingCountY
+            self.thread.updateRollingCountGraph.connect(
+                self.updateRollingCount)
+
+            self.thread.start()
         else:
             print("graphics simulation is deactive")
 
@@ -115,9 +266,39 @@ class Graph():
         self.interface.temperatureLabel.setText(str(y[-1]) + " °C")
         # self.temperatureGW.setYRange(self.y[-5], self.y[-1])
 
+    def updateHeight(self, x, y, lastX):
+        self.heightDataLine.setData(x, y)
+        self.heightGW.setXRange(
+            lastX - self.SEC_AXIS_RANGE, lastX)
+        self.interface.heightLabel.setText(str(y[-1]) + " m")
+
+    def updateVoltage(self, x, y, lastX):
+        self.voltageDataLine.setData(x, y)
+        self.voltageGW.setXRange(
+            lastX - self.SEC_AXIS_RANGE, lastX)
+        self.interface.voltageLabel.setText(str(y[-1]) + " V")
+
+    def updatePressure(self, x, y, lastX):
+        self.pressureDataLine.setData(x, y)
+        self.pressureGW.setXRange(
+            lastX - self.SEC_AXIS_RANGE, lastX)
+        self.interface.pressureLabel.setText(str(y[-1]) + " bar")
+
+    def updateDescentRate(self, x, y, lastX):
+        self.descentRateDataLine.setData(x, y)
+        self.descentRateGW.setXRange(
+            lastX - self.SEC_AXIS_RANGE, lastX)
+        self.interface.descentRateLabel.setText(str(y[-1]) + " m/s")
+
+    def updateRollingCount(self, x, y, lastX):
+        self.rollingCountDataLine.setData(x, y)
+        self.rollingCountGW.setXRange(
+            lastX - self.SEC_AXIS_RANGE, lastX)
+        self.interface.rollingCountLabel.setText(str(y[-1])
+
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    win = Graph()
+    app=QApplication(sys.argv)
+    win=Graph()
     win.show()
     sys.exit(app.exec())

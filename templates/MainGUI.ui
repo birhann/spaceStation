@@ -961,7 +961,7 @@ background-color: rgba(231, 231, 231,0.08);
               <string>Height:</string>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineEdit_12">
+            <widget class="QLineEdit" name="heightLabel">
              <property name="geometry">
               <rect>
                <x>435</x>
@@ -992,7 +992,7 @@ background-color: rgba(231, 231, 231,0.08);
               <bool>true</bool>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineEdit_16">
+            <widget class="QLineEdit" name="pressureLabel">
              <property name="geometry">
               <rect>
                <x>435</x>
@@ -1068,7 +1068,7 @@ margin:0px;</string>
               <string>Pressure:</string>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineEdit_17">
+            <widget class="QLineEdit" name="descentRateLabel">
              <property name="geometry">
               <rect>
                <x>163</x>
@@ -1103,7 +1103,7 @@ margin:0px;</string>
               <string>Voltage:</string>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineEdit_11">
+            <widget class="QLineEdit" name="voltageLabel">
              <property name="geometry">
               <rect>
                <x>435</x>
@@ -1132,7 +1132,7 @@ margin:0px;</string>
               <string>Rolling Count(Yaw Axis):</string>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineEdit_19">
+            <widget class="QLineEdit" name="rollingCountLabel">
              <property name="geometry">
               <rect>
                <x>480</x>
@@ -1295,7 +1295,7 @@ background-color:#15bf0c;
               <enum>Qt::Vertical</enum>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineEdit_20">
+            <widget class="QLineEdit" name="yawLabel">
              <property name="geometry">
               <rect>
                <x>658</x>
@@ -1327,7 +1327,7 @@ background-color:#15bf0c;
               <bool>true</bool>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineEdit_21">
+            <widget class="QLineEdit" name="rollLabel">
              <property name="geometry">
               <rect>
                <x>658</x>
@@ -1369,7 +1369,7 @@ background-color:#15bf0c;
               <string>Yaw:</string>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineEdit_22">
+            <widget class="QLineEdit" name="altitudeLabel">
              <property name="geometry">
               <rect>
                <x>658</x>
@@ -1398,7 +1398,7 @@ background-color:#15bf0c;
               <string>Roll:</string>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineEdit_13">
+            <widget class="QLineEdit" name="pitchLabel">
              <property name="geometry">
               <rect>
                <x>658</x>
