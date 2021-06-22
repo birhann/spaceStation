@@ -5,6 +5,7 @@ from PyQt5 import QtCore
 from templates.Ui_MainGUI import Ui_MainGUI
 from components.camera import Camera
 from components.gps import LiveMap
+from components.graphics import Graph
 
 
 class TurksatMuy(QMainWindow, Ui_MainGUI):
@@ -28,6 +29,7 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
         # objects
         self.CameraObject = Camera(self)
         self.GpsObject = LiveMap(self)
+        self.GraphObject = Graph(self)
 
     def maximized_minimized(self):
         if self.isMaximized():

@@ -1,70 +1,119 @@
 import sys
+from typing import Text
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QWidget, QLabel, QApplication
-from PyQt5.QtCore import QThread, Qt, pyqtSignal, pyqtSlot
-from numpy.core.fromnumeric import repeat
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtCore import QThread, pyqtSignal
+from random import randint
 
 import pyqtgraph as pg
 import numpy as np
 import time
-import threading
-import random
 
+from config import appConfig, graphAxisRanges
+from pyqtgraph.metaarray.MetaArray import axis
 pg.setConfigOption('background', None)
-# pg.setConfigOption('foreground', 'k')
+
+
+class SimulationWorker(QThread):
+    updateTemperatureGraph = pyqtSignal(list, list, object)
+    simulationWorkerStatus = True
+    counter = 0
+    temperatureGraphX = None
+    temperatureGraphY = None
+
+    def run(self):
+        while self.counter < 10:
+            self.counter += 1
+            # self.x = self.x[1:]  # Remove the first y element.
+            self.temperatureGraphlastX = self.temperatureGraphX[-1] + 1
+            self.temperatureGraphX.append(self.temperatureGraphlastX)
+            # self.x = self.x[1:]  # Remove the first
+            self.temperatureGraphY.append(
+                randint(0, graphAxisRanges["TEMPERATURE"]["MAX"]))
+            self.updateTemperatureGraph.emit(
+                self.temperatureGraphX, self.temperatureGraphY, self.temperatureGraphlastX)
+            time.sleep(1)
 
 
 class Graph():
     def __init__(self, GUI):
         self.interface = GUI
-        self.telemtryStatus = True
-        self.drawGraph()
+        self.SEC_AXIS_RANGE = graphAxisRanges["SEC_AXIS_RANGE"]
 
-    def repeat(self, graph):
-        while True:
-            randnums = np.random.randint(0, 100, 100)
-            graph.setData(np.arange(start=0, stop=100, step=1), randnums)
-            time.sleep(1)
+        self.createGraphics()
+        self.startGraphicWithThreads()
 
-    def drawGraph(self):
-        if self.telemtryStatus:
-            g1 = Grafik(self.interface.temperatureGraph)
+    def createGraphics(self):
+        self.createAxisLabels()
+        self.createPlotWidgets()
 
-            thread1 = threading.Thread(target=g1.update_plot_data, daemon=True)
-            thread1.start()
-            # self.temperature = self.interface.temperatureGraph.addPlot()
-            # g6 = self.temperature.plot(np.random.normal(
-            #     size=100), symbol='o', symbolSize=10, pen=pg.mkPen('k', width=2))
+    def createAxisLabels(self):
+        self.interface.temperatureGraph.setLabel(
+            axis='left', text='Temperature (°C)')
+        self.interface.temperatureGraph.setLabel(
+            axis='bottom', text='Time (sec)')
 
-            # self.temperature.setYRange(0, 100)
-            # self.temperature.setXRange(0, 100)
-            # thread = threading.Thread(
-            #     target=self.repeat, args=(g6,), daemon=True)
-            # thread.start()
+        self.interface.heightGraph.setLabel(
+            axis="left", text="Height (m)")
+        self.interface.heightGraph.setLabel(
+            axis="bottom", text="Time (sec)")
 
+        self.interface.voltageGraph.setLabel(
+            axis="left", text="Voltage (V)")
+        self.interface.voltageGraph.setLabel(
+            axis="bottom", text="Time (sec)")
 
-class Grafik():
-    def __init__(self, ui_widget):
-        self.x = list(range(300))
-        self.y = [random.randint(0, 10) for _ in range(300)]
-        pen = pg.mkPen(color=(255, 255, 255), width=2)
+        self.interface.pressureGraph.setLabel(
+            axis="left", text="Pressure (Pa)")
+        self.interface.pressureGraph.setLabel(
+            axis="bottom", text="Time (sec)")
 
-        self.addplotDegiskeni = ui_widget.addPlot(title="Temperature")
-        self.plotDegiskeni = self.addplotDegiskeni.plot(
-            self.x, self.y, pen=pen)
+        self.interface.descentRateGraph.setLabel(
+            axis="left", text="Descent Rate (m/s)")
+        self.interface.descentRateGraph.setLabel(
+            axis="bottom", text="Time (sec)")
 
-    def update_plot_data(self):
+        self.interface.rollingCountGraph.setLabel(
+            axis="left", text="Rolling Count")
+        self.interface.rollingCountGraph.setLabel(
+            axis="bottom", text="Time (sec)")
 
-        self.plotDegiskeni.clear()
-        while True:
-            self.x = self.x[1:]
-            self.x.append(self.x[0] + 1)
-            self.y = self.y[1:]
-            self.y.append(random.randint(0, 10))
-            # print(self.x, self.y)
-            self.plotDegiskeni.setData(self.x, self.y)
+    def createPlotWidgets(self):
+        self.pen = pg.mkPen(color=(255, 255, 255))
 
-            time.sleep(1)
+        # TEMPERATURE
+        self.temperatureGW = self.interface.temperatureGraph
+        self.temperatureX = list(range(2))
+        self.temperatureY = [
+            randint(0, graphAxisRanges["TEMPERATURE"]["MAX"]) for _ in range(2)]
+        self.temperatureDataLine = self.temperatureGW.plot(
+            self.temperatureX, self.temperatureY, pen=self.pen)
+        self.temperatureGW.setXRange(0, self.SEC_AXIS_RANGE)
+
+    def startGraphicWithThreads(self):
+        if appConfig["GRAPHIC_SIMULATION"]:
+            print("hel")
+            self.mapStatus = True
+            try:
+                self.thread = SimulationWorker()
+                self.thread.daemon = True
+
+                self.thread.temperatureGraphX, self.thread.temperatureGraphY = self.temperatureX, self.temperatureY
+                self.thread.updateTemperatureGraph.connect(
+                    self.updateTemperature)
+
+                self.thread.start()
+            except:
+                print("GRAPH ERRORS:", Exception)
+        else:
+            print("graphics simulation is deactive")
+
+    def updateTemperature(self, x, y, lastX):
+        self.temperatureDataLine.setData(x, y)
+        self.temperatureGW.setXRange(
+            lastX - self.SEC_AXIS_RANGE, lastX)
+        self.interface.temperatureLabel.setText(str(y[-1]) + " °C")
+        # self.temperatureGW.setYRange(self.y[-5], self.y[-1])
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\Lenovo\Desktop\KOU\TM MARM-99 2021\turksat-muy-ground-station-2021\exercises\cameraViewer\cameraViewer.ui'
+# Form implementation generated from reading ui file 'c:\Users\Lenovo\Desktop\KOU\TM MARM-99 2021\turksat-muy-ground-station-2021\templates\cameraViewer.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1304, 779)
+        Form.resize(1304, 853)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.verticalLayout = QtWidgets.QVBoxLayout()
@@ -23,10 +23,10 @@ class Ui_Form(object):
         self.ViewerLabel.setMinimumSize(QtCore.QSize(1280, 720))
         self.ViewerLabel.setText("")
         self.ViewerLabel.setObjectName("ViewerLabel")
-        self.verticalLayout.addWidget(self.ViewerLabel)
+        self.verticalLayout.addWidget(self.ViewerLabel, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
         self.verticalLayout_2.addLayout(self.verticalLayout)
         self.startLabel = QtWidgets.QPushButton(Form)
-        self.startLabel.setMinimumSize(QtCore.QSize(0, 0))
+        self.startLabel.setMinimumSize(QtCore.QSize(640, 0))
         self.startLabel.setMaximumSize(QtCore.QSize(16777215, 40))
         self.startLabel.setObjectName("startLabel")
         self.verticalLayout_2.addWidget(self.startLabel)

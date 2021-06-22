@@ -18,7 +18,7 @@ class Worker(QThread):
             ret, frame = self.capture.read()
             if self.workerStatus:
                 rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                # # rgbImage = cv2.flip(rgbImage, 1) mirroring
+                rgbImage = cv2.flip(rgbImage, 1)  # mirroring
                 h, w, ch = rgbImage.shape
                 bytesPerLine = ch * w
                 convertToQtFormat = QImage(

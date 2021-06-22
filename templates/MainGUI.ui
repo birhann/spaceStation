@@ -407,22 +407,46 @@ background-color: rgba(231, 231, 231,0.13);
            <number>0</number>
           </property>
           <item row="0" column="0">
-           <widget class="PlotWidget" name="temperatureGraph" native="true"/>
+           <widget class="PlotWidget" name="temperatureGraph" native="true">
+            <property name="styleSheet">
+             <string notr="true">background:none;</string>
+            </property>
+           </widget>
           </item>
           <item row="0" column="2">
-           <widget class="PlotWidget" name="heightGraph" native="true"/>
+           <widget class="PlotWidget" name="heightGraph" native="true">
+            <property name="styleSheet">
+             <string notr="true">background:none;</string>
+            </property>
+           </widget>
           </item>
           <item row="1" column="0">
-           <widget class="PlotWidget" name="voltageGraph" native="true"/>
+           <widget class="PlotWidget" name="voltageGraph" native="true">
+            <property name="styleSheet">
+             <string notr="true">background:none;</string>
+            </property>
+           </widget>
           </item>
           <item row="1" column="2">
-           <widget class="PlotWidget" name="pressureGraph" native="true"/>
+           <widget class="PlotWidget" name="pressureGraph" native="true">
+            <property name="styleSheet">
+             <string notr="true">background:none;</string>
+            </property>
+           </widget>
           </item>
           <item row="2" column="0">
-           <widget class="PlotWidget" name="descentRateGraph" native="true"/>
+           <widget class="PlotWidget" name="descentRateGraph" native="true">
+            <property name="styleSheet">
+             <string notr="true">background:none;</string>
+            </property>
+           </widget>
           </item>
           <item row="2" column="2">
-           <widget class="PlotWidget" name="rollingCountGraph" native="true"/>
+           <widget class="PlotWidget" name="rollingCountGraph" native="true">
+            <property name="styleSheet">
+             <string notr="true">background:none;</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -882,9 +906,9 @@ background-color: rgba(231, 231, 231,0.08);
             <widget class="QLabel" name="label_9">
              <property name="geometry">
               <rect>
-               <x>311</x>
+               <x>310</x>
                <y>17</y>
-               <width>131</width>
+               <width>121</width>
                <height>37</height>
               </rect>
              </property>
@@ -892,7 +916,7 @@ background-color: rgba(231, 231, 231,0.08);
               <string>Temperature:</string>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineEdit_7">
+            <widget class="QLineEdit" name="temperatureLabel">
              <property name="geometry">
               <rect>
                <x>435</x>
@@ -902,7 +926,7 @@ background-color: rgba(231, 231, 231,0.08);
               </rect>
              </property>
              <property name="text">
-              <string>34.93</string>
+              <string>34.93 °C</string>
              </property>
              <property name="readOnly">
               <bool>true</bool>
@@ -962,7 +986,7 @@ background-color: rgba(231, 231, 231,0.08);
               <string notr="true"/>
              </property>
              <property name="text">
-              <string>11.75</string>
+              <string>11.75 m</string>
              </property>
              <property name="readOnly">
               <bool>true</bool>
@@ -978,7 +1002,7 @@ background-color: rgba(231, 231, 231,0.08);
               </rect>
              </property>
              <property name="text">
-              <string>1014.66</string>
+              <string>1014.66 bar</string>
              </property>
              <property name="readOnly">
               <bool>true</bool>
@@ -1047,20 +1071,20 @@ margin:0px;</string>
             <widget class="QLineEdit" name="lineEdit_17">
              <property name="geometry">
               <rect>
-               <x>190</x>
+               <x>163</x>
                <y>215</y>
-               <width>50</width>
+               <width>101</width>
                <height>30</height>
               </rect>
              </property>
              <property name="maximumSize">
               <size>
-               <width>50</width>
+               <width>150</width>
                <height>16777215</height>
               </size>
              </property>
              <property name="text">
-              <string>8.24</string>
+              <string>8.24 m/s</string>
              </property>
              <property name="readOnly">
               <bool>true</bool>
@@ -1089,7 +1113,7 @@ margin:0px;</string>
               </rect>
              </property>
              <property name="text">
-              <string>3.62</string>
+              <string>3.62 V</string>
              </property>
              <property name="readOnly">
               <bool>true</bool>
@@ -1098,22 +1122,22 @@ margin:0px;</string>
             <widget class="QLabel" name="label_22">
              <property name="geometry">
               <rect>
-               <x>318</x>
+               <x>292</x>
                <y>156</y>
-               <width>128</width>
+               <width>181</width>
                <height>37</height>
               </rect>
              </property>
              <property name="text">
-              <string>Rolling Count:</string>
+              <string>Rolling Count(Yaw Axis):</string>
              </property>
             </widget>
             <widget class="QLineEdit" name="lineEdit_19">
              <property name="geometry">
               <rect>
-               <x>435</x>
+               <x>480</x>
                <y>159</y>
-               <width>84</width>
+               <width>61</width>
                <height>30</height>
               </rect>
              </property>
@@ -1127,7 +1151,7 @@ margin:0px;</string>
             <widget class="QLabel" name="label_20">
              <property name="geometry">
               <rect>
-               <x>71</x>
+               <x>44</x>
                <y>213</y>
                <width>121</width>
                <height>34</height>
@@ -1355,7 +1379,7 @@ background-color:#15bf0c;
               </rect>
              </property>
              <property name="text">
-              <string>13</string>
+              <string>11.75 m</string>
              </property>
              <property name="readOnly">
               <bool>true</bool>
