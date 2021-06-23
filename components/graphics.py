@@ -294,11 +294,11 @@ class Graph():
         self.rollingCountDataLine.setData(x, y)
         self.rollingCountGW.setXRange(
             lastX - self.SEC_AXIS_RANGE, lastX)
-        self.interface.rollingCountLabel.setText(str(y[-1])
+        self.interface.rollingCountLabel.setText(str(y[-1]))
 
 
 if __name__ == "__main__":
-    app=QApplication(sys.argv)
-    win=Graph()
+    app = QApplication(sys.argv)
+    win = Graph()
     win.show()
     sys.exit(app.exec())
