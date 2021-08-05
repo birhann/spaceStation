@@ -4,7 +4,7 @@ from PyQt5 import QtCore
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import QThread, pyqtSignal
 from random import randint, uniform
-
+from multiprocessing import Process, Queue, Pipe
 import pyqtgraph as pg
 import numpy as np
 import time
@@ -14,7 +14,6 @@ from pyqtgraph.Qt import PYQT4
 from config import appConfig, graphAxisRanges, simulationConf
 from pyqtgraph.metaarray.MetaArray import axis
 pg.setConfigOption('background', None)
-
 
 class SimulationWorker(QThread):
     updateTemperatureGraph = pyqtSignal(list, list, object)

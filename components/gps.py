@@ -8,6 +8,7 @@ from PyQt5.QtCore import QThread, pyqtSignal
 import folium
 import time
 import random
+from components.telemetry import TelemetryData
 
 
 class Worker(QThread):
@@ -23,15 +24,22 @@ class Worker(QThread):
         x, y = 38.76226363276871+random.random()*0.0015, 33.661376158029405 + \
             random.random()*0.0015
         return x, y
+    
+
 
     def run(self):
-        while self.counter < 55:
+        while True:
             if self.workerStatus:
                 x, y = self.getCoordinates()
-                print(x, y)
-                self.updateMap.emit(x, y)
+                #print(x, y)
+                global TelemetryData
+
+                gpsdata = TelemetryData
+                print(gpsdata)
+                print("-------")
+                self.updateMap.emit(gpsdata[8], gpsdata[9])
                 self.counter += 1
-                time.sleep(1)
+                #time.sleep(1)
             else:
                 break
 
@@ -43,6 +51,7 @@ class LiveMap(QWidget):
         self.mapStatus = False
         self.counter = 0
         self.defaultCoordinates = 40.76358185278211, 29.90650776805874
+        
         self.createMap(self.defaultCoordinates)
         self.startLiveMap()
 

@@ -6,6 +6,8 @@ from templates.Ui_MainGUI import Ui_MainGUI
 from components.camera import Camera
 from components.gps import LiveMap
 from components.graphics import Graph
+from components.telemetry import Telemetry
+
 
 
 class TurksatMuy(QMainWindow, Ui_MainGUI):
@@ -21,7 +23,7 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
         self.button_max_min.clicked.connect(self.maximized_minimized)
         self.button_close.clicked.connect(self.closeWindow)
         self.button_minimize.clicked.connect(self.showMinimized)
-        self.startCameraButton.clicked.connect(self.startCamera)
+        #self.startCameraButton.clicked.connect(self.startCamera)
 
         # common operations
         self.cameraViewerLabel.hide()
@@ -30,6 +32,8 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
         self.CameraObject = Camera(self)
         self.GpsObject = LiveMap(self)
         self.GraphObject = Graph(self)
+        self.TelemetryObject = Telemetry()
+
 
     def maximized_minimized(self):
         if self.isMaximized():
@@ -75,10 +79,10 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
         elif box.clickedButton() == buttonN:
             return False
 
-    def startCamera(self):
-        self.CameraObject.startVideo()
+    #def startCamera(self):
+        #self.CameraObject.startVideo()
 
-        self.cameraViewerLabel.show()
+        #self.cameraViewerLabel.show()
 
 
 if __name__ == "__main__":
