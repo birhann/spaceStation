@@ -155,7 +155,7 @@ class Graph():
             axis="bottom", text="Time (sec)")
 
     def createPlotWidgets(self):
-        self.pen = pg.mkPen(color=(255, 255, 255))
+        self.pen = pg.mkPen(color=(255, 255, 244))
 
         # TEMPERATURE
         self.temperatureGW = self.interface.temperatureGraph

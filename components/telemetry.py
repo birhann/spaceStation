@@ -7,7 +7,7 @@ import re
 import websocket
 
 
-TelemetryData =[]
+
 
 class Worker(QThread):
     receivedtel = pyqtSignal(object)
@@ -16,7 +16,7 @@ class Worker(QThread):
 
     def run(self):
         ws = websocket.WebSocket()
-        ws.connect("ws://192.168.245.106")
+        ws.connect("ws://192.168.27.106")
         print("Connected to WebSocket server")
         while True:
             if self.workerStatus:
@@ -86,9 +86,9 @@ class Telemetry():
         print("telemetry is over..")
 
     def setTelemetry(self, tele):
-        global TelemetryData
+        #global TelemetryData
         TelemetryData = tele
-        #print(TelemetryData)
+        print(TelemetryData)
 
 
 if __name__ == '__main__':
@@ -96,3 +96,4 @@ if __name__ == '__main__':
     w = Telemetry()
     #w.show()
     sys.exit(app.exec_())
+    
