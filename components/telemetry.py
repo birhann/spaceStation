@@ -7,8 +7,6 @@ import re
 import websocket
 
 
-
-
 class Worker(QThread):
     receivedtel = pyqtSignal(object)
     workerStatus = True
@@ -16,43 +14,22 @@ class Worker(QThread):
 
     def run(self):
         ws = websocket.WebSocket()
-        ws.connect("ws://192.168.27.106")
+        ws.connect("ws://192.168.196.106")
         print("Connected to WebSocket server")
         while True:
             if self.workerStatus:
-
                 ws.send("Python")
-                #time.sleep(20);
-
                 result = ws.recv()
-                #print(result)
-                #if(result.find(">") == 0):
-                #    print("Received: " + result)
                 if(result != "" and result != "Python"):
-                    #print("Received: " + results)
-                    #result = "<62319>,<2>,<00:00:00>,<0.00>,<0.0>,<0.000000>,<0>,<0.91>,<0.000000>,<0.000000>,<0.0>,<BEKLEMEDE>,<0>,<0>,<0>,<DONUS>,<VIDEO>,<0>"
                     telemetrys = re.split(",", result)
 
-                    with open('yeni.csv', mode='w') as yeni_dosya:
-                        yeni_yazici = csv.writer(yeni_dosya, delimiter=',',
-                                                 quotechar='"', quoting=csv.QUOTE_MINIMAL)
-
-                        yeni_yazici.writerow(telemetrys)
-
-                    for i in range(18):
-                        birinci = re.split("<", telemetrys[i])
-                        telemetrys.remove(telemetrys[i])
-                        telemetrys.insert(i, birinci[1])
-
-                        ikinci = re.split(">", telemetrys[i])
-                        telemetrys.remove(telemetrys[i])
-                        telemetrys.insert(i, ikinci[0])
-
-                    #print(telemetrys)
-
+                    with open('telemetry.csv', mode='w') as file:
+                        writer = csv.writer(file, delimiter=',',
+                                            quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                        writer.writerow(telemetrys)
+                    telemetrys = [i[1:-1] for i in telemetrys]
                     self.receivedtel.emit(telemetrys)
-                self.counter += 1
-                time.sleep(1)
+                # time.sleep(1)
             else:
                 break
         ws.close()
@@ -94,6 +71,5 @@ class Telemetry():
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     w = Telemetry()
-    #w.show()
+    # w.show()
     sys.exit(app.exec_())
-    
