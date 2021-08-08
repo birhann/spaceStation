@@ -1,9 +1,9 @@
 from random import uniform
 appConfig = {
     "GRAPHIC_SIMULATION": True,
-    "GPS_SIMULATION": True,
-    "CAMERA_SIMULATION": True,
-    "GYRO_SIMULATION": True
+    "GPS_SIMULATION": False,
+    "CAMERA_SIMULATION": False,
+    "GYRO_SIMULATION": False
 }
 
 graphAxisRanges = {

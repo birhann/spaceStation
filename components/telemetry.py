@@ -8,13 +8,13 @@ import websocket
 
 
 class Worker(QThread):
-    receivedtel = pyqtSignal(object)
+    receivedtel = pyqtSignal(list)
     workerStatus = True
     counter = 0
 
     def run(self):
         ws = websocket.WebSocket()
-        ws.connect("ws://192.168.196.106")
+        ws.connect("ws://192.168.242.250")
         print("Connected to WebSocket server")
         while True:
             if self.workerStatus:
@@ -22,26 +22,26 @@ class Worker(QThread):
                 result = ws.recv()
                 if(result != "" and result != "Python"):
                     telemetrys = re.split(",", result)
-
-                    with open('telemetry.csv', mode='w') as file:
-                        writer = csv.writer(file, delimiter=',',
-                                            quotechar='"', quoting=csv.QUOTE_MINIMAL)
-                        writer.writerow(telemetrys)
-                    telemetrys = [i[1:-1] for i in telemetrys]
+                    telemetrys[-1] = telemetrys[-1][0:-2]
+                    # with open('telemetry.csv', mode='w') as file:
+                    #     writer = csv.writer(file, delimiter=',',
+                    #                         quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                    #     writer.writerow(telemetrys)
+                    telemetrys = [i[1:-1]for i in telemetrys]
+                    print(telemetrys)
                     self.receivedtel.emit(telemetrys)
-                # time.sleep(1)
             else:
                 break
         ws.close()
 
 
-class Telemetry():
+class TelemetryObject():
     def __init__(self):
         super().__init__()
         #self.interface = GUI
+        self.telemetryData = {}
         self.telStatus = False
         self.counter = 0
-
         self.startTelemetry()
 
     def startTelemetry(self):
@@ -62,14 +62,31 @@ class Telemetry():
     def setLastInfos(self):
         print("telemetry is over..")
 
-    def setTelemetry(self, tele):
-        #global TelemetryData
-        TelemetryData = tele
-        print(TelemetryData)
+    def setTelemetry(self, telemetrys):
+        self.telemetryData = {
+            'teamNumber': telemetrys[0],
+            'packageNo': telemetrys[1],
+            'sendingTime': telemetrys[2],
+            'pressure': telemetrys[3],
+            'height': telemetrys[4],
+            'descentRate': telemetrys[5],
+            'temperature': telemetrys[6],
+            'voltage': telemetrys[7],
+            'latitude': telemetrys[8],
+            'longitude': telemetrys[9],
+            'altitude': telemetrys[10],
+            'satelliteStatus': telemetrys[11],
+            'pitch': telemetrys[12],
+            'roll': telemetrys[13],
+            'yaw': telemetrys[14],
+            'rollingCount': telemetrys[15],
+            'transferringStatus': telemetrys[16]
+        }
+        print(self.telemetryData)
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    w = Telemetry()
+    w = TelemetryObject()
     # w.show()
     sys.exit(app.exec_())

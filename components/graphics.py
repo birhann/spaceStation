@@ -1,3 +1,4 @@
+from http.client import PRECONDITION_FAILED
 import sys
 from typing import Text
 from PyQt5 import QtCore
@@ -14,6 +15,7 @@ from pyqtgraph.Qt import PYQT4
 from config import appConfig, graphAxisRanges, simulationConf
 from pyqtgraph.metaarray.MetaArray import axis
 pg.setConfigOption('background', None)
+
 
 class SimulationWorker(QThread):
     updateTemperatureGraph = pyqtSignal(list, list, object)
@@ -112,8 +114,9 @@ class SimulationWorker(QThread):
 
 
 class Graph():
-    def __init__(self, GUI):
+    def __init__(self, GUI, TELEMETRY):
         self.interface = GUI
+        self.telemetryObject = TELEMETRY
         self.SEC_AXIS_RANGE = graphAxisRanges["SEC_AXIS_RANGE"]
 
         self.createGraphics()
@@ -260,6 +263,7 @@ class Graph():
 
     def updateTemperature(self, x, y, lastX):
         self.temperatureDataLine.setData(x, y)
+        # print(self.telemetryObject.telemetryData)
         self.temperatureGW.setXRange(
             lastX - self.SEC_AXIS_RANGE, lastX)
         self.interface.temperatureLabel.setText(str(y[-1]) + " °C")

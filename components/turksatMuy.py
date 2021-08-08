@@ -6,7 +6,7 @@ from templates.Ui_MainGUI import Ui_MainGUI
 from components.camera import Camera
 from components.gps import LiveMap
 from components.graphics import Graph
-from components.telemetry import Telemetry
+from components.telemetry import TelemetryObject
 
 
 class TurksatMuy(QMainWindow, Ui_MainGUI):
@@ -28,10 +28,10 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
         self.cameraViewerLabel.hide()
 
         # objects
-        self.TelemetryObject = Telemetry()
+        self.TelemetryObject = TelemetryObject()
         self.CameraObject = Camera(self)
         self.GpsObject = LiveMap(self)
-        self.GraphObject = Graph(self)
+        self.GraphObject = Graph(self, self.TelemetryObject)
 
     def maximized_minimized(self):
         if self.isMaximized():
