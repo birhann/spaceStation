@@ -677,67 +677,67 @@ class Ui_MainGUI(object):
         self.label_18.setObjectName("label_18")
         self.gridLayout.addWidget(
             self.label_18, 1, 0, 1, 1, QtCore.Qt.AlignRight)
-        self.lineEdit_14 = QtWidgets.QLineEdit(self.operationsFrame)
-        self.lineEdit_14.setMinimumSize(QtCore.QSize(0, 27))
-        self.lineEdit_14.setMaximumSize(QtCore.QSize(16777215, 27))
-        self.lineEdit_14.setStyleSheet("QLineEdit{\n"
-                                       "font-size:16px;\n"
-                                       "font-family:Yu Gothic UI;\n"
-                                       "border-bottom:none;\n"
-                                       "margin:0px;\n"
-                                       "padding-left:2px;\n"
-                                       "padding-right:2px;\n"
-                                       "background-color: rgba(220, 220, 220,0.1);\n"
-                                       "border-radius:3px;\n"
-                                       "}\n"
-                                       "QLineEdit:hover{\n"
-                                       "background:transparent;;\n"
-                                       "border-radius:0px;\n"
-                                       "border:none;\n"
-                                       "background-color: rgba(220, 220, 220,0.16);\n"
-                                       "}")
-        self.lineEdit_14.setObjectName("lineEdit_14")
-        self.gridLayout.addWidget(self.lineEdit_14, 1, 1, 1, 2)
-        self.pushButton_6 = QtWidgets.QPushButton(self.operationsFrame)
-        self.pushButton_6.setMinimumSize(QtCore.QSize(30, 25))
-        self.pushButton_6.setMaximumSize(QtCore.QSize(30, 29))
-        self.pushButton_6.setCursor(
+        self.fileNameLineEdit = QtWidgets.QLineEdit(self.operationsFrame)
+        self.fileNameLineEdit.setMinimumSize(QtCore.QSize(0, 27))
+        self.fileNameLineEdit.setMaximumSize(QtCore.QSize(16777215, 27))
+        self.fileNameLineEdit.setStyleSheet("QLineEdit{\n"
+                                            "font-size:16px;\n"
+                                            "font-family:Yu Gothic UI;\n"
+                                            "border-bottom:none;\n"
+                                            "margin:0px;\n"
+                                            "padding-left:2px;\n"
+                                            "padding-right:2px;\n"
+                                            "background-color: rgba(220, 220, 220,0.1);\n"
+                                            "border-radius:3px;\n"
+                                            "}\n"
+                                            "QLineEdit:hover{\n"
+                                            "background:transparent;;\n"
+                                            "border-radius:0px;\n"
+                                            "border:none;\n"
+                                            "background-color: rgba(220, 220, 220,0.16);\n"
+                                            "}")
+        self.fileNameLineEdit.setObjectName("fileNameLineEdit")
+        self.gridLayout.addWidget(self.fileNameLineEdit, 1, 1, 1, 2)
+        self.chooseFileButton = QtWidgets.QPushButton(self.operationsFrame)
+        self.chooseFileButton.setMinimumSize(QtCore.QSize(30, 25))
+        self.chooseFileButton.setMaximumSize(QtCore.QSize(30, 29))
+        self.chooseFileButton.setCursor(
             QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.pushButton_6.setStyleSheet("QPushButton{\n"
-                                        "border-radius:3px;\n"
-                                        "font-size:18px;\n"
-                                        "padding:0px;\n"
-                                        "border-radius:1px;\n"
-                                        "background-color: rgba(220, 220, 220,0.1);\n"
-                                        "margin:0px;\n"
-                                        "margin-left:0px\n"
-                                        "}\n"
-                                        "\n"
-                                        "QPushButton:hover{\n"
-                                        "\n"
-                                        "background-color: rgba(220, 220, 220,0.16);\n"
-                                        "}")
-        self.pushButton_6.setObjectName("pushButton_6")
-        self.gridLayout.addWidget(self.pushButton_6, 1, 3, 1, 1)
-        self.pushButton_5 = QtWidgets.QPushButton(self.operationsFrame)
-        self.pushButton_5.setMinimumSize(QtCore.QSize(114, 25))
-        self.pushButton_5.setMaximumSize(QtCore.QSize(1000, 35))
-        self.pushButton_5.setCursor(
+        self.chooseFileButton.setStyleSheet("QPushButton{\n"
+                                            "border-radius:3px;\n"
+                                            "font-size:18px;\n"
+                                            "padding:0px;\n"
+                                            "border-radius:1px;\n"
+                                            "background-color: rgba(220, 220, 220,0.1);\n"
+                                            "margin:0px;\n"
+                                            "margin-left:0px\n"
+                                            "}\n"
+                                            "\n"
+                                            "QPushButton:hover{\n"
+                                            "\n"
+                                            "background-color: rgba(220, 220, 220,0.16);\n"
+                                            "}")
+        self.chooseFileButton.setObjectName("chooseFileButton")
+        self.gridLayout.addWidget(self.chooseFileButton, 1, 3, 1, 1)
+        self.sentDataButton = QtWidgets.QPushButton(self.operationsFrame)
+        self.sentDataButton.setMinimumSize(QtCore.QSize(114, 25))
+        self.sentDataButton.setMaximumSize(QtCore.QSize(1000, 35))
+        self.sentDataButton.setCursor(
             QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.pushButton_5.setStyleSheet("QPushButton{\n"
-                                        "border-radius:3px;\n"
-                                        "font-size:18px;\n"
-                                        "border-radius:4px;\n"
-                                        "padding:0px;\n"
-                                        "\n"
-                                        "}\n"
-                                        "\n"
-                                        "\n"
-                                        "QPushButton:hover{\n"
-                                        "background-color: #4363d8;\n"
-                                        "}")
-        self.pushButton_5.setObjectName("pushButton_5")
-        self.gridLayout.addWidget(self.pushButton_5, 1, 4, 1, 1)
+        self.sentDataButton.setStyleSheet("QPushButton{\n"
+                                          "border-radius:3px;\n"
+                                          "font-size:18px;\n"
+                                          "border-radius:4px;\n"
+                                          "padding:0px;\n"
+                                          "\n"
+                                          "}\n"
+                                          "\n"
+                                          "\n"
+                                          "QPushButton:hover{\n"
+                                          "background-color: #4363d8;\n"
+                                          "}")
+        self.sentDataButton.setObjectName("sentDataButton")
+        self.gridLayout.addWidget(self.sentDataButton, 1, 4, 1, 1)
         spacerItem = QtWidgets.QSpacerItem(
             40, 8, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem, 2, 0, 1, 5)
@@ -1005,9 +1005,10 @@ class Ui_MainGUI(object):
         self.label_28.setText(_translate("MainGUI", "Altitude:"))
         self.label_16.setText(_translate("MainGUI", "Pitch:"))
         self.label_18.setText(_translate("MainGUI", "Data Transfer:"))
-        self.lineEdit_14.setText(_translate("MainGUI", "some_cool_data.xml"))
-        self.pushButton_6.setText(_translate("MainGUI", ".."))
-        self.pushButton_5.setText(_translate("MainGUI", "Sent"))
+        self.fileNameLineEdit.setText(
+            _translate("MainGUI", "some_cool_data.xml"))
+        self.chooseFileButton.setText(_translate("MainGUI", ".."))
+        self.sentDataButton.setText(_translate("MainGUI", "Sent"))
         self.pushButton_3.setText(_translate("MainGUI", "Download CSV File"))
         self.plainTextEdit.setPlainText(_translate("MainGUI", "Connection: The port has been connected.\n"
                                                    "Telemetry: Sensor initial configurations began.\n"

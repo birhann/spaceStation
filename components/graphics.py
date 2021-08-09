@@ -1,4 +1,5 @@
 from http.client import PRECONDITION_FAILED
+from os import pardir
 import sys
 from typing import Text
 from PyQt5 import QtCore
@@ -113,6 +114,57 @@ class SimulationWorker(QThread):
             self.rollingCountGraphX, self.rollingCountGraphY, self.rollingCountGraphlastX)
 
 
+class TelemetryWorker(QThread):
+    updateTemperatureGraph = pyqtSignal(list, list, object)
+    updateHeightGraph = pyqtSignal(list, list, object)
+    updateVoltageGraph = pyqtSignal(list, list, object)
+    updatePressureGraph = pyqtSignal(list, list, object)
+    updateDescentRateGraph = pyqtSignal(list, list, object)
+    updateRollingCountGraph = pyqtSignal(list, list, object)
+    simulationWorkerStatus = True
+    telemetryObject = None
+    counter = 0
+
+    def run(self):
+        self.createAxises()
+        while self.counter < simulationConf["PROC_TIME"]:
+            self.counter += 1
+            self.temperatureGraph()
+            time.sleep(simulationConf["INTERVAL"])
+
+    def createAxises(self):
+        temperatureGraphX = None
+        temperatureGraphY = None
+
+        heightGraphX = None
+        heightGraphY = None
+
+        voltageGraphX = None
+        voltageGraphY = None
+
+        pressureGraphX = None
+        pressureGraphY = None
+
+        descentRateGraphX = None
+        descentRateGraphY = None
+
+        rollingCountGraphX = None
+        rollingCountGraphY = None
+
+    def temperatureGraph(self):
+        self.temperatureGraphlastX = self.temperatureGraphX[-1] + 1
+        self.temperatureGraphX.append(self.temperatureGraphlastX)
+        print(self.telemetryObject.telemetryData)
+        try:
+            self.temperatureGraphY.append(1
+                                          # self.telemetryObject.telemetryData["temperature"]
+                                          )
+        except:
+            pass
+        self.updateTemperatureGraph.emit(
+            self.temperatureGraphX, self.temperatureGraphY, self.temperatureGraphlastX)
+
+
 class Graph():
     def __init__(self, GUI, TELEMETRY):
         self.interface = GUI
@@ -223,6 +275,7 @@ class Graph():
     def startGraphicWithThreads(self):
         if appConfig["GRAPHIC_SIMULATION"]:
             self.mapStatus = True
+            print("Graph Simulation active!")
 
             self.thread = SimulationWorker()
             self.thread.daemon = True
@@ -259,15 +312,23 @@ class Graph():
 
             self.thread.start()
         else:
-            print("graphics simulation is deactive")
+            print("Telemetry Graph active!")
+            self.thread = TelemetryWorker()
+            self.thread.daemon = True
+            self.thread.telemetryObject = self.telemetryObject
+            # temperature
+            self.thread.temperatureGraphX, self.thread.temperatureGraphY = self.temperatureX, self.temperatureY
+            self.thread.updateTemperatureGraph.connect(
+                self.updateTemperature)
+
+            self.thread.start()
 
     def updateTemperature(self, x, y, lastX):
         self.temperatureDataLine.setData(x, y)
-        # print(self.telemetryObject.telemetryData)
         self.temperatureGW.setXRange(
             lastX - self.SEC_AXIS_RANGE, lastX)
+        print(x, y)
         self.interface.temperatureLabel.setText(str(y[-1]) + " °C")
-        # self.temperatureGW.setYRange(self.y[-5], self.y[-1])
 
     def updateHeight(self, x, y, lastX):
         self.heightDataLine.setData(x, y)

@@ -1581,7 +1581,7 @@ background-color:none;
               </widget>
              </item>
              <item row="1" column="1" colspan="2">
-              <widget class="QLineEdit" name="lineEdit_14">
+              <widget class="QLineEdit" name="fileNameLineEdit">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -1618,7 +1618,7 @@ background-color: rgba(220, 220, 220,0.16);
               </widget>
              </item>
              <item row="1" column="3">
-              <widget class="QPushButton" name="pushButton_6">
+              <widget class="QPushButton" name="chooseFileButton">
                <property name="minimumSize">
                 <size>
                  <width>30</width>
@@ -1656,7 +1656,7 @@ background-color: rgba(220, 220, 220,0.16);
               </widget>
              </item>
              <item row="1" column="4">
-              <widget class="QPushButton" name="pushButton_5">
+              <widget class="QPushButton" name="sentDataButton">
                <property name="minimumSize">
                 <size>
                  <width>114</width>

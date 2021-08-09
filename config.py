@@ -1,6 +1,6 @@
 from random import uniform
 appConfig = {
-    "GRAPHIC_SIMULATION": True,
+    "GRAPHIC_SIMULATION": False,
     "GPS_SIMULATION": False,
     "CAMERA_SIMULATION": False,
     "GYRO_SIMULATION": False
