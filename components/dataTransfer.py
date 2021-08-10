@@ -44,14 +44,14 @@ class SendingVideo():
         if self.isFileSelected:
             if self.file.isEmpty():
                 session = ftplib.FTP(
-                    'ftp.birhankarahasan.com', 'usernameHere', 'passwordHere')
+                    '192.168.137.178', 'esp32', 'esp32')
                 file = open("{}".format(self.oldFilePath), 'rb')
                 session.storbinary('STOR {}'.format(self.fileName), file)
                 file.close()
                 session.quit()
             else:
                 session = ftplib.FTP(
-                    'ftp.birhankarahasan.com', 'usernameHere', 'passwordHere')
+                    '192.168.137.178', 'esp32', 'esp32')
                 file = open("{}".format(self.filePath), 'rb')
                 session.storbinary('STOR {}'.format(self.fileName), file)
                 file.close()

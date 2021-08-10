@@ -1,5 +1,7 @@
 from random import uniform
 appConfig = {
+    "ESP_IP": None,
+    "GROUND_STATION_IP": None,
     "GRAPHIC_SIMULATION": False,
     "GPS_SIMULATION": False,
     "CAMERA_SIMULATION": False,
@@ -35,7 +37,7 @@ graphAxisRanges = {
 }
 
 simulationConf = {
-    "PROC_TIME": 600,
+    "PROC_TIME": 1000000,
     "INTERVAL": 1
 }
 

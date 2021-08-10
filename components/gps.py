@@ -8,6 +8,7 @@ from PyQt5.QtCore import QThread, pyqtSignal
 import folium
 import time
 import random
+from config import simulationConf, appConfig
 
 
 class Worker(QThread):
@@ -25,11 +26,9 @@ class Worker(QThread):
         return x, y
 
     def run(self):
-        while self.counter < 55:
+        while self.counter < simulationConf["PROC_TIME"]:
             if self.workerStatus:
                 x, y = self.getCoordinates()
-                #print(x, y)
-
                 self.updateMap.emit(x, y)
                 self.counter += 1
                 time.sleep(1)
@@ -37,10 +36,38 @@ class Worker(QThread):
                 break
 
 
+class TelemetryWorker(QThread):
+    updateMap = pyqtSignal(object, object, object)
+    workerStatus = True
+    telemetryObject = None
+    counter = 0
+
+    def getCoordinates(self):
+        if bool(self.telemetryObject.telemetryData):
+            x = self.telemetryObject.telemetryData["latitude"]
+            y = self.telemetryObject.telemetryData[
+                'longitude']
+            z = self.telemetryObject.telemetryData['altitude']
+        else:
+            x, y, z = 0, 0, 0
+        return x, y, z
+
+    def run(self):
+        while self.counter < simulationConf["PROC_TIME"]:
+            if self.workerStatus:
+                x, y, z = self.getCoordinates()
+                self.updateMap.emit(x, y, z)
+                self.counter += 1
+                time.sleep(1)
+            else:
+                break
+
+
 class LiveMap(QWidget):
-    def __init__(self, GUI):
+    def __init__(self, GUI, TELEMETRY):
         super().__init__()
         self.interface = GUI
+        self.telemetryObject = TELEMETRY
         self.mapStatus = False
         self.counter = 0
         self.defaultCoordinates = 40.76358185278211, 29.90650776805874
@@ -49,11 +76,15 @@ class LiveMap(QWidget):
         self.startLiveMap()
 
     def createMap(self, coordinates):
+        if appConfig["GPS_SIMULATION"]:
+            locationValue = (coordinates[0], coordinates[1])
+        else:
+            locationValue = (0, 0)
         mapObject = folium.Map(
             tiles='CartoDB dark_matter',
             zoom_start=14,
             max_bounds=True,
-            location=(coordinates[0], coordinates[1]),
+            location=locationValue
         )
         data = io.BytesIO()
         mapObject.save(data, close_file=False)
@@ -66,13 +97,22 @@ class LiveMap(QWidget):
         if not self.mapStatus:
             self.mapStatus = True
             try:
-                self.thread = Worker()
-                self.thread.daemon = True
-                self.thread.updateMap.connect(self.setCoordinate)
-                self.thread.finished.connect(self.setLastInfos)
-                self.thread.start()
+                if appConfig["GPS_SIMULATION"]:
+                    self.thread = Worker()
+                    self.thread.daemon = True
+                    self.thread.updateMap.connect(self.setCoordinate)
+                    self.thread.finished.connect(self.setLastInfos)
+                    self.thread.start()
+                else:
+                    self.thread = TelemetryWorker()
+                    self.thread.daemon = True
+                    self.thread.telemetryObject = self.telemetryObject
+                    self.thread.updateMap.connect(self.setGpsCoordinate)
+                    self.thread.finished.connect(self.setLastInfos)
+                    self.thread.start()
             except:
                 print("LIVE MAP ERROR:", Exception)
+
         else:
             self.mapStatus = False
             self.thread.workerStatus = False
@@ -118,20 +158,41 @@ class LiveMap(QWidget):
             location=(x, y),
         )
 
-        folium.Marker(
-            [38.76226363276871, 33.661376158029405], popup="<i>Ground Station</i>", icon=folium.Icon(color='red', icon='laptop', prefix='fa', icon_color='#FFFFFF')).add_to(mapObject)
+        # folium.Marker(
+        #     [38.76226363276871, 33.661376158029405], popup="<i>Ground Station</i>", icon=folium.Icon(color='red', icon='laptop', prefix='fa', icon_color='#FFFFFF')).add_to(mapObject)
 
-        folium.CircleMarker(
-            location=[38.76226363276871, 33.661376158029405],
-            radius=150,
-            popup='Flight Area',
-            color='#428bca',
-            fill=True,
-            fill_color='#428bca'
-        ).add_to(mapObject)
+        # folium.CircleMarker(
+        #     location=[38.76226363276871, 33.661376158029405],
+        #     radius=150,
+        #     popup='Flight Area',
+        #     color='#428bca',
+        #     fill=True,
+        #     fill_color='#428bca'
+        # ).add_to(mapObject)
 
         self.interface.longitudeLabel.setText(str(x))
         self.interface.latitudeLabel.setText(str(y))
+        folium.Marker(
+            [x, y], popup="<i>Satellite</i>", icon=folium.Icon(icon='wifi', prefix='fa')).add_to(mapObject)
+
+        data = io.BytesIO()
+        mapObject.save(data, close_file=False)
+
+        self.webView.setHtml(data.getvalue().decode())
+
+    def setGpsCoordinate(self, x, y, z):
+        mapObject = folium.Map(
+            tiles='cartodbdark_matter',
+            zoom_start=14,
+            max_bounds=True,
+            # zoom_control=False,
+            scrollWheelZoom=False,
+            # dragging=False,
+            location=(x, y),
+        )
+        self.interface.longitudeLabel.setText(str(x))
+        self.interface.latitudeLabel.setText(str(y))
+        self.interface.altitudeLabel.setText(str(z))
         folium.Marker(
             [x, y], popup="<i>Satellite</i>", icon=folium.Icon(icon='wifi', prefix='fa')).add_to(mapObject)
 

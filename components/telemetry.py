@@ -8,14 +8,18 @@ import websocket
 
 
 class Worker(QThread):
-    receivedtel = pyqtSignal(list)
+    receivedtel = pyqtSignal(list, object)
+    webSocketCon = False
     workerStatus = True
     counter = 0
+    webSocketCon = None
 
     def run(self):
         ws = websocket.WebSocket()
         ws.connect("ws://192.168.242.250")
         print("Connected to WebSocket server")
+        self.webSocketCon = True
+
         while True:
             if self.workerStatus:
                 ws.send("Python")
@@ -23,13 +27,8 @@ class Worker(QThread):
                 if(result != "" and result != "Python"):
                     telemetrys = re.split(",", result)
                     telemetrys[-1] = telemetrys[-1][0:-2]
-                    # with open('telemetry.csv', mode='w') as file:
-                    #     writer = csv.writer(file, delimiter=',',
-                    #                         quotechar='"', quoting=csv.QUOTE_MINIMAL)
-                    #     writer.writerow(telemetrys)
                     telemetrys = [i[1:-1]for i in telemetrys]
-                    print(telemetrys)
-                    self.receivedtel.emit(telemetrys)
+                    self.receivedtel.emit(telemetrys, self.webSocketCon)
             else:
                 break
         ws.close()
@@ -43,6 +42,7 @@ class TelemetryObject():
         self.telStatus = False
         self.counter = 0
         self.startTelemetry()
+        self.webSocketCon = False
 
     def startTelemetry(self):
         if not self.telStatus:
@@ -62,7 +62,8 @@ class TelemetryObject():
     def setLastInfos(self):
         print("telemetry is over..")
 
-    def setTelemetry(self, telemetrys):
+    def setTelemetry(self, telemetrys, webSocketCon):
+        self.webSocketCon = webSocketCon
         self.telemetryData = {
             'teamNumber': telemetrys[0],
             'packageNo': telemetrys[1],
@@ -82,7 +83,7 @@ class TelemetryObject():
             'rollingCount': telemetrys[15],
             'transferringStatus': telemetrys[16]
         }
-        print(self.telemetryData)
+        # print(self.telemetryData)
 
 
 if __name__ == '__main__':

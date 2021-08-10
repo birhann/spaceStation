@@ -130,6 +130,11 @@ class TelemetryWorker(QThread):
         while self.counter < simulationConf["PROC_TIME"]:
             self.counter += 1
             self.temperatureGraph()
+            self.pressureGraph()
+            self.voltageGraph()
+            self.heightGraph()
+            self.descentRateGraph()
+            self.rollingCountGraph()
             time.sleep(simulationConf["INTERVAL"])
 
     def createAxises(self):
@@ -154,15 +159,69 @@ class TelemetryWorker(QThread):
     def temperatureGraph(self):
         self.temperatureGraphlastX = self.temperatureGraphX[-1] + 1
         self.temperatureGraphX.append(self.temperatureGraphlastX)
-        print(self.telemetryObject.telemetryData)
-        try:
-            self.temperatureGraphY.append(1
-                                          # self.telemetryObject.telemetryData["temperature"]
-                                          )
-        except:
-            pass
+        if self.telemetryObject.webSocketCon:
+            self.temperatureGraphY.append(float(
+                self.telemetryObject.telemetryData["temperature"]))
+        else:
+            self.temperatureGraphY.append(0)
         self.updateTemperatureGraph.emit(
             self.temperatureGraphX, self.temperatureGraphY, self.temperatureGraphlastX)
+
+    def pressureGraph(self):
+        self.pressureGraphlastX = self.pressureGraphX[-1] + 1
+        self.pressureGraphX.append(self.pressureGraphlastX)
+        if self.telemetryObject.webSocketCon:
+            self.pressureGraphY.append(float(
+                self.telemetryObject.telemetryData["pressure"]))
+        else:
+            self.pressureGraphY.append(0)
+        self.updatePressureGraph.emit(
+            self.pressureGraphX, self.pressureGraphY, self.pressureGraphlastX)
+
+    def voltageGraph(self):
+        self.voltageGraphlastX = self.voltageGraphX[-1] + 1
+        self.voltageGraphX.append(self.voltageGraphlastX)
+        if self.telemetryObject.webSocketCon:
+            self.voltageGraphY.append(float(
+                self.telemetryObject.telemetryData["voltage"]))
+        else:
+            self.voltageGraphY.append(0)
+        self.updateVoltageGraph.emit(
+            self.voltageGraphX, self.voltageGraphY, self.voltageGraphlastX)
+
+    def heightGraph(self):
+        self.heightGraphlastX = self.heightGraphX[-1] + 1
+        self.heightGraphX.append(self.heightGraphlastX)
+        if self.telemetryObject.webSocketCon:
+            self.heightGraphY.append(
+                float(self.telemetryObject.telemetryData["height"]))
+        else:
+            self.heightGraphY.append(0)
+        self.updateHeightGraph.emit(
+            self.heightGraphX, self.heightGraphY, self.heightGraphlastX)
+
+    def descentRateGraph(self):
+        self.descentRateGraphlastX = self.descentRateGraphX[-1] + 1
+        self.descentRateGraphX.append(self.descentRateGraphlastX)
+        if self.telemetryObject.webSocketCon:
+            self.descentRateGraphY.append(
+                float(self.telemetryObject.telemetryData["descentRate"]))
+        else:
+            self.descentRateGraphY.append(0)
+        self.updateDescentRateGraph.emit(
+            self.descentRateGraphX, self.descentRateGraphY, self.descentRateGraphlastX)
+
+    def rollingCountGraph(self):
+        self.rollingCountGraphlastX = self.rollingCountGraphX[-1] + 1
+        self.rollingCountGraphX.append(self.rollingCountGraphlastX)
+        if self.telemetryObject.webSocketCon:
+            # self.rollingCountGraphY.append(
+            #     float(self.telemetryObject.telemetryData["rollingCount"]))
+            self.rollingCountGraphY.append(0)
+        else:
+            self.rollingCountGraphY.append(0)
+        self.updateRollingCountGraph.emit(
+            self.rollingCountGraphX, self.rollingCountGraphY, self.rollingCountGraphlastX)
 
 
 class Graph():
@@ -170,7 +229,6 @@ class Graph():
         self.interface = GUI
         self.telemetryObject = TELEMETRY
         self.SEC_AXIS_RANGE = graphAxisRanges["SEC_AXIS_RANGE"]
-
         self.createGraphics()
         self.startGraphicWithThreads()
 
@@ -218,6 +276,7 @@ class Graph():
         self.temperatureY = [
             randint(graphAxisRanges["TEMPERATURE"]["MIN"],
                     graphAxisRanges["TEMPERATURE"]["MAX"]) for _ in range(2)]
+        # self.temperatureY = [0, 0]
         self.temperatureDataLine = self.temperatureGW.plot(
             self.temperatureX, self.temperatureY, pen=self.pen)
         self.temperatureGW.setXRange(0, self.SEC_AXIS_RANGE)
@@ -228,6 +287,7 @@ class Graph():
         self.heightY = [
             randint(graphAxisRanges["HEIGHT"]["MIN"],
                     graphAxisRanges["HEIGHT"]["MAX"]) for _ in range(2)]
+        # self.heightY = [0, 0]
         self.heightDataLine = self.heightGW.plot(
             self.heightX, self.heightY, pen=self.pen)
         self.heightGW.setXRange(0, self.SEC_AXIS_RANGE)
@@ -238,6 +298,7 @@ class Graph():
         self.voltageY = [round(uniform(
             graphAxisRanges["VOLTAGE"]["MIN"],
             graphAxisRanges["VOLTAGE"]["MAX"]), 5) for _ in range(2)]
+        # self.voltageY = [0, 0]
         self.voltageDataLine = self.voltageGW.plot(
             self.voltageX, self.voltageY, pen=self.pen)
         self.voltageGW.setXRange(0, self.SEC_AXIS_RANGE)
@@ -248,6 +309,7 @@ class Graph():
         self.pressureY = [round(uniform(
             graphAxisRanges["PRESSURE"]["MIN"],
             graphAxisRanges["PRESSURE"]["MAX"]), 2) for _ in range(2)]
+        # self.pressureY = [0, 0]
         self.pressureDataLine = self.pressureGW.plot(
             self.pressureX, self.pressureY, pen=self.pen)
         self.pressureGW.setXRange(0, self.SEC_AXIS_RANGE)
@@ -258,6 +320,7 @@ class Graph():
         self.descentRateY = [round(uniform(
             graphAxisRanges["DESCENT_RATE"]["MIN"],
             graphAxisRanges["DESCENT_RATE"]["MAX"]), 2) for _ in range(2)]
+        # self.descentRateY = [0, 0]
         self.descentRateDataLine = self.descentRateGW.plot(
             self.descentRateX, self.descentRateY, pen=self.pen)
         self.descentRateGW.setXRange(0, self.SEC_AXIS_RANGE)
@@ -268,6 +331,7 @@ class Graph():
         self.rollingCountY = [round(uniform(
             graphAxisRanges["ROLLING_COUNT"]["MIN"],
             graphAxisRanges["ROLLING_COUNT"]["MAX"]), 2) for _ in range(2)]
+        # self.rollingCountY = [0, 0]
         self.rollingCountDataLine = self.rollingCountGW.plot(
             self.rollingCountX, self.rollingCountY, pen=self.pen)
         self.rollingCountGW.setXRange(0, self.SEC_AXIS_RANGE)
@@ -320,14 +384,32 @@ class Graph():
             self.thread.temperatureGraphX, self.thread.temperatureGraphY = self.temperatureX, self.temperatureY
             self.thread.updateTemperatureGraph.connect(
                 self.updateTemperature)
-
+            # voltage
+            self.thread.voltageGraphX, self.thread.voltageGraphY = self.voltageX, self.voltageY
+            self.thread.updateVoltageGraph.connect(
+                self.updateVoltage)
+            # pressure
+            self.thread.pressureGraphX, self.thread.pressureGraphY = self.pressureX, self.pressureY
+            self.thread.updatePressureGraph.connect(
+                self.updatePressure)
+            # height
+            self.thread.heightGraphX, self.thread.heightGraphY = self.heightX, self.heightY
+            self.thread.updateHeightGraph.connect(
+                self.updateHeight)
             self.thread.start()
+            # descent_rate
+            self.thread.descentRateGraphX, self.thread.descentRateGraphY = self.descentRateX, self.descentRateY
+            self.thread.updateDescentRateGraph.connect(
+                self.updateDescentRate)
+            # rolling_count
+            self.thread.rollingCountGraphX, self.thread.rollingCountGraphY = self.rollingCountX, self.rollingCountY
+            self.thread.updateRollingCountGraph.connect(
+                self.updateRollingCount)
 
     def updateTemperature(self, x, y, lastX):
         self.temperatureDataLine.setData(x, y)
         self.temperatureGW.setXRange(
             lastX - self.SEC_AXIS_RANGE, lastX)
-        print(x, y)
         self.interface.temperatureLabel.setText(str(y[-1]) + " °C")
 
     def updateHeight(self, x, y, lastX):
