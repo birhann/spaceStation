@@ -5,20 +5,51 @@ from PyQt5.QtWidgets import QWidget, QLabel, QApplication
 from PyQt5.QtCore import QThread, Qt, pyqtSignal, pyqtSlot
 from PyQt5.QtGui import QImage, QPixmap
 # from Ui_cameraViewer import Ui_Form
+import os
+import numpy as np
+import cv2
+import zipfile
 
 
-class Worker(QThread):
+class EspWorker(QThread):
     setView = pyqtSignal(QImage)
     workerStatus = True
 
     def run(self):
-        self.capture = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+        cap = cv2.VideoCapture("http://192.168.242.251:81/stream")
+
+        while True:
+            ret, frame = cap.read()
+            # cv2.imshow('frame', frame)
+            rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            # rgbImage = cv2.flip(rgbImage, 1)  # mirroring
+            h, w, ch = rgbImage.shape
+            bytesPerLine = ch * w
+            convertToQtFormat = QImage(
+                rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
+            image = convertToQtFormat.scaled(1280, 720, Qt.KeepAspectRatio)
+            self.setView.emit(image)
+            if cv2.waitKey(1) & 0xFF == 27:
+                break
+
+        # cap.release()
+        # cv2.destroyAllWindows()
+        # self.capture.release()
+
+
+class PcCameraWorker(QThread):
+    setView = pyqtSignal(QImage)
+    workerStatus = True
+
+    def run(self):
+        self.capture = cv2.VideoCapture(
+            "http://192.168.43.80:81/stream")
 
         while self.capture.isOpened():
             ret, frame = self.capture.read()
             if self.workerStatus:
                 rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                rgbImage = cv2.flip(rgbImage, 1)  # mirroring
+                # rgbImage = cv2.flip(rgbImage, 1)  # mirroring
                 h, w, ch = rgbImage.shape
                 bytesPerLine = ch * w
                 convertToQtFormat = QImage(
@@ -39,7 +70,7 @@ class Camera():
     def startVideo(self):
         if not self.cameraStatus:
             self.cameraStatus = 1
-            self.thread = Worker()
+            self.thread = PcCameraWorker()
             self.thread.daemon = True
             self.thread.setView.connect(self.setImage)
             self.thread.finished.connect(self.finishVideo)

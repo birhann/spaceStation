@@ -15,6 +15,7 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        self.telemetryConnection = False
         #  hiding title bar and setting position for window
         self.oldPos = self.pos()
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
@@ -24,17 +25,24 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
         self.button_close.clicked.connect(self.closeWindow)
         self.button_minimize.clicked.connect(self.showMinimized)
         self.startCameraButton.clicked.connect(self.startCamera)
+        self.telemetryConButton.clicked.connect(self.startTelemetryConnection)
 
         # common operations
         self.cameraViewerLabel.hide()
 
         # objects
-        self.TelemetryObject = TelemetryObject()
+        # self.TelemetryObject = TelemetryObject(self)
         self.CameraObject = Camera(self)
-        self.GpsObject = LiveMap(self, self.TelemetryObject)
-        self.GraphObject = Graph(self, self.TelemetryObject)
+        self.GpsObject = LiveMap(self, None)
+        self.GraphObject = Graph(self, None)
 
-        self.videoTransferObject = SendingVideo(self)
+        # self.videoTransferObject = SendingVideo(self)
+
+    def startTelemetryConnection(self):
+        if self.esp_ip_lineEdit.text() != "":
+            self.TelemetryObject = TelemetryObject(self)
+        else:
+            pass
 
     def maximized_minimized(self):
         if self.isMaximized():

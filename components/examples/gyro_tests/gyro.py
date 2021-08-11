@@ -5,7 +5,7 @@ from pygame.locals import *
 import serial
 
 #ser = serial.Serial('/dev/tty.usbserial', 38400, timeout=1)
-ser = serial.Serial('COM13', 38400, timeout=1)
+ser = serial.Serial('COM5', 38400, timeout=1)
 
 ax = ay = az = 0.0
 

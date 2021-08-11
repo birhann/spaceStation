@@ -565,12 +565,12 @@ margin-left:1px</string>
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/tm_marm99/ground-station-logo.png&quot; width=&quot;235&quot;  /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineEdit">
+            <widget class="QLineEdit" name="esp_ip_lineEdit">
              <property name="geometry">
               <rect>
-               <x>123</x>
+               <x>103</x>
                <y>154</y>
-               <width>121</width>
+               <width>141</width>
                <height>50</height>
               </rect>
              </property>
@@ -594,7 +594,7 @@ margin-left:1px</string>
              </property>
              <property name="font">
               <font>
-               <pointsize>12</pointsize>
+               <pointsize>10</pointsize>
               </font>
              </property>
              <property name="autoFillBackground">
@@ -604,7 +604,7 @@ margin-left:1px</string>
               <string notr="true"/>
              </property>
              <property name="text">
-              <string>2391</string>
+              <string/>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -613,9 +613,9 @@ margin-left:1px</string>
             <widget class="QLabel" name="label_3">
              <property name="geometry">
               <rect>
-               <x>11</x>
+               <x>5</x>
                <y>157</y>
-               <width>128</width>
+               <width>111</width>
                <height>50</height>
               </rect>
              </property>
@@ -639,7 +639,7 @@ margin-left:1px</string>
              </property>
              <property name="font">
               <font>
-               <pointsize>10</pointsize>
+               <pointsize>9</pointsize>
                <weight>50</weight>
                <italic>false</italic>
                <bold>false</bold>
@@ -653,15 +653,15 @@ margin-left:1px</string>
 color:rgb(206, 206, 206);</string>
              </property>
              <property name="text">
-              <string>ENTER PORT:</string>
+              <string>IP ADDRESS:</string>
              </property>
             </widget>
-            <widget class="QPushButton" name="pushButton_2">
+            <widget class="QPushButton" name="telemetryConButton">
              <property name="geometry">
               <rect>
-               <x>12</x>
+               <x>9</x>
                <y>197</y>
-               <width>121</width>
+               <width>241</width>
                <height>53</height>
               </rect>
              </property>
@@ -691,37 +691,6 @@ color:white;
              </property>
              <property name="text">
               <string>Connect</string>
-             </property>
-            </widget>
-            <widget class="QPushButton" name="pushButton">
-             <property name="geometry">
-              <rect>
-               <x>127</x>
-               <y>198</y>
-               <width>121</width>
-               <height>53</height>
-              </rect>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>10</pointsize>
-              </font>
-             </property>
-             <property name="cursor">
-              <cursorShape>PointingHandCursor</cursorShape>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QPushButton{
-background:rgb(255, 66, 69);
-color:#fff;
-}
-QPushButton:hover{
-border:none;
-background:#f32d31;
-}</string>
-             </property>
-             <property name="text">
-              <string>Disconnect</string>
              </property>
             </widget>
            </widget>

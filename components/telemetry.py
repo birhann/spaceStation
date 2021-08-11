@@ -5,62 +5,66 @@ import time
 import csv
 import re
 import websocket
+from config import appConfig
 
 
 class Worker(QThread):
     receivedtel = pyqtSignal(list, object)
+    connectionControl = pyqtSignal(object)
     webSocketCon = False
-    workerStatus = True
     counter = 0
-    webSocketCon = None
 
     def run(self):
         ws = websocket.WebSocket()
-        ws.connect("ws://192.168.242.250")
-        print("Connected to WebSocket server")
+        ws.connect("ws://{}".format(appConfig['ESP_IP']))
         self.webSocketCon = True
+        self.connectionControl.emit(self.webSocketCon)
 
         while True:
-            if self.workerStatus:
-                ws.send("Python")
-                result = ws.recv()
-                if(result != "" and result != "Python"):
-                    telemetrys = re.split(",", result)
-                    telemetrys[-1] = telemetrys[-1][0:-2]
-                    telemetrys = [i[1:-1]for i in telemetrys]
-                    self.receivedtel.emit(telemetrys, self.webSocketCon)
-            else:
-                break
+            ws.send("Python")
+            result = ws.recv()
+            if(result != "" and result != "Python"):
+                telemetrys = re.split(",", result)
+                telemetrys[-1] = telemetrys[-1][0:-2]
+                telemetrys = [i[1:-1]for i in telemetrys]
+                self.receivedtel.emit(telemetrys, self.webSocketCon)
+
         ws.close()
+        self.webSocketCon = False
+        self.connectionControl.emit(self.webSocketCon)
 
 
 class TelemetryObject():
-    def __init__(self):
+    def __init__(self, GUI):
         super().__init__()
-        #self.interface = GUI
+        self.interface = GUI
         self.telemetryData = {}
-        self.telStatus = False
         self.counter = 0
         self.startTelemetry()
         self.webSocketCon = False
 
     def startTelemetry(self):
-        if not self.telStatus:
-            self.telStatus = True
-            try:
-                self.thread = Worker()
-                self.thread.daemon = True
-                self.thread.receivedtel.connect(self.setTelemetry)
-                self.thread.finished.connect(self.setLastInfos)
-                self.thread.start()
-            except:
-                print("TELEMETRY ERROR:", Exception)
-        else:
-            self.telStatus = False
-            self.thread.workerStatus = False
+        try:
+            self.thread = Worker()
+            self.thread.daemon = True
+            self.thread.receivedtel.connect(self.setTelemetry)
+            self.thread.connectionControl.connect(
+                self.webSocketConnectionControl)
+            self.thread.finished.connect(self.setLastInfos)
+            self.thread.start()
+        except:
+            print("TELEMETRY ERROR:", Exception)
 
-    def setLastInfos(self):
-        print("telemetry is over..")
+    def setLastInfos(self, is_connected):
+        self.webSocketCon = is_connected
+        print("Telemetry Connection is Over...")
+
+    def webSocketConnectionControl(self, is_connected):
+        self.webSocketCon = is_connected
+        if self.webSocketCon:
+            print("Telemetry Connection Successful!")
+        else:
+            print("Telemetry Connection Failed!")
 
     def setTelemetry(self, telemetrys, webSocketCon):
         self.webSocketCon = webSocketCon
