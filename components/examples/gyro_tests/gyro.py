@@ -1,8 +1,11 @@
+from os import times
 from OpenGL.GL import *
 from OpenGL.GLU import *
 import pygame
 from pygame.locals import *
+from PyQt5.QtCore import QThread, pyqtSignal
 import serial
+import time
 
 #ser = serial.Serial('/dev/tty.usbserial', 38400, timeout=1)
 ser = serial.Serial('COM5', 38400, timeout=1)
@@ -163,6 +166,20 @@ def read_data():
         line_done = 1
 
 
+def settingImagetoWindow(image):
+    pass
+
+
+class ScreenShotWorker(QThread):
+    screen = None
+    setImage = pyqtSignal(object)
+
+    def run(self):
+        while True:
+            pygame.image.save(self.screen, "screenshot.jpeg")
+            time.sleep(1)
+
+
 def main():
     video_flags = OPENGL | DOUBLEBUF
     pygame.init()
@@ -172,6 +189,12 @@ def main():
     init()
     frames = 0
     ticks = pygame.time.get_ticks()
+
+    screenshot = ScreenShotWorker()
+    screenshot.daemon = True
+    screenshot.setImage.connect(settingImagetoWindow)
+    screenshot.start()
+
     while 1:
         event = pygame.event.poll()
         if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
@@ -180,6 +203,8 @@ def main():
 
         read_data()
         draw()
+
+        screenshot.screen = screen
 
         pygame.display.flip()
         frames = frames+1
