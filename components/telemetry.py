@@ -15,23 +15,28 @@ class Worker(QThread):
     counter = 0
 
     def run(self):
-        ws = websocket.WebSocket()
-        ws.connect("ws://{}".format(appConfig['ESP_IP']))
-        self.webSocketCon = True
-        self.connectionControl.emit(self.webSocketCon)
+        try:
+            self.ws = websocket.WebSocket()
+            self.ws.connect("ws://{}".format(appConfig['ESP_IP']))
+            self.webSocketCon = True
+            self.connectionControl.emit(self.webSocketCon)
 
-        while True:
-            ws.send("Python")
-            result = ws.recv()
-            if(result != "" and result != "Python"):
-                telemetrys = re.split(",", result)
-                telemetrys[-1] = telemetrys[-1][0:-2]
-                telemetrys = [i[1:-1]for i in telemetrys]
-                self.receivedtel.emit(telemetrys, self.webSocketCon)
+            while True:
+                self.ws.send("Python")
+                result = self.ws.recv()
+                if(result != "" and result != "Python"):
+                    telemetrys = re.split(",", result)
+                    telemetrys[-1] = telemetrys[-1][0:-2]
+                    telemetrys = [i[1:-1]for i in telemetrys]
+                    self.receivedtel.emit(telemetrys, self.webSocketCon)
+                else:
+                    break
 
-        ws.close()
-        self.webSocketCon = False
-        self.connectionControl.emit(self.webSocketCon)
+            self.webSocketCon = False
+            self.connectionControl.emit(self.webSocketCon)
+            self.ws.close()
+        except:
+            self.connectionControl.emit(self.webSocketCon)
 
 
 class TelemetryObject():
@@ -55,8 +60,11 @@ class TelemetryObject():
         except:
             print("TELEMETRY ERROR:", Exception)
 
-    def setLastInfos(self, is_connected):
-        self.webSocketCon = is_connected
+    def stopTelemetry(self):
+        self.thread.ws.close()
+
+    def setLastInfos(self):
+        self.webSocketCon = False
         print("Telemetry Connection is Over...")
 
     def webSocketConnectionControl(self, is_connected):
@@ -65,6 +73,10 @@ class TelemetryObject():
             print("Telemetry Connection Successful!")
         else:
             print("Telemetry Connection Failed!")
+            self.interface.telemetryConButton.setEnabled(True)
+            css = "QPushButton{background-color: rgb(17, 199, 14)} QPushButton:hover{background-color: rgb(13, 159, 10)}"
+            self.interface.telemetryConButton.setStyleSheet(css)
+            self.interface.telemetryConButton.setText("Connect")
 
     def setTelemetry(self, telemetrys, webSocketCon):
         self.webSocketCon = webSocketCon
@@ -87,7 +99,7 @@ class TelemetryObject():
             'rollingCount': telemetrys[15],
             'transferringStatus': telemetrys[16]
         }
-        # print(self.telemetryData)
+        print(self.telemetryData)
 
 
 if __name__ == '__main__':

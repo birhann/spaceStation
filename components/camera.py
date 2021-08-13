@@ -43,7 +43,7 @@ class PcCameraWorker(QThread):
 
     def run(self):
         self.capture = cv2.VideoCapture(
-            "http://192.168.43.80:81/stream")
+            "http://192.168.137.178:81/stream")
 
         while self.capture.isOpened():
             ret, frame = self.capture.read()

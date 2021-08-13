@@ -31,16 +31,31 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
         self.cameraViewerLabel.hide()
 
         # objects
-        # self.TelemetryObject = TelemetryObject(self)
-        self.CameraObject = Camera(self)
-        self.GpsObject = LiveMap(self, None)
-        self.GraphObject = Graph(self, None)
+        # self.CameraObject = Camera(self)
+        # self.GpsObject = LiveMap(self, self.TelemetryObject)
+        # self.GraphObject = Graph(self, self.TelemetryObject)
 
         # self.videoTransferObject = SendingVideo(self)
 
     def startTelemetryConnection(self):
         if self.esp_ip_lineEdit.text() != "":
-            self.TelemetryObject = TelemetryObject(self)
+            if self.telemetryConnection:
+                self.TelemetryObject.stopTelemetry()
+                self.telemetryConnection = self.TelemetryObject.webSocketCon
+                self.telemetryConButton.setEnabled(True)
+                css = "color:#fff;background-color:rgb(17, 199, 14);"
+                self.telemetryConButton.setStyleSheet(css)
+                self.telemetryConButton.setText("Connect")
+            else:
+                self.TelemetryObject = TelemetryObject(self)
+                self.telemetryConnection = self.TelemetryObject.webSocketCon
+                self.telemetryConButton.setEnabled(False)
+                css = "background-color:#0d9f0a;color:#f9f9f9"
+                self.telemetryConButton.setStyleSheet(css)
+
+                self.telemetryConButton.setText("Connecting...")
+                print("Trying to connect..")
+
         else:
             pass
 

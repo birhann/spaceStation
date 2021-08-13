@@ -1,9 +1,9 @@
 from random import uniform
 appConfig = {
-    "ESP_IP": "192.168.43.80",
+    "ESP_IP": "192.168.242.233",
     "GROUND_STATION_IP": None,
-    "GRAPHIC_SIMULATION": True,
-    "GPS_SIMULATION": True,
+    "GRAPHIC_SIMULATION": False,
+    "GPS_SIMULATION": False,
     "CAMERA_SIMULATION": False,
     "GYRO_SIMULATION": True
 }
@@ -48,4 +48,4 @@ simulationConf = {
 # Descent Rate 0 - 20 m/s
 # Rolling Count 0 - 1200
 
-print(uniform(1, 1.3))
+# print(uniform(1, 1.3))

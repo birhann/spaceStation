@@ -8,7 +8,7 @@ import serial
 import time
 
 #ser = serial.Serial('/dev/tty.usbserial', 38400, timeout=1)
-ser = serial.Serial('COM5', 38400, timeout=1)
+ser = serial.Serial('COM9', 115200, timeout=1)
 
 ax = ay = az = 0.0
 
@@ -159,10 +159,11 @@ def read_data():
     # while not line_done:
     line = ser.readline()
     angles = line.split(b", ")
-    if len(angles) == 3:
-        ax = float(angles[0])
-        ay = float(angles[1])
-        az = float(angles[2])
+    print(angles)
+    if len(angles) == 18:
+        ax = float(angles[12])
+        ay = float(angles[13])
+        az = float(angles[14])
         line_done = 1
 
 
@@ -176,8 +177,13 @@ class ScreenShotWorker(QThread):
 
     def run(self):
         while True:
-            pygame.image.save(self.screen, "screenshot.jpeg")
-            time.sleep(1)
+            try:
+                # pygame.image.save(self.screen, "screenshot.jpeg")
+                surface = self.screen.copy()
+                pygame.image.save(surface, "screenshot.png")
+                time.sleep(1)
+            except:
+                pass
 
 
 def main():
@@ -190,10 +196,10 @@ def main():
     frames = 0
     ticks = pygame.time.get_ticks()
 
-    screenshot = ScreenShotWorker()
-    screenshot.daemon = True
-    screenshot.setImage.connect(settingImagetoWindow)
-    screenshot.start()
+    # screenshot = ScreenShotWorker()
+    # screenshot.daemon = True
+    # screenshot.setImage.connect(settingImagetoWindow)
+    # screenshot.start()
 
     while 1:
         event = pygame.event.poll()
@@ -203,11 +209,16 @@ def main():
 
         read_data()
         draw()
-
-        screenshot.screen = screen
-
         pygame.display.flip()
+
+        # screenshot = pygame.transform.scale(screen, (640, 480))
+        # pygame.image.save(screenshot, "screenshot.png")
         frames = frames+1
+        # screenshot.screen = screen
+
+    # rect = pygame.Rect(0, 0, 640, 480)
+    # sub = screen.subsurface(rect)
+    # pygame.image.save(sub, "screenshot.jpg")
 
     ser.close()
 
