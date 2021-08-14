@@ -5,6 +5,9 @@ import time
 import csv
 import re
 import websocket
+import socket
+from components.graphics import Graph
+from components.gps import LiveMap
 from config import appConfig
 
 
@@ -12,30 +15,39 @@ class Worker(QThread):
     receivedtel = pyqtSignal(list, object)
     connectionControl = pyqtSignal(object)
     webSocketCon = False
-    counter = 0
+    graphControl = True
 
     def run(self):
+        UDP_IP_ADDRESS = "192.168.137.173"
+        ESP_IP_ADDRESS = "192.168.137.109"
+        UDP_PORT_NO = 44444
         try:
-            self.ws = websocket.WebSocket()
-            self.ws.connect("ws://{}".format(appConfig['ESP_IP']))
+            serverSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            serverSock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            serverSock.bind((UDP_IP_ADDRESS, UDP_PORT_NO))
             self.webSocketCon = True
-            self.connectionControl.emit(self.webSocketCon)
+            Message = "#ESP_DONE#"
+            Message2 = "@@@magnet0"
 
+            serverSock.sendto(bytes(Message, encoding='utf8'),
+                              (ESP_IP_ADDRESS, UDP_PORT_NO))
             while True:
-                self.ws.send("Python")
-                result = self.ws.recv()
-                if(result != "" and result != "Python"):
-                    telemetrys = re.split(",", result)
-                    telemetrys[-1] = telemetrys[-1][0:-2]
-                    telemetrys = [i[1:-1]for i in telemetrys]
-                    self.receivedtel.emit(telemetrys, self.webSocketCon)
+                data, addr = serverSock.recvfrom(1024)
+                if(data != ""):
+                    self.telemetry = [i.strip()
+                                      for i in data.decode("utf-8")[1:-8].split(",")]
+                    self.receivedtel.emit(self.telemetry, self.webSocketCon)
+                    if self.graphControl:
+                        self.graphControl = False
+                        self.connectionControl.emit(self.webSocketCon)
                 else:
                     break
 
             self.webSocketCon = False
             self.connectionControl.emit(self.webSocketCon)
-            self.ws.close()
+
         except:
+            self.webSocketCon = False
             self.connectionControl.emit(self.webSocketCon)
 
 
@@ -71,6 +83,14 @@ class TelemetryObject():
         self.webSocketCon = is_connected
         if self.webSocketCon:
             print("Telemetry Connection Successful!")
+            self.interface.telemetryConButton.setEnabled(False)
+            css = "QPushButton{background-color:rgb(17, 199, 14);border-radius:5px;color:#fff;"
+            self.interface.telemetryConButton.setStyleSheet(css)
+            self.interface.telemetryConButton.setText("Connected!")
+            self.GraphObject = Graph(
+                self.interface, self.interface.TelemetryObject)
+            self.GpsObject = LiveMap(
+                self.interface, self.interface.TelemetryObject)
         else:
             print("Telemetry Connection Failed!")
             self.interface.telemetryConButton.setEnabled(True)
@@ -81,25 +101,46 @@ class TelemetryObject():
     def setTelemetry(self, telemetrys, webSocketCon):
         self.webSocketCon = webSocketCon
         self.telemetryData = {
-            'teamNumber': telemetrys[0],
+            'teamNumber': telemetrys[0][1:-1],
             'packageNo': telemetrys[1],
             'sendingTime': telemetrys[2],
-            'pressure': telemetrys[3],
-            'height': telemetrys[4],
-            'descentRate': telemetrys[5],
-            'temperature': telemetrys[6],
-            'voltage': telemetrys[7],
-            'latitude': telemetrys[8],
-            'longitude': telemetrys[9],
-            'altitude': telemetrys[10],
-            'satelliteStatus': telemetrys[11],
-            'pitch': telemetrys[12],
-            'roll': telemetrys[13],
-            'yaw': telemetrys[14],
-            'rollingCount': telemetrys[15],
-            'transferringStatus': telemetrys[16]
+            'hour': telemetrys[3],
+            'pressure': telemetrys[4],
+            'height': telemetrys[5],
+            'descentRate': telemetrys[6],
+            'temperature': telemetrys[7],
+            'voltage': telemetrys[8],
+            'latitude': telemetrys[9],
+            'longitude': telemetrys[10],
+            'altitude': telemetrys[11],
+            'satelliteStatus': telemetrys[12],
+            'pitch': telemetrys[13],
+            'roll': telemetrys[14],
+            'yaw': telemetrys[15],
+            'rollingCount': telemetrys[16],
+            'transferringStatus': telemetrys[17]
         }
-        print(self.telemetryData)
+
+        self.interface.teamNumberLabel.setText(
+            str(self.telemetryData['teamNumber']))
+
+        self.interface.packageNoLabel.setText(
+            str(self.telemetryData['packageNo']))
+
+        self.interface.hourLabel.setText(
+            str(self.telemetryData['sendingTime']))
+
+        self.interface.satelliteStatusLabel.setText(
+            str(self.telemetryData['satelliteStatus']))
+
+        self.interface.descentRateLabel.setText(
+            str(self.telemetryData['descentRate']))
+
+        self.interface.latitudeLabel.setText(
+            str(self.telemetryData['latitude']))
+
+        self.interface.longitudeLabel.setText(
+            str(self.telemetryData['longitude']))
 
 
 if __name__ == '__main__':

@@ -1,11 +1,14 @@
 from random import uniform
 appConfig = {
-    "ESP_IP": "192.168.242.233",
-    "GROUND_STATION_IP": None,
+    "ESP_IP": "192.168.137.50",
+    "GROUND_STATION_IP": "192.168.137.1",
+    "UDP_IP_ADDRESS": "192.168.137.8",
+    "ESP_IP_ADDRESS": "192.168.137.109",
+    "UDP_PORT_NO": "44444",
     "GRAPHIC_SIMULATION": False,
     "GPS_SIMULATION": False,
     "CAMERA_SIMULATION": False,
-    "GYRO_SIMULATION": True
+    "GYRO_SIMULATION": False
 }
 
 graphAxisRanges = {

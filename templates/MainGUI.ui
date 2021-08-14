@@ -758,7 +758,7 @@ background-color: rgba(231, 231, 231,0.08);
               <string>Team Number:</string>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineEdit_3">
+            <widget class="QLineEdit" name="packageNoLabel">
              <property name="geometry">
               <rect>
                <x>156</x>
@@ -822,7 +822,7 @@ background-color: rgba(231, 231, 231,0.08);
               <string>Hour(h:m:s):</string>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineEdit_2">
+            <widget class="QLineEdit" name="teamNumberLabel">
              <property name="enabled">
               <bool>true</bool>
              </property>
@@ -844,13 +844,13 @@ background-color: rgba(231, 231, 231,0.08);
               <set>Qt::ImhNone</set>
              </property>
              <property name="text">
-              <string>54103</string>
+              <string>54100</string>
              </property>
              <property name="readOnly">
               <bool>true</bool>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineEdit_4">
+            <widget class="QLineEdit" name="dateLabel">
              <property name="geometry">
               <rect>
                <x>156</x>
@@ -866,7 +866,7 @@ background-color: rgba(231, 231, 231,0.08);
               </font>
              </property>
              <property name="text">
-              <string>20.08.2021</string>
+              <string>13.08.2021</string>
              </property>
              <property name="readOnly">
               <bool>true</bool>
@@ -895,13 +895,13 @@ background-color: rgba(231, 231, 231,0.08);
               </rect>
              </property>
              <property name="text">
-              <string>34.93 °C</string>
+              <string/>
              </property>
              <property name="readOnly">
               <bool>true</bool>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineEdit_5">
+            <widget class="QLineEdit" name="hourLabel">
              <property name="geometry">
               <rect>
                <x>156</x>
@@ -911,7 +911,7 @@ background-color: rgba(231, 231, 231,0.08);
               </rect>
              </property>
              <property name="text">
-              <string>09:10:11</string>
+              <string>17:18:32</string>
              </property>
              <property name="readOnly">
               <bool>true</bool>
@@ -955,7 +955,7 @@ background-color: rgba(231, 231, 231,0.08);
               <string notr="true"/>
              </property>
              <property name="text">
-              <string>11.75 m</string>
+              <string/>
              </property>
              <property name="readOnly">
               <bool>true</bool>
@@ -971,13 +971,13 @@ background-color: rgba(231, 231, 231,0.08);
               </rect>
              </property>
              <property name="text">
-              <string>1014.66 bar</string>
+              <string/>
              </property>
              <property name="readOnly">
               <bool>true</bool>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineEdit_6">
+            <widget class="QLineEdit" name="satelliteStatusLabel">
              <property name="geometry">
               <rect>
                <x>156</x>
@@ -1053,7 +1053,7 @@ margin:0px;</string>
               </size>
              </property>
              <property name="text">
-              <string>8.24 m/s</string>
+              <string/>
              </property>
              <property name="readOnly">
               <bool>true</bool>
@@ -1082,7 +1082,7 @@ margin:0px;</string>
               </rect>
              </property>
              <property name="text">
-              <string>3.62 V</string>
+              <string/>
              </property>
              <property name="readOnly">
               <bool>true</bool>
@@ -1111,7 +1111,7 @@ margin:0px;</string>
               </rect>
              </property>
              <property name="text">
-              <string>12</string>
+              <string/>
              </property>
              <property name="readOnly">
               <bool>true</bool>
@@ -1290,7 +1290,7 @@ background-color:#15bf0c;
               </rect>
              </property>
              <property name="text">
-              <string>40.65185335678</string>
+              <string/>
              </property>
              <property name="readOnly">
               <bool>true</bool>
@@ -1408,7 +1408,7 @@ background-color:#15bf0c;
               <string notr="true"/>
              </property>
              <property name="text">
-              <string>29.28887474586</string>
+              <string/>
              </property>
              <property name="readOnly">
               <bool>true</bool>

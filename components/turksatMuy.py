@@ -9,6 +9,7 @@ from components.gps import LiveMap
 from components.graphics import Graph
 from components.telemetry import TelemetryObject
 from components.dataTransfer import SendingVideo
+from config import appConfig
 
 
 class TurksatMuy(QMainWindow, Ui_MainGUI):
@@ -31,14 +32,13 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
         self.cameraViewerLabel.hide()
 
         # objects
-        # self.CameraObject = Camera(self)
-        # self.GpsObject = LiveMap(self, self.TelemetryObject)
-        # self.GraphObject = Graph(self, self.TelemetryObject)
+        self.CameraObject = Camera(self)
+        self.CameraObject.startVideo()
 
         # self.videoTransferObject = SendingVideo(self)
 
     def startTelemetryConnection(self):
-        if self.esp_ip_lineEdit.text() != "":
+        if self.esp_ip_lineEdit.text() != "" and not appConfig["GRAPHIC_SIMULATION"]:
             if self.telemetryConnection:
                 self.TelemetryObject.stopTelemetry()
                 self.telemetryConnection = self.TelemetryObject.webSocketCon
@@ -48,16 +48,21 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
                 self.telemetryConButton.setText("Connect")
             else:
                 self.TelemetryObject = TelemetryObject(self)
-                self.telemetryConnection = self.TelemetryObject.webSocketCon
                 self.telemetryConButton.setEnabled(False)
                 css = "background-color:#0d9f0a;color:#f9f9f9"
                 self.telemetryConButton.setStyleSheet(css)
-
                 self.telemetryConButton.setText("Connecting...")
                 print("Trying to connect..")
 
         else:
-            pass
+            print("Simulations Active!")
+            css = "background-color:#b9b921;color:#f9f9f9"
+            self.telemetryConButton.setStyleSheet(css)
+            self.telemetryConButton.setText("Connected!")
+            self.telemetryConButton.setEnabled(False)
+
+            self.GpsObject = LiveMap(self, None)
+            self.GraphObject = Graph(self, None)
 
     def maximized_minimized(self):
         if self.isMaximized():
