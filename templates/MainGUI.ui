@@ -1453,6 +1453,52 @@ background-color:#15bf0c;
               <string>Pitch:</string>
              </property>
             </widget>
+            <widget class="QPushButton" name="finishButton">
+             <property name="geometry">
+              <rect>
+               <x>453</x>
+               <y>215</y>
+               <width>70</width>
+               <height>27</height>
+              </rect>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>27</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>28</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton{
+color:rgb(255, 255, 255);
+background-color:#14eb10;
+border-radius:10px;;
+padding:0px;
+margin:0px;
+padding-bottom:2px;
+}
+QPushButton:hover{
+background-color:#15bf0c;
+}</string>
+             </property>
+             <property name="text">
+              <string>finish</string>
+             </property>
+            </widget>
            </widget>
           </item>
           <item>
@@ -1519,6 +1565,44 @@ background-color: rgba(231, 231, 231,0.08);
              <property name="bottomMargin">
               <number>0</number>
              </property>
+             <item row="1" column="3">
+              <widget class="QPushButton" name="chooseFileButton">
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>25</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>29</height>
+                </size>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton{
+border-radius:3px;
+font-size:18px;
+padding:0px;
+border-radius:1px;
+background-color: rgba(220, 220, 220,0.1);
+margin:0px;
+margin-left:0px
+}
+
+QPushButton:hover{
+
+background-color: rgba(220, 220, 220,0.16);
+}</string>
+               </property>
+               <property name="text">
+                <string>..</string>
+               </property>
+              </widget>
+             </item>
              <item row="1" column="0" alignment="Qt::AlignRight">
               <widget class="QLabel" name="label_18">
                <property name="maximumSize">
@@ -1586,80 +1670,6 @@ background-color: rgba(220, 220, 220,0.16);
                </property>
               </widget>
              </item>
-             <item row="1" column="3">
-              <widget class="QPushButton" name="chooseFileButton">
-               <property name="minimumSize">
-                <size>
-                 <width>30</width>
-                 <height>25</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>30</width>
-                 <height>29</height>
-                </size>
-               </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton{
-border-radius:3px;
-font-size:18px;
-padding:0px;
-border-radius:1px;
-background-color: rgba(220, 220, 220,0.1);
-margin:0px;
-margin-left:0px
-}
-
-QPushButton:hover{
-
-background-color: rgba(220, 220, 220,0.16);
-}</string>
-               </property>
-               <property name="text">
-                <string>..</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="4">
-              <widget class="QPushButton" name="sentDataButton">
-               <property name="minimumSize">
-                <size>
-                 <width>114</width>
-                 <height>25</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>1000</width>
-                 <height>35</height>
-                </size>
-               </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton{
-border-radius:3px;
-font-size:18px;
-border-radius:4px;
-padding:0px;
-
-}
-
-
-QPushButton:hover{
-background-color: #4363d8;
-}</string>
-               </property>
-               <property name="text">
-                <string>Sent</string>
-               </property>
-              </widget>
-             </item>
              <item row="2" column="0" colspan="5">
               <spacer name="horizontalSpacer">
                <property name="orientation">
@@ -1707,6 +1717,42 @@ background-color: #646464;
                </property>
               </widget>
              </item>
+             <item row="1" column="4">
+              <widget class="QPushButton" name="sentDataButton">
+               <property name="minimumSize">
+                <size>
+                 <width>114</width>
+                 <height>25</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>1000</width>
+                 <height>35</height>
+                </size>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton{
+border-radius:3px;
+font-size:18px;
+border-radius:4px;
+padding:0px;
+
+}
+
+
+QPushButton:hover{
+background-color: #4363d8;
+}</string>
+               </property>
+               <property name="text">
+                <string>Sent</string>
+               </property>
+              </widget>
+             </item>
              <item row="4" column="0" colspan="5">
               <spacer name="horizontalSpacer_2">
                <property name="orientation">
@@ -1721,7 +1767,7 @@ background-color: #646464;
               </spacer>
              </item>
              <item row="5" column="0" rowspan="3" colspan="3">
-              <widget class="QPlainTextEdit" name="plainTextEdit">
+              <widget class="QPlainTextEdit" name="infoScreen">
                <property name="minimumSize">
                 <size>
                  <width>314</width>
@@ -1802,6 +1848,37 @@ Command</string>
                </property>
               </widget>
              </item>
+             <item row="3" column="0" alignment="Qt::AlignRight">
+              <widget class="QLabel" name="label_24">
+               <property name="maximumSize">
+                <size>
+                 <width>155</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>-1</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QLabel{
+font-size:15px;
+padding:0px;
+padding-right:1px;
+padding-left:6px;
+
+}
+
+QLabel:hover{
+background-color:none;
+}</string>
+               </property>
+               <property name="text">
+                <string>Transferring Status:</string>
+               </property>
+              </widget>
+             </item>
              <item row="3" column="1" colspan="2">
               <widget class="QLabel" name="label_23">
                <property name="minimumSize">
@@ -1834,37 +1911,6 @@ padding-left:6px;
                </property>
                <property name="alignment">
                 <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="0" alignment="Qt::AlignRight">
-              <widget class="QLabel" name="label_24">
-               <property name="maximumSize">
-                <size>
-                 <width>155</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>-1</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QLabel{
-font-size:15px;
-padding:0px;
-padding-right:1px;
-padding-left:6px;
-
-}
-
-QLabel:hover{
-background-color:none;
-}</string>
-               </property>
-               <property name="text">
-                <string>Transferring Status:</string>
                </property>
               </widget>
              </item>
@@ -2003,16 +2049,6 @@ padding:3px;
              <property name="spacing">
               <number>0</number>
              </property>
-             <item row="1" column="0">
-              <widget class="QPushButton" name="startCameraButton">
-               <property name="styleSheet">
-                <string notr="true">background:transparent;</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
              <item row="0" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
               <widget class="QLabel" name="cameraViewerLabel">
                <property name="minimumSize">

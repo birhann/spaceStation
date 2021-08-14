@@ -16,10 +16,11 @@ class Worker(QThread):
     connectionControl = pyqtSignal(object)
     webSocketCon = False
     graphControl = True
+    finishControl = False
 
     def run(self):
         UDP_IP_ADDRESS = "192.168.137.173"
-        ESP_IP_ADDRESS = "192.168.137.109"
+        ESP_IP_ADDRESS = "192.168.137.178"
         UDP_PORT_NO = 44444
         try:
             serverSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -34,12 +35,18 @@ class Worker(QThread):
             while True:
                 data, addr = serverSock.recvfrom(1024)
                 if(data != ""):
-                    self.telemetry = [i.strip()
-                                      for i in data.decode("utf-8")[1:-8].split(",")]
+                    self.telemetry = [i[1:-1].strip()
+                                      for i in data.decode("utf-8").split(",")[0:-1]]
                     self.receivedtel.emit(self.telemetry, self.webSocketCon)
+                    # print(self.telemetry)
                     if self.graphControl:
                         self.graphControl = False
                         self.connectionControl.emit(self.webSocketCon)
+                    if self.finishControl:
+                        print("girdi-finish")
+                        serverSock.sendto(bytes("FINISH", encoding='utf8'),
+                                          (ESP_IP_ADDRESS, UDP_PORT_NO))
+                        self.finishControl = False
                 else:
                     break
 
@@ -59,6 +66,10 @@ class TelemetryObject():
         self.counter = 0
         self.startTelemetry()
         self.webSocketCon = False
+        self.finishControl = False
+
+    def finishControlFunc(self):
+        self.thread.finishControl = True
 
     def startTelemetry(self):
         try:
@@ -120,6 +131,7 @@ class TelemetryObject():
             'rollingCount': telemetrys[16],
             'transferringStatus': telemetrys[17]
         }
+        print(telemetrys)
 
         self.interface.teamNumberLabel.setText(
             str(self.telemetryData['teamNumber']))

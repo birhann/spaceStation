@@ -25,17 +25,16 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
         self.button_max_min.clicked.connect(self.maximized_minimized)
         self.button_close.clicked.connect(self.closeWindow)
         self.button_minimize.clicked.connect(self.showMinimized)
-        self.startCameraButton.clicked.connect(self.startCamera)
+        # self.startCameraButton.clicked.connect(self.startCamera)
         self.telemetryConButton.clicked.connect(self.startTelemetryConnection)
+        self.finishButton.clicked.connect(self.finishEsp)
+        self.infoScreen.clear()
 
-        # common operations
-        self.cameraViewerLabel.hide()
+        # # common operations
+        # self.cameraViewerLabel.hide()
 
         # objects
-        self.CameraObject = Camera(self)
-        self.CameraObject.startVideo()
-
-        # self.videoTransferObject = SendingVideo(self)
+        self.videoTransferObject = SendingVideo(self)
 
     def startTelemetryConnection(self):
         if self.esp_ip_lineEdit.text() != "" and not appConfig["GRAPHIC_SIMULATION"]:
@@ -47,6 +46,8 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
                 self.telemetryConButton.setStyleSheet(css)
                 self.telemetryConButton.setText("Connect")
             else:
+                self.CameraObject = Camera(self)
+                self.CameraObject.startVideo()
                 self.TelemetryObject = TelemetryObject(self)
                 self.telemetryConButton.setEnabled(False)
                 css = "background-color:#0d9f0a;color:#f9f9f9"
@@ -64,11 +65,19 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
             self.GpsObject = LiveMap(self, None)
             self.GraphObject = Graph(self, None)
 
+            self.CameraObject = Camera(self)
+            self.CameraObject.startVideo()
+
     def maximized_minimized(self):
         if self.isMaximized():
             self.showNormal()
         else:
             self.showMaximized()
+
+    def finishEsp(self):
+        self.TelemetryObject.finishControlFunc()
+        self.finishButton.setEnabled(False)
+        self.finishButton.setText("sending..")
 
     def closeWindow(self):
         if self.confirm(
@@ -110,7 +119,6 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
 
     def startCamera(self):
         self.CameraObject.startVideo()
-
         self.cameraViewerLabel.show()
 
 

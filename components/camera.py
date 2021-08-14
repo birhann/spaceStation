@@ -14,22 +14,23 @@ class EspWorker(QThread):
     workerStatus = True
 
     def run(self):
-        cap = cv2.VideoCapture("http://192.168.137.109:81/stream")
-
-        while True:
-            ret, frame = cap.read()
-            # cv2.imshow('frame', frame)
-            rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            rgbImage = cv2.flip(rgbImage, 1)  # mirroring
-            h, w, ch = rgbImage.shape
-            bytesPerLine = ch * w
-            convertToQtFormat = QImage(
-                rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
-            image = convertToQtFormat.scaled(1280, 720, Qt.KeepAspectRatio)
-            self.setView.emit(image)
-            if cv2.waitKey(1) & 0xFF == 27:
-                break
-
+        cap = cv2.VideoCapture("http://192.168.137.178:81/stream")
+        try:
+            while True:
+                ret, frame = cap.read()
+                # cv2.imshow('frame', frame)
+                rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                rgbImage = cv2.flip(rgbImage, 1)  # mirroring
+                h, w, ch = rgbImage.shape
+                bytesPerLine = ch * w
+                convertToQtFormat = QImage(
+                    rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
+                image = convertToQtFormat.scaled(1280, 720, Qt.KeepAspectRatio)
+                self.setView.emit(image)
+                if cv2.waitKey(1) & 0xFF == 27:
+                    break
+        except:
+            pass
         # cap.release()
         # cv2.destroyAllWindows()
         # self.capture.release()

@@ -6,7 +6,7 @@ appConfig = {
     "ESP_IP_ADDRESS": "192.168.137.109",
     "UDP_PORT_NO": "44444",
     "GRAPHIC_SIMULATION": False,
-    "GPS_SIMULATION": False,
+    "GPS_SIMULATION": True,
     "CAMERA_SIMULATION": False,
     "GYRO_SIMULATION": False
 }

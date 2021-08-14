@@ -159,7 +159,7 @@ class TelemetryWorker(QThread):
     def temperatureGraph(self):
         self.temperatureGraphlastX = self.temperatureGraphX[-1] + 1
         self.temperatureGraphX.append(self.temperatureGraphlastX)
-        print(self.telemetryObject.telemetryData)
+        # print(self.telemetryObject.telemetryData)
         if self.telemetryObject.webSocketCon:
             self.temperatureGraphY.append(float(
                 self.telemetryObject.telemetryData["temperature"]))
