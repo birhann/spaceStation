@@ -14,13 +14,14 @@ from config import appConfig
 class Worker(QThread):
     receivedtel = pyqtSignal(list, object)
     connectionControl = pyqtSignal(object)
+    setInfo = pyqtSignal(str)
     webSocketCon = False
     graphControl = True
     finishControl = False
 
     def run(self):
-        UDP_IP_ADDRESS = "192.168.137.173"
-        ESP_IP_ADDRESS = "192.168.137.178"
+        UDP_IP_ADDRESS = appConfig["UDP_IP_ADDRESS"]
+        ESP_IP_ADDRESS = appConfig["ESP_IP_ADDRESS"]
         UDP_PORT_NO = 44444
         try:
             serverSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -29,7 +30,6 @@ class Worker(QThread):
             self.webSocketCon = True
             Message = "#ESP_DONE#"
             Message2 = "@@@magnet0"
-
             serverSock.sendto(bytes(Message, encoding='utf8'),
                               (ESP_IP_ADDRESS, UDP_PORT_NO))
             while True:
@@ -38,15 +38,16 @@ class Worker(QThread):
                     self.telemetry = [i[1:-1].strip()
                                       for i in data.decode("utf-8").split(",")[0:-1]]
                     self.receivedtel.emit(self.telemetry, self.webSocketCon)
-                    # print(self.telemetry)
+
                     if self.graphControl:
                         self.graphControl = False
                         self.connectionControl.emit(self.webSocketCon)
                     if self.finishControl:
-                        print("girdi-finish")
+                        print("evet")
                         serverSock.sendto(bytes("FINISH", encoding='utf8'),
                                           (ESP_IP_ADDRESS, UDP_PORT_NO))
                         self.finishControl = False
+                        self.setInfo.emit("Server connection closed!")
                 else:
                     break
 
@@ -78,22 +79,23 @@ class TelemetryObject():
             self.thread.receivedtel.connect(self.setTelemetry)
             self.thread.connectionControl.connect(
                 self.webSocketConnectionControl)
+            self.thread.setInfo.connect(self.setInfo)
             self.thread.finished.connect(self.setLastInfos)
             self.thread.start()
         except:
-            print("TELEMETRY ERROR:", Exception)
+            self.setInfo(Exception)
 
     def stopTelemetry(self):
         self.thread.ws.close()
 
     def setLastInfos(self):
         self.webSocketCon = False
-        print("Telemetry Connection is Over...")
+        self.setInfo("Telemetry Connection is Over!")
 
     def webSocketConnectionControl(self, is_connected):
         self.webSocketCon = is_connected
         if self.webSocketCon:
-            print("Telemetry Connection Successful!")
+            self.setInfo("Telemetry Connection Successful!")
             self.interface.telemetryConButton.setEnabled(False)
             css = "QPushButton{background-color:rgb(17, 199, 14);border-radius:5px;color:#fff;"
             self.interface.telemetryConButton.setStyleSheet(css)
@@ -103,11 +105,16 @@ class TelemetryObject():
             self.GpsObject = LiveMap(
                 self.interface, self.interface.TelemetryObject)
         else:
-            print("Telemetry Connection Failed!")
+            self.setInfo("Telemetry Connection Failed!")
             self.interface.telemetryConButton.setEnabled(True)
             css = "QPushButton{background-color: rgb(17, 199, 14)} QPushButton:hover{background-color: rgb(13, 159, 10)}"
             self.interface.telemetryConButton.setStyleSheet(css)
             self.interface.telemetryConButton.setText("Connect")
+
+    def setInfo(self, msg):
+        self.interface.infoScreen.insertPlainText(
+            "Telemetry: {}\n".format(msg))
+        self.interface.infoScreen.ensureCursorVisible()
 
     def setTelemetry(self, telemetrys, webSocketCon):
         self.webSocketCon = webSocketCon
@@ -131,7 +138,7 @@ class TelemetryObject():
             'rollingCount': telemetrys[16],
             'transferringStatus': telemetrys[17]
         }
-        print(telemetrys)
+        # print(self.telemetryData, "\n")
 
         self.interface.teamNumberLabel.setText(
             str(self.telemetryData['teamNumber']))
@@ -158,5 +165,5 @@ class TelemetryObject():
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     w = TelemetryObject()
-    # w.show()
+    w.show()
     sys.exit(app.exec_())

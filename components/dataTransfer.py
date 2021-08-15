@@ -1,10 +1,38 @@
-import sys
-from typing_extensions import ParamSpec
-from PyQt5.QtWidgets import QApplication, QWidget, QInputDialog, QLineEdit, QFileDialog
-from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import QUrl
-
+# if self.file.isEmpty():
 import ftplib
+from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt5.QtCore import QUrl
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QApplication, QWidget, QInputDialog, QLineEdit, QFileDialog
+from typing_extensions import ParamSpec
+import sys
+from config import appConfig
+
+
+class DataTransferWorker(QThread):
+    throwError = pyqtSignal(str)
+    startTelemetry = pyqtSignal()
+
+    ESP_IP_ADDRESS = appConfig["ESP_IP_ADDRESS"]
+    filePath = None
+    fileName = None
+
+    def run(self):
+        try:
+
+            self.throwError.emit("Trying to connect to server...")
+            session = ftplib.FTP(self.ESP_IP_ADDRESS, 'esp32', 'esp32')
+            self.file = open("{}".format(self.filePath), 'rb')
+            self.throwError.emit("Connection to server successful!")
+            self.throwError.emit("Sending file...")
+            session.storbinary('STOR {}'.format(self.fileName), self.file)
+            self.file.close()
+            session.quit()
+            self.throwError.emit(
+                "'{}' file sent successfully!".format(self.fileName))
+            self.startTelemetry.emit()
+        except:
+            self.throwError.emit("Server is not responding!")
 
 
 class SendingVideo():
@@ -28,33 +56,50 @@ class SendingVideo():
             self.isFileSelected = True
             self.oldFilePath = self.filePath
             self.oldFile = self.file
-            print(self.fileName, self.filePath, " file selected..")
+            self.setInfo("'{}' {}".format(self.fileName, "file selected!"))
 
         elif self.file.isEmpty() and self.isFileSelected:
             self.interface.fileNameLineEdit.setText((self.fileName))
             self.isFileSelected = True
-            print(self.fileName, " old file still selected..")
+            self.setInfo("'{}' {}".format(self.fileName, "old file selected!"))
 
         else:
             self.interface.fileNameLineEdit.setText((self.fileName))
             self.isFileSelected = False
-            print("file not selected")
+            self.setInfo("File not selected!")
 
     def sendVideo(self):
         if self.isFileSelected:
+            self.interface.sentDataButton.setEnabled(False)
+            css = "QPushButton{border-radius:3px;font-size:18px;border-radius:4px;padding:0px;}QPushButton:hover{background-color: #646464;}"
+            self.interface.sentDataButton.setStyleSheet(css)
+            self.interface.sentDataButton.setText("Sending...")
+            self.thread = DataTransferWorker()
+            self.thread.daemon = True
+            self.thread.finished.connect(self.setLastInfos)
+            self.thread.throwError.connect(self.setInfo)
+            self.thread.startTelemetry.connect(self.startTelemetryConnection)
             if self.file.isEmpty():
-                session = ftplib.FTP(
-                    '192.168.137.178', 'esp32', 'esp32')
-                file = open("{}".format(self.oldFilePath), 'rb')
-                session.storbinary('STOR {}'.format(self.fileName), file)
-                file.close()
-                session.quit()
+                self.thread.filePath = self.oldFilePath
             else:
-                session = ftplib.FTP(
-                    '192.168.137.178', 'esp32', 'esp32')
-                file = open("{}".format(self.filePath), 'rb')
-                session.storbinary('STOR {}'.format(self.fileName), file)
-                file.close()
-                session.quit()
+                self.thread.filePath = self.filePath
+            self.thread.fileName = self.fileName
+            self.thread.start()
         else:
-            print("asd")
+            self.setInfo("Please select file first!")
+
+    def setLastInfos(self):
+        self.setInfo("Connection closed!")
+        self.interface.sentDataButton.setEnabled(True)
+        css = "QPushButton{border-radius:3px;font-size:18px;border-radius:4px;padding:0px;}QPushButton:hover{background-color: #4363d8;}"
+        self.interface.sentDataButton.setStyleSheet(css)
+        self.interface.sentDataButton.setText("Sent")
+
+    def setInfo(self, msg):
+        self.interface.infoScreen.insertPlainText(
+            "Data Transfer: {}\n".format(msg))
+        self.interface.infoScreen.ensureCursorVisible()
+
+    def startTelemetryConnection(self):
+        self.interface.esp_ip_lineEdit.setText(appConfig["ESP_IP_ADDRESS"])
+        self.interface.startTelemetryConnection()

@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QWidget, QLabel, QApplication
 from PyQt5.QtCore import QThread, Qt, pyqtSignal, pyqtSlot
 from PyQt5.QtGui import QImage, QPixmap
 # from Ui_cameraViewer import Ui_Form
+from config import appConfig
 
 import cv2
 
@@ -14,7 +15,8 @@ class EspWorker(QThread):
     workerStatus = True
 
     def run(self):
-        cap = cv2.VideoCapture("http://192.168.137.178:81/stream")
+        cap = cv2.VideoCapture(
+            "http://{}:81/stream".format(appConfig["ESP_IP_ADDRESS"]))
         try:
             while True:
                 ret, frame = cap.read()
@@ -98,7 +100,11 @@ class Camera():
     def startVideo(self):
         if not self.cameraStatus:
             self.cameraStatus = 1
-            self.thread = EspWorker()
+            from config import appConfig
+            if appConfig["CAMERA_SIMULATION"]:
+                self.thread = PcCameraWorker()
+            else:
+                self.thread = EspWorker()
             self.thread.daemon = True
             self.thread.setView.connect(self.setImage)
             self.thread.finished.connect(self.finishVideo)

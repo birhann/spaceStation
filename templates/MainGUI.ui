@@ -1666,7 +1666,7 @@ background-color: rgba(220, 220, 220,0.16);
 }</string>
                </property>
                <property name="text">
-                <string>some_cool_data.xml</string>
+                <string>Choose any file...</string>
                </property>
               </widget>
              </item>

@@ -28,13 +28,14 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
         # self.startCameraButton.clicked.connect(self.startCamera)
         self.telemetryConButton.clicked.connect(self.startTelemetryConnection)
         self.finishButton.clicked.connect(self.finishEsp)
-        self.infoScreen.clear()
 
         # # common operations
         # self.cameraViewerLabel.hide()
 
         # objects
         self.videoTransferObject = SendingVideo(self)
+        if not appConfig["GRAPHIC_SIMULATION"]:
+            self.infoScreen.clear()
 
     def startTelemetryConnection(self):
         if self.esp_ip_lineEdit.text() != "" and not appConfig["GRAPHIC_SIMULATION"]:
@@ -52,11 +53,9 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
                 self.telemetryConButton.setEnabled(False)
                 css = "background-color:#0d9f0a;color:#f9f9f9"
                 self.telemetryConButton.setStyleSheet(css)
-                self.telemetryConButton.setText("Connecting...")
-                print("Trying to connect..")
-
+                self.setInfo("Trying to connect to server..")
         else:
-            print("Simulations Active!")
+            self.setInfo("The simulations are active!")
             css = "background-color:#b9b921;color:#f9f9f9"
             self.telemetryConButton.setStyleSheet(css)
             self.telemetryConButton.setText("Connected!")
@@ -77,7 +76,12 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
     def finishEsp(self):
         self.TelemetryObject.finishControlFunc()
         self.finishButton.setEnabled(False)
-        self.finishButton.setText("sending..")
+        self.setInfo("Trying to close connection..")
+
+    def setInfo(self, msg):
+        self.infoScreen.insertPlainText(
+            "Telemetry: {}\n".format(msg))
+        self.infoScreen.ensureCursorVisible()
 
     def closeWindow(self):
         if self.confirm(

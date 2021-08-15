@@ -1,14 +1,13 @@
-from os import times
+import pyautogui
+import win32gui
 from OpenGL.GL import *
 from OpenGL.GLU import *
 import pygame
 from pygame.locals import *
-from PyQt5.QtCore import QThread, pyqtSignal
 import serial
-import time
 
 #ser = serial.Serial('/dev/tty.usbserial', 38400, timeout=1)
-ser = serial.Serial('COM9', 115200, timeout=1)
+ser = serial.Serial('COM5', 38400, timeout=1)
 
 ax = ay = az = 0.0
 
@@ -159,31 +158,11 @@ def read_data():
     # while not line_done:
     line = ser.readline()
     angles = line.split(b", ")
-    print(angles)
-    if len(angles) == 18:
-        ax = float(angles[12])
-        ay = float(angles[13])
-        az = float(angles[14])
+    if len(angles) == 3:
+        ax = float(angles[0])
+        ay = float(angles[1])
+        az = float(angles[2])
         line_done = 1
-
-
-def settingImagetoWindow(image):
-    pass
-
-
-class ScreenShotWorker(QThread):
-    screen = None
-    setImage = pyqtSignal(object)
-
-    def run(self):
-        while True:
-            try:
-                # pygame.image.save(self.screen, "screenshot.jpeg")
-                surface = self.screen.copy()
-                pygame.image.save(surface, "screenshot.png")
-                time.sleep(1)
-            except:
-                pass
 
 
 def main():
@@ -195,12 +174,6 @@ def main():
     init()
     frames = 0
     ticks = pygame.time.get_ticks()
-
-    # screenshot = ScreenShotWorker()
-    # screenshot.daemon = True
-    # screenshot.setImage.connect(settingImagetoWindow)
-    # screenshot.start()
-
     while 1:
         event = pygame.event.poll()
         if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
@@ -210,17 +183,27 @@ def main():
         read_data()
         draw()
         pygame.display.flip()
-
-        # screenshot = pygame.transform.scale(screen, (640, 480))
-        # pygame.image.save(screenshot, "screenshot.png")
+        screenshot("Gyro Simulation")
         frames = frames+1
-        # screenshot.screen = screen
-
-    # rect = pygame.Rect(0, 0, 640, 480)
-    # sub = screen.subsurface(rect)
-    # pygame.image.save(sub, "screenshot.jpg")
 
     ser.close()
+
+
+def screenshot(window_title=None):
+    if window_title:
+        hwnd = win32gui.FindWindow(None, window_title)
+        if hwnd:
+            win32gui.SetForegroundWindow(hwnd)
+            x, y, x1, y1 = win32gui.GetClientRect(hwnd)
+            x, y = win32gui.ClientToScreen(hwnd, (x, y))
+            x1, y1 = win32gui.ClientToScreen(hwnd, (x1 - x, y1 - y))
+            im = pyautogui.screenshot(region=(x, y, x1, y1))
+            im.show()
+        else:
+            print('Window not found!')
+    else:
+        im = pyautogui.screenshot()
+        return im
 
 
 if __name__ == '__main__':
