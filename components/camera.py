@@ -7,8 +7,6 @@ from PyQt5.QtGui import QImage, QPixmap
 # from Ui_cameraViewer import Ui_Form
 from config import appConfig
 
-import cv2
-
 
 class EspWorker(QThread):
     setView = pyqtSignal(QImage)
@@ -22,28 +20,28 @@ class EspWorker(QThread):
         width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
         height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         writer = cv2.VideoWriter(
-            'Stream.mp4', cv2.VideoWriter_fourcc(*'DIVX'), 30, (width, height))
-        try:
-            while self.cameraControl:
-                ret, frame = cap.read()
-                writer.write(frame)
-                # cv2.imshow('frame', frame)
-                rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                rgbImage = cv2.flip(rgbImage, 1)  # mirroring
-                h, w, ch = rgbImage.shape
-                bytesPerLine = ch * w
-                convertToQtFormat = QImage(
-                    rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
-                image = convertToQtFormat.scaled(1280, 720, Qt.KeepAspectRatio)
-                self.setView.emit(image)
-                if cv2.waitKey(1) & 0xFF == 27:
-                    break
-        except:
-            pass
+            'stream.mp4', cv2.VideoWriter_fourcc(*'DIVX'), 30, (width, height))
+        # try:
+        while self.cameraControl:
+            ret, frame = cap.read()
+            writer.write(frame)
+            # cv2.imshow('frame', frame)
+            rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            rgbImage = cv2.flip(rgbImage, 1)
+            h, w, ch = rgbImage.shape
+            bytesPerLine = ch * w
+            convertToQtFormat = QImage(
+                rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
+            image = convertToQtFormat.scaled(1280, 720, Qt.KeepAspectRatio)
+            self.setView.emit(image)
+            if cv2.waitKey(1) & 0xFF == 27:
+                break
+        # except:
+        # print("camera section erro")
 
-        writer.release()
-        # cap.release()
-        # cv2.destroyAllWindows()
+        # writer.release()
+        cap.release()
+        cv2.destroyAllWindows()
         # self.capture.release()
 
 

@@ -35,7 +35,7 @@ class GyroObject(QThread):
 
             # self.read_data()
             self.draw()
-            print(self.ax, self.ay, self.az)
+            # print(self.ax, self.ay, self.az)
             pygame.display.flip()
             frames = frames+1
 

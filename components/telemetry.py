@@ -7,7 +7,7 @@ import re
 import websocket
 import socket
 from components.graphics import Graph
-from components.gps import LiveMap
+from components.gps import LiveMap, TelemetryWorker
 from components.gyro import GyroObject
 from config import appConfig
 
@@ -15,6 +15,7 @@ from config import appConfig
 class Worker(QThread):
     receivedtel = pyqtSignal(list, object)
     connectionControl = pyqtSignal(object)
+    writeCsvFile = pyqtSignal(list)
     setInfo = pyqtSignal(str)
     webSocketCon = False
     graphControl = True
@@ -22,6 +23,7 @@ class Worker(QThread):
     engineOnControl = False
     engineOffControl = False
     leavePayloadControl = False
+    telemetryCsv = []
 
     def run(self):
         UDP_IP_ADDRESS = appConfig["UDP_IP_ADDRESS"]
@@ -39,14 +41,13 @@ class Worker(QThread):
             serverSock.sendto(bytes(Message, encoding='utf8'),
                               (ESP_IP_ADDRESS, UDP_PORT_NO))
             self.characterControl = True
-            self.csvFile = open('telemetry.csv', 'w')
-            self.writer = csv.writer(self.csvFile)
             while True:
                 data, addr = serverSock.recvfrom(1024)
+                print("DATA: ", data)
                 if(data != ""):
                     self.telemetry = [i[1:-1].strip()
                                       for i in data.decode("utf-8").split(",")[0:-1]]
-                    self.writer.writerow(self.telemetrys)
+                    self.telemetryCsv.append(self.telemetry)
                     self.receivedtel.emit(self.telemetry, self.webSocketCon)
 
                     if self.graphControl:
@@ -57,6 +58,7 @@ class Worker(QThread):
                                           (ESP_IP_ADDRESS, UDP_PORT_NO))
                         self.finishControl = False
                         self.setInfo.emit("Server connection closed!")
+                        break
 
                     if self.engineOnControl:
                         serverSock.sendto(bytes("@@@engineM", encoding='utf8'),
@@ -77,10 +79,9 @@ class Worker(QThread):
                         self.leavePayloadControl = False
                 else:
                     break
-            self.csvFile.close()
+            self.writeCsvFile.emit(self.telemetryCsv)
             self.webSocketCon = False
             self.connectionControl.emit(self.webSocketCon)
-
         except:
             self.webSocketCon = False
             self.connectionControl.emit(self.webSocketCon)
@@ -113,6 +114,7 @@ class TelemetryObject():
             self.thread = Worker()
             self.thread.daemon = True
             self.thread.receivedtel.connect(self.setTelemetry)
+            self.thread.writeCsvFile.connect(self.saveCsvFile)
             self.thread.connectionControl.connect(
                 self.webSocketConnectionControl)
             self.thread.setInfo.connect(self.setInfo)
@@ -127,6 +129,16 @@ class TelemetryObject():
     def setLastInfos(self):
         self.webSocketCon = False
         self.setInfo("Telemetry Connection is Over!")
+
+    def saveCsvFile(self, datas):
+        self.csvFile = open('telemetry.csv', 'w')
+        self.writer = csv.writer(self.csvFile)
+        self.header = ['TeamNo', 'PackageNo', 'Time', 'Pressure', 'Height', 'DescentRate', 'Temperature', 'Voltage',
+                       'Latitude', 'Longitude', 'Altitude', 'Satellitestatus', 'Pitch', 'Roll', 'Yaw', 'RollingCount', 'TransferringStatus']
+        self.writer.writerow(self.header)
+        for i in datas:
+            self.writer.writerow(i)
+        self.csvFile.close()
 
     def webSocketConnectionControl(self, is_connected):
         self.webSocketCon = is_connected
