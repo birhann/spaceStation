@@ -20,6 +20,7 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
         self.setupUi(self)
         self.telemetryConnection = False
         self.telemetryObjectControl = False
+        self.cameraObjectControl = False
         self.engineStatus = False
         #  hiding title bar and setting position for window
         self.oldPos = self.pos()
@@ -55,6 +56,7 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
             else:
                 self.CameraObject = Camera(self)
                 self.CameraObject.startVideo()
+                self.cameraObjectControl = True
 
                 self.TelemetryObject = TelemetryObject(self)
                 self.telemetryConButton.setEnabled(False)
@@ -116,7 +118,8 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
     def closeWindow(self):
         if self.telemetryObjectControl:
             self.TelemetryObject.gyroClose()
-
+        if self.cameraObjectControl:
+            self.CameraObject.cameraDone()
         if self.confirm(
                 "Hoop", 'Programı sonlandırmak istediğinize emin misiniz'):
             sys.exit()

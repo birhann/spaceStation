@@ -13,13 +13,20 @@ import cv2
 class EspWorker(QThread):
     setView = pyqtSignal(QImage)
     workerStatus = True
+    cameraControl = True
 
     def run(self):
         cap = cv2.VideoCapture(
             "http://{}:81/stream".format(appConfig["ESP_IP_ADDRESS"]))
+
+        width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+        height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        writer = cv2.VideoWriter(
+            'Stream.mp4', cv2.VideoWriter_fourcc(*'DIVX'), 30, (width, height))
         try:
-            while True:
+            while self.cameraControl:
                 ret, frame = cap.read()
+                writer.write(frame)
                 # cv2.imshow('frame', frame)
                 rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 rgbImage = cv2.flip(rgbImage, 1)  # mirroring
@@ -33,6 +40,8 @@ class EspWorker(QThread):
                     break
         except:
             pass
+
+        writer.release()
         # cap.release()
         # cv2.destroyAllWindows()
         # self.capture.release()
@@ -50,6 +59,7 @@ class EspWorker2(QThread):
             'Stream.mp4', cv2.VideoWriter_fourcc(*'DIVX'), 30, (width, height))
         while True:
             ret, frame = cap.read()
+            writer.write(frame)
             rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             # rgbImage = cv2.flip(rgbImage, 1)  # mirroring
             h, w, ch = rgbImage.shape
@@ -57,9 +67,8 @@ class EspWorker2(QThread):
             convertToQtFormat = QImage(
                 rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
             image = convertToQtFormat.scaled(1280, 720, Qt.KeepAspectRatio)
+
             self.setView.emit(image)
-            writer.write(frame)
-            # cv2.imshow('frame', frame)
             if cv2.waitKey(1) & 0xFF == 27:
                 break
 
@@ -113,7 +122,11 @@ class Camera():
             self.cameraStatus = 0
             self.thread.workerStatus = False
 
+    def cameraDone(self):
+        self.thread.cameraControl = False
+
     def finishVideo(self):
+        print("Camera done!")
         self.interface.cameraViewerLabel.clear()
         self.interface.cameraViewerLabel.setText("Camera")
         self.interface.cameraViewerLabel.show()

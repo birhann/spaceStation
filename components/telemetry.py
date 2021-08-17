@@ -36,13 +36,17 @@ class Worker(QThread):
             Message2 = "@@@magnet0"
             serverSock.sendto(bytes(Message, encoding='utf8'),
                               (ESP_IP_ADDRESS, UDP_PORT_NO))
-
+            serverSock.sendto(bytes(Message, encoding='utf8'),
+                              (ESP_IP_ADDRESS, UDP_PORT_NO))
             self.characterControl = True
+            self.csvFile = open('telemetry.csv', 'w')
+            self.writer = csv.writer(self.csvFile)
             while True:
                 data, addr = serverSock.recvfrom(1024)
                 if(data != ""):
                     self.telemetry = [i[1:-1].strip()
                                       for i in data.decode("utf-8").split(",")[0:-1]]
+                    self.writer.writerow(self.telemetrys)
                     self.receivedtel.emit(self.telemetry, self.webSocketCon)
 
                     if self.graphControl:
@@ -73,7 +77,7 @@ class Worker(QThread):
                         self.leavePayloadControl = False
                 else:
                     break
-
+            self.csvFile.close()
             self.webSocketCon = False
             self.connectionControl.emit(self.webSocketCon)
 
