@@ -1,5 +1,6 @@
 
 from os import close
+import serial
 from OpenGL.GL import *
 from OpenGL.GLU import *
 import pygame
@@ -11,6 +12,8 @@ import threading
 
 
 class GyroObject(QThread):
+    #ser = serial.Serial('/dev/tty.usbserial', 38400, timeout=1)
+    ser = serial.Serial('COM5', 38400, timeout=1)
     ax = ay = az = 0.0
     closeControl = False
 
@@ -27,17 +30,19 @@ class GyroObject(QThread):
         frames = 0
         ticks = pygame.time.get_ticks()
 
-        while True:
+        while 1:
             event = pygame.event.poll()
             if self.closeControl:
-                pygame.quit()
+                pygame.quit()  # * quit pygame properly
                 break
 
-            # self.read_data()
+            self.read_data()
             self.draw()
-            print(self.ax, self.ay, self.az)
+
             pygame.display.flip()
             frames = frames+1
+
+        self.ser.close()
 
     def resize(self, width, height):
         if height == 0:
@@ -73,10 +78,10 @@ class GyroObject(QThread):
         glLoadIdentity()
         glTranslatef(0, 0.0, -79.0)
 
-        # osd_text = "pitch: " + str("{0:.2f}".format(self.ay)) + \
-        #     ", roll: " + str("{0:.2f}".format(self.ax))
+        osd_text = "pitch: " + str("{0:.2f}".format(self.ay)) + \
+            ", roll: " + str("{0:.2f}".format(self.ax))
 
-        # osd_line = osd_text + ", yaw: " + str("{0:.2f}".format(self.az))
+        osd_line = osd_text + ", yaw: " + str("{0:.2f}".format(self.az))
 
         # self.drawText((-20, -20, 1), osd_line)
 
@@ -172,3 +177,21 @@ class GyroObject(QThread):
                 glVertex3fv(octagonalVertices[octagonalVertex])
         glEnd()
         i = 0
+
+    def read_data(self):
+        self.ax = self.ay = self.az = 0.0
+        line_done = 0
+
+        # request data by sending a dot
+        self.ser.write(b".")  # * encode string to bytes
+        # while not line_done:
+        line = self.ser.readline()
+        angles = line.split(b", ")
+        if len(angles) == 3:
+            self.ax = float(angles[0])
+            self.ay = float(angles[1])
+            self.az = float(angles[2])
+            line_done = 1
+
+
+a = GyroObject()

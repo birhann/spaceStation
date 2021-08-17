@@ -1,6 +1,6 @@
 appConfig = {
-    "UDP_IP_ADDRESS": "192.168.137.173",
-    "ESP_IP_ADDRESS": "192.168.137.178",
+    "UDP_IP_ADDRESS": "192.168.137.8",
+    "ESP_IP_ADDRESS": "192.168.137.156",
     "UDP_PORT_NO": "44444",
     "GRAPHIC_SIMULATION": False,
     "GPS_SIMULATION": False,

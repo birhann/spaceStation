@@ -9,6 +9,8 @@ from components.gps import LiveMap
 from components.graphics import Graph
 from components.telemetry import TelemetryObject
 from components.dataTransfer import SendingVideo
+# from components import gyroSimulation
+# from components.gyro import GyroObject
 from config import appConfig
 
 
@@ -17,6 +19,8 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
         super().__init__()
         self.setupUi(self)
         self.telemetryConnection = False
+        self.telemetryObjectControl = False
+        self.engineStatus = False
         #  hiding title bar and setting position for window
         self.oldPos = self.pos()
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
@@ -28,6 +32,8 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
         # self.startCameraButton.clicked.connect(self.startCamera)
         self.telemetryConButton.clicked.connect(self.startTelemetryConnection)
         self.finishButton.clicked.connect(self.finishEsp)
+        self.engineButton.clicked.connect(self.engineControl)
+        self.leavePayloadButton.clicked.connect(self.leavePayloadControl)
 
         # # common operations
         # self.cameraViewerLabel.hide()
@@ -49,10 +55,12 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
             else:
                 self.CameraObject = Camera(self)
                 self.CameraObject.startVideo()
+
                 self.TelemetryObject = TelemetryObject(self)
                 self.telemetryConButton.setEnabled(False)
                 css = "background-color:#0d9f0a;color:#f9f9f9"
                 self.telemetryConButton.setStyleSheet(css)
+                self.telemetryObjectControl = True
                 self.setInfo("Trying to connect to server..")
         else:
             self.setInfo("The simulations are active!")
@@ -67,6 +75,10 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
             self.CameraObject = Camera(self)
             self.CameraObject.startVideo()
 
+            # self.gyroThread = gyroSimulation.GyroObject()
+            # self.gyroThread.daemon = True
+            # self.gyroThread.start()
+
     def maximized_minimized(self):
         if self.isMaximized():
             self.showNormal()
@@ -78,12 +90,33 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
         self.finishButton.setEnabled(False)
         self.setInfo("Trying to close connection..")
 
+    def engineControl(self):
+        if self.engineStatus:
+            self.engineButton.setText("Engine Start")
+            css = "QPushButton{color:rgb(255, 255, 255);background-color:#14eb10;border-radius:10px;padding:0px;margin:0px;padding-bottom:2px;}QPushButton:hover{background-color:#15bf0c;}"
+            self.engineButton.setStyleSheet(css)
+            self.TelemetryObject.engineControlFunc(self.engineStatus)
+            self.engineStatus = False
+        else:
+            self.engineButton.setText("Engine Stop")
+            css = "QPushButton{color:rgb(255, 255, 255);background-color:#f32d31;border-radius:11px;;padding:0px;margin:0px;padding-bottom:2px;}QPushButton:hover{background-color:#d4171d;}"
+            self.engineButton.setStyleSheet(css)
+            self.TelemetryObject.engineControlFunc(self.engineStatus)
+            self.engineStatus = True
+
+    def leavePayloadControl(self):
+        # self.leavePayloadButton.setEnabled(False)
+        self.TelemetryObject.leavePayloadControl()
+
     def setInfo(self, msg):
         self.infoScreen.insertPlainText(
             "Telemetry: {}\n".format(msg))
         self.infoScreen.ensureCursorVisible()
 
     def closeWindow(self):
+        if self.telemetryObjectControl:
+            self.TelemetryObject.gyroClose()
+
         if self.confirm(
                 "Hoop", 'Programı sonlandırmak istediğinize emin misiniz'):
             sys.exit()

@@ -44,10 +44,10 @@ class EspWorker2(QThread):
 
     def run(self):
         cap = cv2.VideoCapture("http://192.168.137.50:81/stream")
-        # width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-        # height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-        # writer = cv2.VideoWriter(
-        #     'Stream.mp4', cv2.VideoWriter_fourcc(*'DIVX'), 30, (width, height))
+        width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+        height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        writer = cv2.VideoWriter(
+            'Stream.mp4', cv2.VideoWriter_fourcc(*'DIVX'), 30, (width, height))
         while True:
             ret, frame = cap.read()
             rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -58,13 +58,13 @@ class EspWorker2(QThread):
                 rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
             image = convertToQtFormat.scaled(1280, 720, Qt.KeepAspectRatio)
             self.setView.emit(image)
-            # writer.write(frame)
+            writer.write(frame)
             # cv2.imshow('frame', frame)
             if cv2.waitKey(1) & 0xFF == 27:
                 break
 
         # cap.release()
-        # # writer.release()
+        writer.release()
         # cv2.destroyAllWindows()
 
 

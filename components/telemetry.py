@@ -8,6 +8,7 @@ import websocket
 import socket
 from components.graphics import Graph
 from components.gps import LiveMap
+from components.gyro import GyroObject
 from config import appConfig
 
 
@@ -18,6 +19,9 @@ class Worker(QThread):
     webSocketCon = False
     graphControl = True
     finishControl = False
+    engineOnControl = False
+    engineOffControl = False
+    leavePayloadControl = False
 
     def run(self):
         UDP_IP_ADDRESS = appConfig["UDP_IP_ADDRESS"]
@@ -32,6 +36,8 @@ class Worker(QThread):
             Message2 = "@@@magnet0"
             serverSock.sendto(bytes(Message, encoding='utf8'),
                               (ESP_IP_ADDRESS, UDP_PORT_NO))
+
+            self.characterControl = True
             while True:
                 data, addr = serverSock.recvfrom(1024)
                 if(data != ""):
@@ -43,11 +49,28 @@ class Worker(QThread):
                         self.graphControl = False
                         self.connectionControl.emit(self.webSocketCon)
                     if self.finishControl:
-                        print("evet")
                         serverSock.sendto(bytes("FINISH", encoding='utf8'),
                                           (ESP_IP_ADDRESS, UDP_PORT_NO))
                         self.finishControl = False
                         self.setInfo.emit("Server connection closed!")
+
+                    if self.engineOnControl:
+                        serverSock.sendto(bytes("@@@engineM", encoding='utf8'),
+                                          (ESP_IP_ADDRESS, UDP_PORT_NO))
+                        self.setInfo.emit("Engine started!")
+                        self.engineOnControl = False
+
+                    if self.engineOffControl:
+                        serverSock.sendto(bytes("@@@engine0", encoding='utf8'),
+                                          (ESP_IP_ADDRESS, UDP_PORT_NO))
+                        self.setInfo.emit("Engine done!")
+                        self.engineOffControl = False
+
+                    if self.leavePayloadControl:
+                        serverSock.sendto(bytes("@@@magnet0", encoding='utf8'),
+                                          (ESP_IP_ADDRESS, UDP_PORT_NO))
+                        self.setInfo.emit("Magnet left!")
+                        self.leavePayloadControl = False
                 else:
                     break
 
@@ -71,6 +94,15 @@ class TelemetryObject():
 
     def finishControlFunc(self):
         self.thread.finishControl = True
+
+    def engineControlFunc(self, engineStatus):
+        if engineStatus:
+            self.thread.engineOffControl = True
+        else:
+            self.thread.engineOnControl = True
+
+    def leavePayloadControl(self):
+        self.thread.leavePayloadControl = True
 
     def startTelemetry(self):
         try:
@@ -104,6 +136,11 @@ class TelemetryObject():
                 self.interface, self.interface.TelemetryObject)
             self.GpsObject = LiveMap(
                 self.interface, self.interface.TelemetryObject)
+
+            self.gyroThread = GyroObject()
+            self.gyroThread.daemon = True
+            self.gyroThread.start()
+
         else:
             self.setInfo("Telemetry Connection Failed!")
             self.interface.telemetryConButton.setEnabled(True)
@@ -158,8 +195,25 @@ class TelemetryObject():
         self.interface.latitudeLabel.setText(
             str(self.telemetryData['latitude']))
 
-        self.interface.longitudeLabel.setText(
-            str(self.telemetryData['longitude']))
+        self.interface.pitchLabel.setText(
+            str(self.telemetryData['pitch']))
+
+        self.interface.rollLabel.setText(
+            str(self.telemetryData['roll']))
+
+        self.interface.yawLabel.setText(
+            str(self.telemetryData['yaw']))
+
+        self.setGyroApsis(
+            self.telemetryData["pitch"], self.telemetryData["roll"], self.telemetryData["yaw"])
+
+    def setGyroApsis(self, ax, ay, az):
+        self.gyroThread.ax = float(int(ax))
+        self.gyroThread.ay = float(int(ay))
+        self.gyroThread.az = float(int(az))
+
+    def gyroClose(self):
+        self.gyroThread.closeControl = True
 
 
 if __name__ == '__main__':
