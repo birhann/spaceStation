@@ -124,10 +124,11 @@ class TelemetryWorker(QThread):
     simulationWorkerStatus = True
     telemetryObject = None
     counter = 0
+    graphControl = True
 
     def run(self):
         self.createAxises()
-        while self.counter < simulationConf["PROC_TIME"]:
+        while self.graphControl:
             self.counter += 1
             self.temperatureGraph()
             self.pressureGraph()

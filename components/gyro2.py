@@ -8,12 +8,12 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import QThread, pyqtSignal
 import time
 import sys
-from ctypes import windll
 import threading
+from ctypes import windll
 import random
 
 
-class GyroObject(QThread):
+class GyroObject2(QThread):
     ax = ay = az = 0.0
     # az = az-30
     ax = ax-190
@@ -31,8 +31,10 @@ class GyroObject(QThread):
         screen = pygame.display.set_mode((455, 254), video_flags)
         pygame.display.set_caption("Gyro Simulation")
         SetWindowPos = windll.user32.SetWindowPos
+
         SetWindowPos(pygame.display.get_wm_info()[
                      'window'], -1, 48, 705, 0, 0, 0x0001)
+
         self.resize(455, 254)
         self.init()
         frames = 0

@@ -43,7 +43,7 @@ class Worker(QThread):
             self.characterControl = True
             while True:
                 data, addr = serverSock.recvfrom(1024)
-                print("DATA: ", data)
+                # print("DATA: ", data)
                 if(data != ""):
                     self.telemetry = [i[1:-1].strip()
                                       for i in data.decode("utf-8").split(",")[0:-1]]
@@ -99,6 +99,8 @@ class TelemetryObject():
 
     def finishControlFunc(self):
         self.thread.finishControl = True
+        self.GraphObject.thread.graphControl = False
+        print("Telemetry done!")
 
     def engineControlFunc(self, engineStatus):
         if engineStatus:
@@ -133,7 +135,7 @@ class TelemetryObject():
     def saveCsvFile(self, datas):
         self.csvFile = open('telemetry.csv', 'w')
         self.writer = csv.writer(self.csvFile)
-        self.header = ['TeamNo', 'PackageNo', 'Time', 'Pressure', 'Height', 'DescentRate', 'Temperature', 'Voltage',
+        self.header = ['TeamNo', 'PackageNo', 'Time', 'Hour', 'Pressure', 'Height', 'DescentRate', 'Temperature', 'Voltage',
                        'Latitude', 'Longitude', 'Altitude', 'Satellitestatus', 'Pitch', 'Roll', 'Yaw', 'RollingCount', 'TransferringStatus']
         self.writer.writerow(self.header)
         for i in datas:
@@ -170,9 +172,10 @@ class TelemetryObject():
         self.interface.infoScreen.ensureCursorVisible()
 
     def setTelemetry(self, telemetrys, webSocketCon):
+        print(telemetrys[0])
         self.webSocketCon = webSocketCon
         self.telemetryData = {
-            'teamNumber': telemetrys[0][1:-1],
+            'teamNumber': 62319,
             'packageNo': telemetrys[1],
             'sendingTime': telemetrys[2],
             'hour': telemetrys[3],
@@ -191,7 +194,6 @@ class TelemetryObject():
             'rollingCount': telemetrys[16],
             'transferringStatus': telemetrys[17]
         }
-        # print(self.telemetryData, "\n")
 
         self.interface.teamNumberLabel.setText(
             str(self.telemetryData['teamNumber']))
@@ -199,8 +201,11 @@ class TelemetryObject():
         self.interface.packageNoLabel.setText(
             str(self.telemetryData['packageNo']))
 
-        self.interface.hourLabel.setText(
+        self.interface.dateLabel.setText(
             str(self.telemetryData['sendingTime']))
+
+        self.interface.hourLabel.setText(
+            str(self.telemetryData['hour']))
 
         self.interface.satelliteStatusLabel.setText(
             str(self.telemetryData['satelliteStatus']))
@@ -210,6 +215,15 @@ class TelemetryObject():
 
         self.interface.latitudeLabel.setText(
             str(self.telemetryData['latitude']))
+
+        self.interface.longitudeLabel.setText(
+            str(self.telemetryData['longitude']))
+
+        self.interface.altitudeLabel.setText(
+            str(self.telemetryData['altitude']))
+
+        self.interface.rollingCountLabel.setText(
+            str(self.telemetryData['rollingCount']))
 
         self.interface.pitchLabel.setText(
             str(self.telemetryData['pitch']))

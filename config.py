@@ -1,6 +1,6 @@
 appConfig = {
     "UDP_IP_ADDRESS": "192.168.137.8",
-    "ESP_IP_ADDRESS": "192.168.137.154",
+    "ESP_IP_ADDRESS": "192.168.137.181",
     "UDP_PORT_NO": "44444",
     "GRAPHIC_SIMULATION": False,
     "GPS_SIMULATION": False,
@@ -11,24 +11,24 @@ appConfig = {
 graphAxisRanges = {
     "SEC_AXIS_RANGE": 7,
     "TEMPERATURE": {
-        "MIN": 0,
-        "MAX": 60,
+        "MIN": 25,
+        "MAX": 29,
     },
     "HEIGHT": {
-        "MIN": 0,
-        "MAX": 1000,
+        "MIN": 530,
+        "MAX": 540,
     },
     "VOLTAGE": {
-        "MIN": 11,
-        "MAX": 12.5,
+        "MIN": 1.50,
+        "MAX": 1.65,
     },
     "PRESSURE": {
-        "MIN": 900,
-        "MAX": 1050,
+        "MIN": 1010,
+        "MAX": 1020,
     },
     "DESCENT_RATE": {
-        "MIN": 0,
-        "MAX": 20,
+        "MIN": -1,
+        "MAX": 2,
     },
     "ROLLING_COUNT": {
         "MIN": 0,

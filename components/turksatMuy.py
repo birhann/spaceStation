@@ -11,6 +11,7 @@ from components.telemetry import TelemetryObject
 from components.dataTransfer import SendingVideo
 # from components import gyroSimulation
 # from components.gyro import GyroObject
+from components.gyro2 import GyroObject2
 from config import appConfig
 
 
@@ -77,9 +78,9 @@ class TurksatMuy(QMainWindow, Ui_MainGUI):
             self.CameraObject = Camera(self)
             self.CameraObject.startVideo()
 
-            # self.gyroThread = gyroSimulation.GyroObject()
-            # self.gyroThread.daemon = True
-            # self.gyroThread.start()
+            self.gyroThread = GyroObject2()
+            self.gyroThread.daemon = True
+            self.gyroThread.start()
 
     def maximized_minimized(self):
         if self.isMaximized():

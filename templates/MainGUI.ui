@@ -777,7 +777,7 @@ background-color: rgba(231, 231, 231,0.08);
               <string notr="true"/>
              </property>
              <property name="text">
-              <string>1440</string>
+              <string/>
              </property>
              <property name="readOnly">
               <bool>true</bool>
@@ -844,7 +844,7 @@ background-color: rgba(231, 231, 231,0.08);
               <set>Qt::ImhNone</set>
              </property>
              <property name="text">
-              <string>54100</string>
+              <string/>
              </property>
              <property name="readOnly">
               <bool>true</bool>
@@ -866,7 +866,7 @@ background-color: rgba(231, 231, 231,0.08);
               </font>
              </property>
              <property name="text">
-              <string>13.08.2021</string>
+              <string/>
              </property>
              <property name="readOnly">
               <bool>true</bool>
@@ -911,7 +911,7 @@ background-color: rgba(231, 231, 231,0.08);
               </rect>
              </property>
              <property name="text">
-              <string>17:18:32</string>
+              <string/>
              </property>
              <property name="readOnly">
               <bool>true</bool>
@@ -1005,7 +1005,7 @@ border-radius:10px;
 margin:0px;</string>
              </property>
              <property name="text">
-              <string>Descending..</string>
+              <string/>
              </property>
              <property name="readOnly">
               <bool>true</bool>
@@ -1225,7 +1225,7 @@ background-color:#15bf0c;
               </rect>
              </property>
              <property name="text">
-              <string>147.7037841</string>
+              <string/>
              </property>
              <property name="readOnly">
               <bool>true</bool>
@@ -1257,7 +1257,7 @@ background-color:#15bf0c;
               </rect>
              </property>
              <property name="text">
-              <string>114.2289876</string>
+              <string/>
              </property>
              <property name="readOnly">
               <bool>true</bool>
@@ -1299,7 +1299,7 @@ background-color:#15bf0c;
               </rect>
              </property>
              <property name="text">
-              <string>11.75 m</string>
+              <string/>
              </property>
              <property name="readOnly">
               <bool>true</bool>
@@ -1328,7 +1328,7 @@ background-color:#15bf0c;
               </rect>
              </property>
              <property name="text">
-              <string>-30.3757845</string>
+              <string/>
              </property>
              <property name="readOnly">
               <bool>true</bool>
