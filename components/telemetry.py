@@ -43,10 +43,23 @@ class Worker(QThread):
             self.characterControl = True
             while True:
                 data, addr = serverSock.recvfrom(1024)
+                self.telemetry = []
                 # print("DATA: ", data)
                 if(data != ""):
-                    self.telemetry = [i[1:-1].strip()
-                                      for i in data.decode("utf-8").split(",")[0:-1]]
+                    # self.telemetry = [i[1:-1].strip()
+                    #                   for i in data.decode("utf-8").split(",")[0:-1]]
+                    counter = 0
+                    for i in data.decode("utf-8").split(",")[0:-1]:
+                        if counter == 0:
+                            self.telemetry.append(i[3:-1].strip())
+                        elif counter == 2:
+                            self.telemetry.append(i[1:].strip())
+                        elif counter == 3:
+                            self.telemetry.append(i[0:-1].strip())
+                        else:
+                            self.telemetry.append(i[1:-1].strip())
+                        counter += 1
+                    print(data, " | ", self.telemetry)
                     self.telemetryCsv.append(self.telemetry)
                     self.receivedtel.emit(self.telemetry, self.webSocketCon)
 
@@ -172,10 +185,9 @@ class TelemetryObject():
         self.interface.infoScreen.ensureCursorVisible()
 
     def setTelemetry(self, telemetrys, webSocketCon):
-        print(telemetrys[0])
         self.webSocketCon = webSocketCon
         self.telemetryData = {
-            'teamNumber': 62319,
+            'teamNumber': telemetrys[0],
             'packageNo': telemetrys[1],
             'sendingTime': telemetrys[2],
             'hour': telemetrys[3],
@@ -194,7 +206,6 @@ class TelemetryObject():
             'rollingCount': telemetrys[16],
             'transferringStatus': telemetrys[17]
         }
-
         self.interface.teamNumberLabel.setText(
             str(self.telemetryData['teamNumber']))
 
