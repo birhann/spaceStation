@@ -46,13 +46,7 @@ class GyroObject(QThread):
 
             self.ax = random.randint(-2, 3)
 
-            # self.axOld = self.ax
-            # if abs(self.ax-self.axOld) > 60:
-            #     self.ax = self.ax-270
-
-            # self.read_data()
             self.draw()
-            # print("sonra:", self.ax, self.ay, self.az)
             pygame.display.flip()
             frames = frames+1
             time.sleep(1)
@@ -87,24 +81,10 @@ class GyroObject(QThread):
     def draw(self):
         global rquad
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-
         glLoadIdentity()
         glTranslatef(0, 0.0, -79.0)
-
-        # osd_text = "pitch: " + str("{0:.2f}".format(self.ay)) + \
-        #     ", roll: " + str("{0:.2f}".format(self.ax))
-
-        # osd_line = osd_text + ", yaw: " + str("{0:.2f}".format(self.az))
-
-        # self.drawText((-20, -20, 1), osd_line)
-
-        # the way I'm holding the IMU board, X and Y self.axis are switched
-        # with respect to the OpenGL coordinate system
-        # experimental
-        glRotatef(self.az, 0.0, 1.0, 0.0)  # Yaw,   rotate around y-self.axis
-        # Pitch, rotate around x-self.axis
+        glRotatef(self.az, 0.0, 1.0, 0.0)
         glRotatef(self.ay, 1.0, 0.0, 0.0)
-        # Roll,  rotate around z-self.axis
         glRotatef(-1*self.ax, 0.0, 0.0, 1.0)
 
         octagonalVertices = ((7, 14, 0), (6.5, 14, 2.75), (5, 14, 5), (2.75, 14, 6.5), (0, 14, 7), (-2.75, 14, 6.5), (-5, 14, 5), (-6.5, 14, 2.75),   # yük köşeleri
