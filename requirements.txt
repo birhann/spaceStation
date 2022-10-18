@@ -1,0 +1,12 @@
+folium==0.13.0
+ipyleaflet==0.17.1
+ipywidgets==8.0.2
+numpy==1.22.3
+opencv_python==4.5.5.64
+pygame==2.1.2
+PyOpenGL==3.1.6
+PyQt5==5.15.7
+pyqtgraph==0.12.4
+pyserial==3.5
+typing_extensions==4.4.0
+websocket_client==1.4.1
